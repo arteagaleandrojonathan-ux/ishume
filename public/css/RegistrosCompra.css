@@ -1,0 +1,727 @@
+/* ==================================================
+   REGISTROS DE COMPRA
+================================================== */
+
+.contenedor-registros-compra {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 25px 0 25px 25px;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* ==================================================
+   CABECERA
+================================================== */
+
+.cabecera-registros-compra {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.textos-registros-compra h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #171717;
+}
+
+.textos-registros-compra p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.nueva-compra {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.nueva-compra:hover {
+    border-color: #F7931E;
+    background-color: #FFF8F0;
+    color: #F7931E;
+}
+
+
+/* ==================================================
+   FILTROS
+================================================== */
+
+.formulario {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 20px;
+    margin-bottom: 20px;
+
+    background-color: #FFFFFF;
+
+    border: 1px solid #E2E2E2;
+    border-radius: 10px;
+}
+
+.campo-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-filtro label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.campo-filtro input[type="date"],
+.filtroboton {
+    height: 38px;
+    min-width: 170px;
+
+    padding: 0 10px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #333;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+.campo-filtro input[type="date"]:focus,
+.filtroboton:focus {
+    border-color: #F7931E;
+}
+
+.boton-buscar {
+    height: 38px;
+
+    padding: 0 18px;
+
+    border: 1px solid #F7931E;
+    border-radius: 6px;
+
+    background-color: #F7931E;
+
+    color: #FFFFFF;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton-buscar:hover {
+    background-color: #E6820F;
+}
+
+
+/* ==================================================
+   TABLA PRINCIPAL DE REGISTROS
+================================================== */
+
+.panel-registros-compra {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: -35px ;
+    background-color: #FFFFFF;
+
+    border: 1px solid #E2E2E2;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    overflow: hidden;
+}
+
+.tabla-registros-compra {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-registros-compra table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+.tabla-registros-compra thead {
+    background-color: #171717;
+}
+
+.tabla-registros-compra th {
+    padding: 14px 16px;
+
+    text-align: left;
+
+    color: #FFFFFF;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.tabla-registros-compra td {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid #EAEAEA;
+
+    background-color: #FFFFFF;
+
+    color: #3F3F3F;
+
+    white-space: nowrap;
+}
+
+.tabla-registros-compra tbody tr:hover td {
+    background-color: #FFF8F0;
+}
+
+.tabla-registros-compra tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ==================================================
+   ESTADO DE COMPRA
+================================================== */
+
+.estado-compra {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.estado-compra.activa {
+    background-color: #EAF7EE;
+    color: #2E7D46;
+}
+
+.estado-compra.anulado {
+    background-color: #FDECEC;
+    color: #B42318;
+}
+
+
+/* ==================================================
+   BOTÓN VER DETALLE
+================================================== */
+
+.boton-detalle-compra {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 12px;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+
+    background-color: #FFFFFF;
+
+    color: #555;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.boton-detalle-compra:hover {
+    border-color: #F7931E;
+
+    background-color: #FFF8F0;
+
+    color: #F7931E;
+}
+
+
+/* ==================================================
+   SIN REGISTROS
+================================================== */
+
+.sin-registros {
+    padding: 30px !important;
+
+    text-align: center;
+
+    color: #777 !important;
+
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   PAGINACIÓN
+================================================== */
+
+.paginacion {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.rango {
+    font-size: 13px;
+    color: #555;
+}
+
+.flecha {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #555;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    transition: 0.2s ease;
+}
+
+.flecha:hover {
+    border-color: #F7931E;
+
+    background-color: #FFF8F0;
+
+    color: #F7931E;
+}
+
+.flecha.desactivada {
+    color: #BBB;
+
+    background-color: #F7F7F7;
+
+    cursor: default;
+}
+
+
+/* ==================================================
+   FONDO OSCURO DEL DETALLE
+================================================== */
+
+.detalle-overlay {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background-color: rgba(0, 0, 0, 0.45);
+
+    z-index: 9999;
+
+    overflow-y: auto;
+}
+
+
+/* ==================================================
+   PANEL DETALLE
+================================================== */
+
+.detalle-compra-panel {
+    width: 100%;
+    max-width: 850px;
+    transform: translateX(80px);
+    box-sizing: border-box;
+    padding: 30px;
+
+    background-color: #FFFFFF;
+
+    border: 1px solid #E2E2E2;
+
+    border-radius: 12px;
+
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ==================================================
+   CABECERA DEL DETALLE
+================================================== */
+
+.detalle-compra-cabecera {
+    margin-bottom: 22px;
+}
+
+.detalle-compra-cabecera h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #171717;
+}
+
+
+/* ==================================================
+   INFORMACIÓN GENERAL DE LA COMPRA
+================================================== */
+
+.informacion-compra {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.dato-compra {
+    padding: 12px;
+
+    background-color: #F5F3EF;
+
+    border: 1px solid #E2E2E2;
+
+    border-radius: 7px;
+}
+
+.dato-compra span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+
+    color: #777;
+}
+
+.dato-compra strong {
+    display: block;
+
+    font-size: 13px;
+
+    color: #171717;
+
+    word-break: break-word;
+}
+
+
+/* ==================================================
+   LISTA DE PRODUCTOS
+================================================== */
+
+.productos-detalle-compra {
+    width: 100%;
+}
+
+
+/* ==================================================
+   REGISTRO DE CADA PRODUCTO
+================================================== */
+
+.producto-detalle {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 18px 0;
+
+    border-top: 1px solid #E2E2E2;
+}
+
+
+/* ==================================================
+   NOMBRE DEL PRODUCTO
+================================================== */
+
+.producto-detalle-nombre {
+    margin-bottom: 15px;
+}
+
+.producto-detalle-nombre span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+
+    color: #777;
+}
+
+.producto-detalle-nombre strong {
+    display: block;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #171717;
+}
+
+
+/* ==================================================
+   DATOS DEL PRODUCTO
+================================================== */
+
+.producto-detalle-datos {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.producto-detalle-datos div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.producto-detalle-datos span {
+    font-size: 11px;
+
+    color: #777;
+}
+
+.producto-detalle-datos strong {
+    font-size: 14px;
+
+    color: #333;
+}
+
+
+/* ==================================================
+   TOTAL DE LA COMPRA
+================================================== */
+
+.total-detalle-compra {
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 10px;
+
+    padding-top: 20px;
+
+    border-top: 2px solid #171717;
+}
+
+.total-detalle-compra span {
+    font-size: 14px;
+
+    color: #555;
+}
+
+.total-detalle-compra strong {
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #171717;
+}
+
+
+/* ==================================================
+   BOTÓN VOLVER
+================================================== */
+
+.acciones-detalle-compra {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 25px;
+}
+
+.boton-volver-detalle {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 20px;
+
+    border: 1px solid #D9D9D9;
+
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #555;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.boton-volver-detalle:hover {
+    border-color: #F7931E;
+
+    background-color: #FFF8F0;
+
+    color: #F7931E;
+}
+
+
+/* ==================================================
+   RESPONSIVE - TABLET
+================================================== */
+
+@media (max-width: 900px) {
+
+    .contenedor-registros-compra {
+        padding: 20px 15px;
+    }
+
+    .detalle-compra-panel {
+        max-width: 95%;
+
+        padding: 25px;
+    }
+
+    .informacion-compra {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVE - CELULAR
+================================================== */
+
+@media (max-width: 600px) {
+
+    .cabecera-registros-compra {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .formulario {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .campo-filtro {
+        width: 100%;
+    }
+
+    .campo-filtro input[type="date"],
+    .filtroboton,
+    .boton-buscar {
+        width: 100%;
+    }
+
+    .detalle-overlay {
+        align-items: flex-start;
+
+        padding: 15px;
+    }
+
+    .detalle-compra-panel {
+        max-width: 100%;
+
+        padding: 20px;
+    }
+
+    .informacion-compra {
+        grid-template-columns: 1fr;
+    }
+
+    .producto-detalle-datos {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .total-detalle-compra {
+        justify-content: space-between;
+    }
+}
+
+.mensaje-error-fecha {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #c62828;
+    font-size: 13px;
+
+    animation: aparecerError 0.4s ease-out;
+}
+
+@keyframes aparecerError {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

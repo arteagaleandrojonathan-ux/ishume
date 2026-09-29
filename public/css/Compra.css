@@ -1,0 +1,670 @@
+/* =====================================================
+   ISHUME - MÓDULO DE COMPRAS
+   ===================================================== */
+
+
+/* =====================================================
+   FORMULARIO PRINCIPAL
+   ===================================================== */
+
+.formulario-compra {
+    width: 100%;
+    max-height: calc(100vh - 55px);
+
+    box-sizing: border-box;
+
+    padding: 25px;
+
+    background-color: #FFFFFF;
+
+    border: 1px solid #E2E2E2;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   SCROLL
+   ===================================================== */
+
+.formulario-compra::-webkit-scrollbar {
+    width: 8px;
+}
+
+.formulario-compra::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+
+    border-radius: 10px;
+}
+
+.formulario-compra::-webkit-scrollbar-thumb {
+    background-color: #D9D9D9;
+
+    border-radius: 10px;
+}
+
+.formulario-compra::-webkit-scrollbar-thumb:hover {
+    background-color: #F7931E;
+}
+
+
+/* =====================================================
+   TÍTULOS DE SECCIÓN
+   ===================================================== */
+
+.titulo-seccion-compra {
+    margin-bottom: 18px;
+}
+
+.titulo-seccion-compra h2 {
+    margin: 0;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #171717;
+}
+
+.titulo-seccion-compra p {
+    margin: 5px 0 0;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 13px;
+
+    color: #777777;
+}
+
+
+/* =====================================================
+   SECCIÓN PROVEEDOR
+   ===================================================== */
+
+.seccion-proveedor {
+    width: 100%;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #E2E2E2;
+}
+
+
+/* =====================================================
+   DATOS DEL PROVEEDOR
+   ===================================================== */
+
+.datos-proveedor {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 180px 180px;
+
+    gap: 18px;
+
+    width: 100%;
+
+    align-items: end;
+}
+
+.campo-proveedor {
+    min-width: 0;
+}
+
+.campo-ruc {
+    min-width: 0;
+}
+
+.campo-telefono {
+    min-width: 0;
+}
+
+/* =====================================================
+   CAMPOS
+   ===================================================== */
+
+.campo-compra {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.campo-compra label {
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #3F3F3F;
+}
+
+
+/* =====================================================
+   INPUTS Y SELECT
+   ===================================================== */
+
+.campo-compra input,
+.campo-compra select,
+.campo-compra textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #D9D9D9;
+
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #3F3F3F;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+/* =====================================================
+   FOCUS
+   ===================================================== */
+
+.campo-compra input:focus,
+.campo-compra select:focus,
+.campo-compra textarea:focus {
+    border-color: #F7931E;
+
+    box-shadow: 0 0 0 3px rgba(247, 147, 30, 0.10);
+}
+
+
+/* =====================================================
+   CAMPOS RUC Y TELÉFONO
+   ===================================================== */
+
+.campo-ruc input,
+.campo-telefono input {
+    background-color: #F5F5F5;
+
+    color: #555555;
+
+    cursor: default;
+}
+
+
+/* =====================================================
+   PRODUCTOS
+   ===================================================== */
+
+.productos-compra {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #E2E2E2;
+}
+
+
+/* =====================================================
+   AGREGAR PRODUCTO
+   ===================================================== */
+
+.agregar-producto {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 130px 160px auto;
+
+    gap: 15px;
+
+    align-items: end;
+
+    padding: 18px;
+
+    background-color: #F5F5F5;
+
+    border: 1px solid #E2E2E2;
+
+    border-radius: 8px;
+
+    margin-bottom: 22px;
+}
+
+.agregar-producto .campo-compra {
+    margin-bottom: 0;
+}
+
+
+/* =====================================================
+   BOTÓN AGREGAR
+   ===================================================== */
+
+.boton-agregar-producto {
+    height: 40px;
+
+    padding: 0 17px;
+
+    border: 1px solid #F7931E;
+
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #F7931E;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton-agregar-producto:hover {
+    background-color: #F7931E;
+
+    color: #FFFFFF;
+
+    box-shadow: 0 4px 12px rgba(247, 147, 30, 0.20);
+}
+
+
+/* =====================================================
+   TABLA
+   ===================================================== */
+
+.detalle-compra {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid #E2E2E2;
+
+    border-radius: 8px;
+}
+
+.tabla-detalle-compra {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   ENCABEZADO TABLA
+   ===================================================== */
+
+.tabla-detalle-compra thead {
+    background-color: #171717;
+}
+
+.tabla-detalle-compra th {
+    padding: 13px 15px;
+
+    text-align: left;
+
+    color: #FFFFFF;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   FILAS
+   ===================================================== */
+
+.tabla-detalle-compra td {
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #EAEAEA;
+
+    background-color: #FFFFFF;
+
+    color: #3F3F3F;
+}
+
+.tabla-detalle-compra tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabla-detalle-compra tbody tr:hover td {
+    background-color: #FFF8F0;
+}
+
+
+/* =====================================================
+   BOTÓN ELIMINAR
+   ===================================================== */
+
+.boton-eliminar-producto {
+    padding: 7px 12px;
+
+    border: 1px solid #D9D9D9;
+
+    border-radius: 5px;
+
+    background-color: #FFFFFF;
+
+    color: #555555;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton-eliminar-producto:hover {
+    border-color: #F7931E;
+
+    background-color: #FFF8F0;
+
+    color: #F7931E;
+}
+
+
+/* =====================================================
+   TOTAL
+   ===================================================== */
+
+.total-compra {
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.total-compra span {
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 15px;
+
+    color: #555555;
+}
+
+.total-compra strong {
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #F7931E;
+}
+
+
+/* =====================================================
+   OBSERVACIÓN
+   ===================================================== */
+
+.seccion-observacion {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #E2E2E2;
+}
+
+.seccion-observacion .campo-compra {
+    width: 100%;
+}
+
+.seccion-observacion textarea {
+    min-height: 75px;
+
+    resize: vertical;
+}
+
+
+/* =====================================================
+   ACCIONES
+   ===================================================== */
+
+.acciones-compra {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+/* =====================================================
+   BOTÓN CANCELAR
+   ===================================================== */
+
+.boton-cancelar-compra {
+    padding: 10px 18px;
+
+    border: 1px solid #D9D9D9;
+
+    border-radius: 6px;
+
+    background-color: #FFFFFF;
+
+    color: #555555;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton-cancelar-compra:hover {
+    background-color: #F5F5F5;
+
+    border-color: #BDBDBD;
+
+    color: #333333;
+}
+
+
+/* =====================================================
+   BOTÓN REGISTRAR
+   ===================================================== */
+
+.boton-registrar-compra {
+    padding: 10px 20px;
+
+    border: 1px solid #F7931E;
+
+    border-radius: 6px;
+
+    background-color: #F7931E;
+
+    color: #FFFFFF;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton-registrar-compra:hover {
+    background-color: #D97706;
+
+    border-color: #D97706;
+
+    box-shadow: 0 4px 12px rgba(247, 147, 30, 0.25);
+}
+
+/* =====================================================
+   BUSCADOR DE PRODUCTOS
+   ===================================================== */
+
+.campo-buscador-producto {
+    position: relative;
+}
+
+.sugerencias-productos {
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    margin-top: 4px;
+
+    background-color: #FFFFFF;
+
+    border: 1px solid #E2E2E2;
+
+    border-radius: 6px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+    overflow: hidden;
+
+    z-index: 1000;
+}
+
+.sugerencia-producto {
+    padding: 10px 12px;
+
+    background-color: #FFFFFF;
+
+    color: #3F3F3F;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.sugerencia-producto:hover {
+    background-color: #FFF8F0;
+
+    color: #F7931E;
+}
+
+.sugerencia-activa {
+    background-color: #FFF8F0;
+    color: #F7931E;
+}
+
+/* MENSAJE DE REGISTRO EXITOSO */
+.mensaje-compra-exito {
+    position: fixed;
+    bottom: 35px;
+    left: 56%;
+    transform: translate(-50%, 30px);
+
+    background-color: #F7931E;
+    color: #ffffff;
+
+    padding: 16px 28px;
+    border-radius: 10px;
+    
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.20);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    z-index: 1000;
+
+    opacity: 0;
+
+    animation: mensajeCompra 4s ease forwards;
+}
+
+
+/* ENTRADA, ESPERA Y SALIDA */
+@keyframes mensajeCompra {
+
+    0% {
+        opacity: 0.50;
+        transform: translate(-50%, 30px);
+    }
+
+    35% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    75% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+    }
+
+}
+
+/* =====================================================
+   BOTÓN VER REGISTROS
+   ===================================================== */
+
+.boton-ver-registros {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border: 1px solid #F7931E;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    color: #F7931E;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.boton-ver-registros:hover {
+    background-color: #F7931E;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(247, 147, 30, 0.20);
+}   

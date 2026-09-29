@@ -1,0 +1,279 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* ================================
+   RESPONSIVE GENERAL
+================================ */
+
+/* Laptops y pantallas medianas */
+@media (max-width: 1200px) {
+
+    .menu {
+        width: 20%;
+    }
+
+    .contenido {
+        width: 80%;
+        padding: 24px;
+    }
+
+}
+
+
+/* Tablets */
+@media (max-width: 900px) {
+
+    .PanelPrincipal {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .menu {
+        width: 220px;
+    }
+
+    .contenido {
+        width: calc(100% - 220px);
+        padding: 20px;
+    }
+
+}
+@media (max-width: 600px) {
+
+    main form {
+        grid-template-columns: 1fr;
+    }
+
+}
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    background-color: #F5F3EF;
+    color: #1A1A1A;
+}
+
+
+/* =====================================================
+   ESTRUCTURA PRINCIPAL
+   ===================================================== */
+
+.PanelPrincipal {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   MENÚ LATERAL
+   ===================================================== */
+
+.menu {
+    width: 15%;
+    height: 100vh;
+    flex-shrink: 0;
+
+    background-color: #171717;
+
+    padding: 30px 20px;
+
+    box-shadow: 4px 0 18px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo {
+    text-align: center;
+
+    font-size: 27px;
+    font-weight: 700;
+
+    color: #F4E7D0;
+
+    margin-bottom: 50px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =====================================================
+   MENÚ DE NAVEGACIÓN
+   ===================================================== */
+
+.menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.menu nav a {
+    display: block;
+
+    padding: 13px 17px;
+
+    color: #E8E5DF;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* HOVER */
+
+.menu nav a:hover {
+    background-color: #2A2927;
+
+    color: #F4E7D0;
+
+    transform: translateX(3px);
+}
+
+
+/* =====================================================
+   INVENTARIO - SUBMENÚ PAPELERA
+   ===================================================== */
+.menu-inventario {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* PAPELERA OCULTA */
+.subopcion-inventario {
+    display: none !important;
+
+    margin-left:35px;
+
+    padding: 7px 17px !important;
+
+    color: #A9A49D !important;
+
+    font-size: 13px !important;
+
+    border-left: 2px solid #F7931E;
+
+    border-radius: 0 !important;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+
+/* MOSTRAR PAPELERA AL PASAR POR INVENTARIO */
+
+.menu-inventario:hover .subopcion-inventario {
+    display: block !important;
+}
+
+
+/* EFECTO AL PASAR SOBRE PAPELERA */
+
+.subopcion-inventario:hover {
+    color: #F7931E !important;
+
+    background-color: transparent !important;
+
+    transform: translateX(3px);
+}
+
+/* =====================================================
+   CONTENIDO
+   ===================================================== */
+
+.contenido {
+    
+    width: 85%;
+    
+    height: 100vh;
+
+    padding: 32px;
+
+    background-color: #F5F3EF;
+
+    overflow: hidden;   
+}
+
+
+/* =====================================================
+   ENCABEZADO
+   ===================================================== */
+
+.encabezado {
+    padding: 21px 25px;
+
+    margin-bottom: 22px;
+
+    background-color: #FFFFFF;
+
+    border-radius: 10px;
+
+    border: 1px solid #E4DED4;
+
+    box-shadow: 0 4px 14px rgba(32, 27, 20, 0.05);
+}
+
+
+.encabezado h1 {
+
+    font-size: 26px;
+
+    color: #1B1B1B;
+
+    font-weight: 650;
+
+    letter-spacing: -0.3px;
+}
+
+
+/* =====================================================
+   CONTENIDO PRINCIPAL
+   ===================================================== */
+.principal {
+    width: 100%;
+
+    background-color: #FFFFFF;
+
+    padding: 28px;
+
+    border-radius: 10px;
+
+    border: 1px solid #E4DED4;
+
+    box-shadow: 0 4px 14px rgba(32, 27, 20, 0.05);
+}
+
+
+.principal h2 {
+    color: #24211E;
+
+    font-size: 21px;
+
+    font-weight: 650;
+
+    margin-bottom: 12px;
+}
+
+
+.principal p {
+    color: #716C65;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
