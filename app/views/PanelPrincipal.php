@@ -37,7 +37,7 @@
                         </a>
                     </div>
                     <a href="index.php?opcion=compra"> Compra </a>
-                    <a href="index.php?opcion=ventas"> Ventas</a>
+                    <a href="index.php?opcion=contratos"> Contratos</a>
                     <a href="index.php?opcion=configuracion"> Configuración </a>
                 </nav>
             </aside>
@@ -48,9 +48,9 @@
             
                 <?php
                 
-            require_once __DIR__ . '/' . $vista . '.php';
+                require_once __DIR__ . '/' . $vista . '.php';
 
-            ?>
+                ?>
             
             </main>
             

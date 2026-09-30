@@ -28,10 +28,10 @@
             $controller = new InventarioController();
             $controller->VerPapelera();
             break;
-        case 'ventas':
-            require_once __DIR__ . '/../app/Controllers/ventas.php';
-            $controller = new VentasController();
-            $controller->ventas();
+        case 'contratos':
+            require_once __DIR__ . '/../app/Controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->contratos();
             break;
             
         case 'compra':

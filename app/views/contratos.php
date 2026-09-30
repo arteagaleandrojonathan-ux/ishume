@@ -6,8 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>COMPRAS</h1>
+    <h1>Contratos</h1>
+
     <footer></footer>
+    
     <nav></nav>
     
 </body>
