@@ -1,19 +1,23 @@
 <?php   
 
+require_once __DIR__ . '/../models/contrato.php';
+
 class ContratosController {
 
-    public function contratos() {
-        $vista = 'contratos';
-        require_once __DIR__ . '/../views/PanelPrincipal.php';
+    private Contrato $AccionModelo;
 
+    public function __construct(){
+        $this->AccionModelo = new Contrato();
     }
 
 
     public function contratos(){
-        $Provincias = $this->obtenerModelo->obtenerProvincias();
-        $Clientes = $this->obtenerModelo->obtenerClientes();
-        $Colegios = $this->obtenerModelo->obtenerColegios();
-        $vista = 'contrastos';
+        $Provincias = $this->AccionModelo->obtenerProvincias();
+        $Clientes = $this->AccionModelo->obtenerClientes();
+        $Colegios = $this->AccionModelo->obtenerColegios();
+        
+
+        $vista = 'contratos';
         require_once __DIR__ . '/../views/PanelPrincipal.php';
 
     }
@@ -21,11 +25,11 @@ class ContratosController {
     public function obtenerDistritos(){
         $idProvincia = $_POST['idProvincia'];
 
-        if ($idProvincia){
-            echo json_encode([]) 
+        if ($idProvincia === ''){
+            echo json_encode([]);
             return;
-
         }
+
         $Distritos = $this->obtenerModelo->obtenerDistritosPorProvincia($idProvincia);
         header('content-type: application/json; chartset=utf-8');
         echo  json_encode($Distritos);

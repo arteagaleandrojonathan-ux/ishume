@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . "/../config/conection.php"
+require_once __DIR__ . "/../config/conection.php";
 
 class Contrato {
 
@@ -11,27 +10,27 @@ class Contrato {
         $this->db= $conexion->getConnection();
 
     }
-    
+
     public function obtenerProvincias(){
-        $sql = "SELECT idProvincia, NombreProvincia
+        $sql = "SELECT idProvincia, NomProvincia
         FROM Provincias 
-        ORDER BY NombreDistrito ASC"
+        ORDER BY NomProvincia ASC";
 
         $consulta = $this->db->prepare($sql);
         $consulta->execute();
 
-        return $consulta->fectAll(POO::FETCH_ASSOC);
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
 
     }
-    public function obtenerDistritoPorPronvincia($idProvincia){
+    public function obtenerDistritosPorPronvincia($idProvincia){
         $sql = "SELECT idDistrito, NombreDistrito
         FROM Distritos 
         where idProvincia = :idProvincia
         ORDER BY NombreDistritos ASC";
 
-        $consulta = $this->db->prepare($sql)
+        $consulta = $this->db->prepare($sql);
         $consulta->execute([
-            ':idProvincia' => $idProcincia
+            ':idProvincia' => $idProvincia
         ]);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
 
@@ -80,9 +79,9 @@ class Contrato {
         //REGISTRAR CONTRATOS
         $sqlContrato = "INSERT INTO Contratos VALUES
          (:idContrato, :idCliente, :idColegio, :idDistrito, 
-         :Evento, :Servicio, :Direccion, :Proforma, :FechaEvento)";
+         :Evento, :Servicio, :Direccion, :Proforma, NOW(), :FechaEvento)";
 
-          $consulta = $this->db->prepare($sql);
+          $consulta = $this->db->prepare($sqlContrato);
 
         $consulta->execute([
             ':idContrato' => $idContrato,
