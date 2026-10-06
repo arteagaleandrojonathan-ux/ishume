@@ -23,9 +23,11 @@
         <label for = 'idDistrito'>Distrito</label>
         <select id = 'idDistrito' name ='idDistrito'> 
             <option value =""> Seleccione un distrito</option>
+            
         </select>
     </div>
-
+    <div>
+    </div>
     <footer></footer>
     
     <nav></nav>

@@ -58,6 +58,7 @@ class Contrato {
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     public function registrarContrato($idCliente, $idColegio, $idDistrito, $Evento,
         $Servicio, $Direccion, $Proforma, $FechaEvento) {
     
