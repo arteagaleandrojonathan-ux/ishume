@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const provincia = document.getElementById('idProvincia');
-    const distrito = document.getElementById('idDistrito')
+    const distrito = document.getElementById('idDistrito');
 
     if (!provincia || !distrito) {
         return;
@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         distrito.innerHTML = '<option value="">Seleccione un distrito</option>';
 
-        if (idProvincia === 0){
+        if (idProvincia === ''){
             return;
         }   
-            fetch('index.php?opction=obtenerDistritos', {
+            fetch('index.php?opcion=obtenerDistritos', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'idProvicincia=' + encodeURIComponent(idProvincia)
+                body: 'idProvincia=' + encodeURIComponent(idProvincia)
             })
             .then(respuesta  => respuesta.json())
             .then(distritos => {

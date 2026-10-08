@@ -22,18 +22,20 @@ class Contrato {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
 
     }
-    public function obtenerDistritosPorPronvincia($idProvincia){
+
+    public function obtenerDistritosPorProvincia($idProvincia){
         $sql = "SELECT idDistrito, NombreDistrito
-        FROM Distritos 
-        where idProvincia = :idProvincia
-        ORDER BY NombreDistritos ASC";
+            FROM Distritos
+            WHERE idProvincia = :idProvincia
+            ORDER BY NombreDistrito ASC";
 
         $consulta = $this->db->prepare($sql);
+
         $consulta->execute([
             ':idProvincia' => $idProvincia
         ]);
-        return $consulta->fetchAll(PDO::FETCH_ASSOC);
 
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function obtenerClientes(){
@@ -58,7 +60,7 @@ class Contrato {
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function registrarContrato($idCliente, $idColegio, $idDistrito, $Evento,
         $Servicio, $Direccion, $Proforma, $FechaEvento) {
     

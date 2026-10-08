@@ -30,8 +30,8 @@ class ContratosController {
             return;
         }
 
-        $Distritos = $this->obtenerModelo->obtenerDistritosPorProvincia($idProvincia);
-        header('content-type: application/json; chartset=utf-8');
+        $Distritos = $this->AccionModelo->obtenerDistritosPorProvincia($idProvincia);
+        header('content-type: application/json; charset=utf-8');
         echo  json_encode($Distritos);
 
     }

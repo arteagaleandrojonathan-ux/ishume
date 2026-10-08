@@ -13,7 +13,7 @@
             <option value =""> Seleccione una provincia</option>
 
             <?php foreach($Provincias as $provincia): ?>
-                <option value = " <?= htmlspecialchars($provincia['idProvincia']) ?> ">
+                <option value="<?= htmlspecialchars($provincia['idProvincia']) ?>">
                     <?= htmlspecialchars($provincia['NomProvincia']) ?>
                 </option>
             <?php endforeach; ?>
