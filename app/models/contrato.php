@@ -39,7 +39,7 @@ class Contrato {
     }
 
     public function obtenerClientes(){
-        $sql = "SELECT idCliente, Nombre, Apellidos, Representante
+        $sql = "SELECT idCliente, Nombre, Apellidos, Testigo, Direccion
         FROM Cliente
         ORDER BY Nombre ASC";
 

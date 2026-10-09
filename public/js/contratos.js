@@ -1,13 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
     const provincia = document.getElementById('idProvincia');
     const distrito = document.getElementById('idDistrito');
+    
+    // rESTRINCCIONES
+    const nombre = document.getElementById('Nombre');
+    const apellidos = document.getElementById('Apellidos');
+    const testigo = document.getElementById('Testigo');
+    const tipoDOI = document.getElementById('TipoDOI');
+    const numDOI = document.getElementById('NumDOI');
+    const telefono = document.getElementById('Telefono');
 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //condicional de provicinia con distritos
     if (!provincia || !distrito) {
         return;
     }
-
+    // Cuando seleccione una provincia
     provincia.addEventListener('change', async (e) => {
         const idProvincia = e.target.value;
 
