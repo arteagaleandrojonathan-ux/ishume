@@ -25,7 +25,10 @@ class Inventario {
         modelos.TamañoHorizontal, 
         modelos.TamañoVertical, 
         modelos.Color, 
-        modelos.NivelEducativo, 
+        modelos.NivelEducativo,
+        /* Nuevo parametro*/
+        modelos.Imagen,
+        
         modelos.Estado
         FROM modelos
         INNER JOIN categorias

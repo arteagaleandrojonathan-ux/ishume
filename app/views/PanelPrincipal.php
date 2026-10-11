@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../public/css/PanelPrincipal.css">
 
      <?php if ($vista != 'dashboard'): ?>
+            <?php $archivoCss = __DIR__ . '/../../public/css/' . ucfirst($vista) . '.css'; ?>
             <link rel="stylesheet" href="css/<?= ucfirst($vista) ?>.css">
         <?php endif; ?>
 
@@ -28,17 +29,17 @@
                 </div>
 
                 <nav>
-                    <a href="index.php?opcion=dashboard" > Inicio </a>
+                    <a  class ="activo" href="index.php?opcion=dashboard" > Inicio </a>
                     <div class="menu-inventario">
-                        <a href="index.php?opcion=inventario">Inventario</a>
+                        <a class ="activo" href="index.php?opcion=inventario">Inventario</a>
 
                         <a href="index.php?opcion=papelera" class="subopcion-inventario">
                             Papelera
                         </a>
                     </div>
-                    <a href="index.php?opcion=compra"> Compra </a>
-                    <a href="index.php?opcion=contratos"> Contratos</a>
-                    <a href="index.php?opcion=configuracion"> Configuración </a>
+                    <a class ="activo" href="index.php?opcion=compra"> Compra </a>
+                    <a class ="activo" href="index.php?opcion=contratos"> Contratos</a>
+                    <a class ="activo" href="index.php?opcion=configuracion"> Configuración </a>
                 </nav>
             </aside>
             
@@ -59,11 +60,16 @@
 
 </body>
     <?php if ($vista == 'inventario'): ?>
-    <script src="js/bajaInventario.js"></script>
-    <script src="js/editarModelo.js"></script>
-<?php endif; ?>
+        <script src="js/bajaInventario.js"></script>
+        <script src="js/editarModelo.js"></script>
+        <script src="js/detalleModelo.js"></script>
+    <?php endif; ?>
 
 <?php if ($vista == 'compra'): ?>
     <script src="js/compra.js"></script>
+<?php endif; ?>
+
+<?php if ($vista == 'registrosCompra'): ?>
+    <script src="js/anularCompra.js"></script>
 <?php endif; ?>
 </html>

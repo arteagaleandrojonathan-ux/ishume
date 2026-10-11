@@ -104,8 +104,6 @@
                 <th>MATERIAL </th>
                 <th>PRECIO </th>
                 <th>STOCK </th>
-                <th>ANCHO </th>
-                <th>LARGO </th>
                 <th>COLOR </th>
                 <th>NIVEL </th>
                 <th>ESTADO </th>
@@ -116,14 +114,21 @@
         <tbody> 
 
         <?php foreach ($RecibeModelo as $datos):  ?>
-            <tr >
+            <tr class="fila-modelo"
+                data-id="<?= htmlspecialchars($datos['idModelo']) ?>"
+                data-nombre="<?= htmlspecialchars($datos['NombreMaterial']) ?>"
+                data-categoria="<?= htmlspecialchars($datos['NombreCategoria']) ?>"
+                data-marco="<?= htmlspecialchars($datos['NombreMarco']) ?>"
+                data-ancho="<?= htmlspecialchars($datos['TamañoHorizontal']) ?>"
+                data-largo="<?= htmlspecialchars($datos['TamañoVertical']) ?>"
+                data-color="<?= htmlspecialchars($datos['Color'] ?? '') ?>"
+                data-nivel="<?= htmlspecialchars($datos['NivelEducativo'] ?? '') ?>"
+                data-imagen="<?= htmlspecialchars($datos['Imagen'] ?? '') ?>">
                 <td ><?= $datos['NombreMaterial']  ?></td>
                 <td ><?= $datos['NombreCategoria']  ?></td>
                 <td ><?= $datos['NombreMarco']  ?></td>
                 <td ><?= $datos['Precio']  ?></td>
                 <td ><?= $datos['Cantidad']  ?></td>
-                <td ><?= $datos['TamañoHorizontal']  ?></td>
-                <td ><?= $datos['TamañoVertical']  ?></td>
                 <td ><?= $datos['Color']  ?></td>
                 <td ><?= $datos['NivelEducativo']  ?></td>
                 <td ><?= $datos['Estado']  ?></td>
@@ -180,4 +185,5 @@
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/darDeBaja.php'; ?>
+<?php require_once __DIR__ . '/detalleModelo.php'; ?>
 

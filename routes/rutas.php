@@ -51,7 +51,13 @@
             $controller = new CompraController();
             $controller->RegistrosCompra();
             break;
-            
+
+        case 'anularCompra':
+            require_once __DIR__ . '/../app/controllers/compra.php';
+            $controller = new CompraController();
+            $controller->AnularCompra();
+            break;    
+                    
         case 'registrarCompra':
             require_once __DIR__ . '/../app/controllers/compra.php';
             $controller = new CompraController();

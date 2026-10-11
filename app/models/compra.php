@@ -272,7 +272,9 @@ class Compra{
                 C.TotalCompra,
                 C.Observacion,
                 C.Estado,
-                P.RazonSocial
+                P.RazonSocial,
+                (SELECT COUNT(*) FROM DetalleCompra D
+                 WHERE D.idCompra = C.idCompra AND D.Estado = false) AS Cancelados
             FROM Compras C
             INNER JOIN proveedores P
             ON C.idProveedor = P.idProveedor
@@ -310,7 +312,8 @@ class Compra{
 
     public function obtenerDetalleCompra($idCompra){
         $sql = " SELECT C.idCompra, C.FechaCompra,C.TotalCompra, C.Estado, P.RazonSocial, DC.idDetalleCompra,
-                DC.idModelo, DC.Cantidad, DC.PrecioCompra, DC.SubTotal, M.NombreMaterial, M.Color, M.NivelEducativo, C.Observacion
+                DC.idModelo, DC.Cantidad, DC.PrecioCompra, DC.SubTotal, DC.Estado AS EstadoDetalle, A.Motivo AS MotivoAnulacion, A.FechaAnulacion,
+                M.NombreMaterial, M.Color, M.NivelEducativo, C.Observacion
         FROM Compras C
         INNER JOIN Proveedores P
         ON C.idProveedor = P.idProveedor
@@ -318,6 +321,8 @@ class Compra{
         ON C.idCompra = DC.idCompra
         INNER JOIN modelos M    
         ON DC.idModelo = M.idModelo
+        LEFT JOIN AnularCompras A
+        ON A.idDetalleCompra = DC.idDetalleCompra
         WHERE C.idCompra = :idCompra
         ORDER BY DC.idDetalleCompra ASC ";
 
@@ -360,6 +365,151 @@ class Compra{
 
         return $consulta->fetchColumn();
 
+    }
+
+    /* =====================================================
+       CANCELAR PRODUCTOS DE UNA COMPRA (uno, varios o todos)
+       - Descuenta del stock lo que la compra había sumado
+       - Marca cada línea como cancelada
+       - Guarda un registro por línea en AnularCompras
+       - Si ya no queda ninguna línea vigente, la compra queda anulada
+       ===================================================== */
+    public function anularCompra($idCompra, array $idsDetalle, $motivo){
+        try {
+            $idsDetalle = array_values(array_unique(array_filter(array_map('strval', $idsDetalle))));
+
+            if ($motivo === '') {
+                throw new Exception('Debe indicar el motivo de la cancelación.');
+            }
+            if (mb_strlen($motivo) > 500) {
+                throw new Exception('El motivo no puede superar los 500 caracteres.');
+            }
+            if (count($idsDetalle) === 0) {
+                throw new Exception('Seleccione al menos un producto para cancelar.');
+            }
+
+            $this->db->beginTransaction();
+
+            // 1. La compra debe existir y estar vigente
+            $consultaCompra = $this->db->prepare(
+                "SELECT Estado FROM Compras WHERE idCompra = :idCompra FOR UPDATE"
+            );
+            $consultaCompra->execute([':idCompra' => $idCompra]);
+            $compra = $consultaCompra->fetch(PDO::FETCH_ASSOC);
+
+            if (!$compra) {
+                throw new Exception('La compra no existe.');
+            }
+            if (!(int) $compra['Estado']) {
+                throw new Exception('La compra ya se encuentra anulada.');
+            }
+
+            // 2. Las líneas elegidas deben ser de esta compra y seguir vigentes
+            $marcadores = [];
+            $parametros = [':idCompra' => $idCompra];
+            foreach ($idsDetalle as $i => $idDetalle) {
+                $marcadores[] = ':d' . $i;
+                $parametros[':d' . $i] = $idDetalle;
+            }
+
+            $consultaLineas = $this->db->prepare(
+                "SELECT idDetalleCompra, idModelo, Cantidad
+                 FROM DetalleCompra
+                 WHERE idCompra = :idCompra
+                 AND Estado = true
+                 AND idDetalleCompra IN (" . implode(',', $marcadores) . ")
+                 FOR UPDATE"
+            );
+            $consultaLineas->execute($parametros);
+            $lineas = $consultaLineas->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($lineas) !== count($idsDetalle)) {
+                throw new Exception('Alguno de los productos seleccionados no pertenece a la compra o ya fue cancelado.');
+            }
+
+            // 3. Procesar cada línea
+            $consultaStock = $this->db->prepare(
+                "SELECT NombreMaterial, Color, Cantidad FROM modelos WHERE idModelo = :idModelo FOR UPDATE"
+            );
+            $descontar = $this->db->prepare(
+                "UPDATE modelos SET Cantidad = Cantidad - :Cantidad WHERE idModelo = :idModelo"
+            );
+            $marcar = $this->db->prepare(
+                "UPDATE DetalleCompra SET Estado = false WHERE idDetalleCompra = :idDetalleCompra"
+            );
+            $insertar = $this->db->prepare(
+                "INSERT INTO AnularCompras (idAnulacion, idCompra, idDetalleCompra, Motivo)
+                 VALUES (:idAnulacion, :idCompra, :idDetalleCompra, :Motivo)"
+            );
+
+            foreach ($lineas as $linea) {
+
+                $consultaStock->execute([':idModelo' => $linea['idModelo']]);
+                $modelo = $consultaStock->fetch(PDO::FETCH_ASSOC);
+
+                if (!$modelo) {
+                    throw new Exception('El modelo ' . $linea['idModelo'] . ' ya no existe.');
+                }
+
+                if ((int) $modelo['Cantidad'] < (int) $linea['Cantidad']) {
+                    throw new Exception(
+                        'No se puede cancelar "' . $modelo['NombreMaterial'] . ' (' . $modelo['Color'] . ')": ' .
+                        'el stock actual (' . $modelo['Cantidad'] . ') es menor que la cantidad comprada (' .
+                        $linea['Cantidad'] . '). Parte de ese stock ya salió del inventario.'
+                    );
+                }
+
+                $descontar->execute([
+                    ':Cantidad' => (int) $linea['Cantidad'],
+                    ':idModelo' => $linea['idModelo']
+                ]);
+
+                $marcar->execute([':idDetalleCompra' => $linea['idDetalleCompra']]);
+
+                $ultimo = $this->db->query(
+                    "SELECT MAX(CAST(SUBSTRING(idAnulacion, 4) AS UNSIGNED)) FROM AnularCompras"
+                )->fetchColumn();
+                $numero = ($ultimo !== false && $ultimo !== null) ? ((int) $ultimo + 1) : 1;
+
+                $insertar->execute([
+                    ':idAnulacion' => 'AN-' . str_pad($numero, 5, '0', STR_PAD_LEFT),
+                    ':idCompra' => $idCompra,
+                    ':idDetalleCompra' => $linea['idDetalleCompra'],
+                    ':Motivo' => $motivo
+                ]);
+            }
+
+            // 4. Actualizar la compra según lo que quede vigente
+            $consultaResto = $this->db->prepare(
+                "SELECT COUNT(*) AS restantes, COALESCE(SUM(SubTotal), 0) AS total
+                 FROM DetalleCompra
+                 WHERE idCompra = :idCompra AND Estado = true"
+            );
+            $consultaResto->execute([':idCompra' => $idCompra]);
+            $resto = $consultaResto->fetch(PDO::FETCH_ASSOC);
+
+            $completa = ((int) $resto['restantes'] === 0);
+
+            if ($completa) {
+                $actualizar = $this->db->prepare("UPDATE Compras SET Estado = false WHERE idCompra = :idCompra");
+                $actualizar->execute([':idCompra' => $idCompra]);
+            } else {
+                $actualizar = $this->db->prepare("UPDATE Compras SET TotalCompra = :total WHERE idCompra = :idCompra");
+                $actualizar->execute([':total' => $resto['total'], ':idCompra' => $idCompra]);
+            }
+
+            $this->db->commit();
+
+            return ['cantidad' => count($lineas), 'completa' => $completa];
+
+        } catch (Exception $e) {
+
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+
+            throw $e;
+        }
     }
 
 }

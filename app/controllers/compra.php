@@ -84,6 +84,22 @@ class CompraController {
             $DetalleCompra = $this->AccionModelo->obtenerDetalleCompra($detalle);
         }
 
+        //aca es el panel apra cancelar la compra
+        $cancelar = $_GET['cancelar'] ?? '';
+        $CancelarCompra = [];
+        $errorAnular = $_GET['error'] ?? '';
+
+        if($cancelar !== ''){
+            $CancelarCompra = $this->AccionModelo->obtenerDetalleCompra($cancelar);
+            
+            if(empty($CancelarCompra)){
+                $errorAnular = 'La compra no existe';
+            }elseif (!(int) $CancelarCompra[0]['Estado']){
+                $errorAnular = 'La compra ya se encuentra anulada';
+                $CancelarCompra = [];
+            }
+        }
+
         $pagina = $_GET['pagina'] ?? 1;
         $porPagina = 5;
 
@@ -102,4 +118,43 @@ class CompraController {
         require_once __DIR__ .'/../views/PanelPrincipal.php';
 
     }
+
+    public function AnularCompra(){
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?opcion=registrosCompra');
+            exit;
+        }
+
+        $idCompra = $_POST['idCompra'] ?? '';
+        $detalles = $_POST['detalles'] ?? [];
+        $motivo = trim($_POST['Motivo'] ?? '');
+
+        try {
+            if ($idCompra === '') {
+                throw new Exception('No se recibió la compra a cancelar.');
+            }
+
+            if (!is_array($detalles)) {
+                $detalles = [];
+            }
+
+            $resultado = $this->AccionModelo->anularCompra($idCompra, $detalles, $motivo);
+
+            header(
+                'Location: index.php?opcion=registrosCompra&anulacion=ok' .
+                '&id=' . urlencode($idCompra) .
+                '&cant=' . (int) $resultado['cantidad'] .
+                '&completa=' . ($resultado['completa'] ? 1 : 0)
+            );
+            exit;
+
+        } catch (Exception $e) {
+            header(
+                'Location: index.php?opcion=registrosCompra&cancelar=' . urlencode($idCompra) .
+                '&error=' . urlencode($e->getMessage())
+            );
+            exit;
+        }
+    }
+    
 }

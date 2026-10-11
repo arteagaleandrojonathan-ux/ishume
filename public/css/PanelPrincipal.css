@@ -133,14 +133,10 @@ body {
 }
 
 
-/* HOVER */
-
-.menu nav a:hover {
-    background-color: #2A2927;
-
-    color: #F4E7D0;
-
-    transform: translateX(3px);
+/* Evitar que el hover quite el color activo */
+.menu nav a.activo:hover {
+    background-color: #F7931E;
+    color: #171717;
 }
 
 
@@ -277,3 +273,4 @@ body {
 
     line-height: 1.6;
 }
+

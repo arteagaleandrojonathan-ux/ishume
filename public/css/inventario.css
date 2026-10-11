@@ -922,3 +922,109 @@ main form button:hover {
 .boton-confirmar-baja:hover {
     background-color: #893E3E;
 }
+
+
+/* =====================================================
+   FILA CLICABLE + PANEL LATERAL DE DETALLE
+   ===================================================== */
+
+.tabla-contenedor tbody tr.fila-modelo {
+    cursor: pointer;
+}
+
+.tabla-contenedor tbody tr.fila-seleccionada,
+.tabla-contenedor tbody tr.fila-seleccionada:hover {
+    background-color: #EFE6D6;
+}
+
+.panel-detalle {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 340px;
+    max-width: 90vw;
+    height: 100vh;
+
+    background-color: #FFFFFF;
+    border-left: 1px solid #E4DED4;
+    box-shadow: -8px 0 28px rgba(0, 0, 0, 0.15);
+
+    padding: 22px 24px;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    transform: translateX(105%);
+    transition: transform 0.28s ease;
+
+    z-index: 900;
+}
+
+.panel-detalle.abierto {
+    transform: translateX(0);
+}
+
+.cabecera-detalle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.cabecera-detalle h2 {
+    font-size: 17px;
+    color: #242220;
+    line-height: 1.3;
+}
+
+.cerrar-detalle {
+    background: none;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    color: #6B665F;
+}
+
+.cerrar-detalle:hover {
+    color: #242220;
+}
+
+.imagen-detalle {
+    background-color: #F5F1EA;
+    border: 1px solid #E4DED4;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagen-detalle img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+}
+
+.datos-detalle div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #E8E2D9;
+    font-size: 13px;
+}
+
+.datos-detalle dt {
+    color: #6B665F;
+    font-weight: 600;
+}
+
+.datos-detalle dd {
+    color: #302D29;
+    text-align: right;
+}
