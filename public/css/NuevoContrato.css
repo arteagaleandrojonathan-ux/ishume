@@ -1,0 +1,930 @@
+
+/* ==========================================================
+   ISHUME - MÓDULO DE CONTRATOS
+   Diseño formal, institucional y preparado para impresión
+   Importante: no modifica el diseño general del sistema.
+   ========================================================== */
+
+
+/* ==========================================================
+   1. COLORES INSTITUCIONALES
+   ========================================================== */
+
+:root {
+    --ishume-naranja: #F7931E;
+    --ishume-naranja-oscuro: #D97706;
+    --ishume-naranja-claro: #FFF5E9;
+
+    --contrato-blanco: #FFFFFF;
+    --contrato-texto: #252525;
+    --contrato-texto-secundario: #5B5B5B;
+    --contrato-fondo: #F5F5F5;
+
+    --contrato-linea: #969696;
+    --contrato-borde: #D9D9D9;
+
+    --contrato-radio: 5px;
+    --contrato-sombra: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+
+/* ==========================================================
+   2. PANEL PRINCIPAL DE CONTRATOS
+   No modificar html ni body: el resto del sistema conserva
+   su diseño y el panel lateral no se ve afectado.
+   ========================================================== */
+
+.contenedor-contrato {
+    display: block;
+    position: relative;
+
+    width: 100%;
+    max-width: 1150px;
+    min-width: 0;
+
+    /* El panel crece normalmente hasta alcanzar este límite */
+    max-height: calc(100vh - 40px);
+    max-height: calc(100dvh - 40px);
+
+    margin: 0 auto;
+    padding: 28px 32px;
+
+    background: var(--contrato-blanco);
+    color: var(--contrato-texto);
+
+    border: 1px solid var(--contrato-borde);
+    border-top: 5px solid var(--ishume-naranja);
+    border-radius: var(--contrato-radio);
+
+    box-shadow: var(--contrato-sombra);
+
+    /* El desplazamiento solo ocurre dentro del formulario */
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior-y: contain;
+
+    scrollbar-width: thin;
+    scrollbar-color: #B8B8B8 #F1F1F1;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Barra de desplazamiento */
+.contenedor-contrato::-webkit-scrollbar {
+    width: 9px;
+}
+
+.contenedor-contrato::-webkit-scrollbar-track {
+    background: #F1F1F1;
+}
+
+.contenedor-contrato::-webkit-scrollbar-thumb {
+    background: #B8B8B8;
+    border: 2px solid #F1F1F1;
+    border-radius: 10px;
+}
+
+.contenedor-contrato::-webkit-scrollbar-thumb:hover {
+    background: #888888;
+}
+
+/* Evita que los campos superen el ancho disponible */
+.contenedor-contrato *,
+.contenedor-contrato *::before,
+.contenedor-contrato *::after {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+
+/* ==========================================================
+   3. BANNER DE ISHUME
+   ========================================================== */
+
+.banner-contrato {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 120px;
+
+    margin: 0 0 30px;
+    padding: 12px 15px;
+
+    background: var(--contrato-blanco);
+    border-bottom: 3px solid var(--ishume-naranja);
+
+    text-align: center;
+}
+
+.banner-contrato img {
+    display: block;
+
+    width: auto;
+    max-width: 100%;
+    max-height: 95px;
+
+    object-fit: contain;
+}
+
+.banner-contrato h1 {
+    margin: 0;
+
+    color: var(--contrato-texto);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.banner-contrato p {
+    margin: 5px 0 0;
+
+    color: var(--contrato-texto-secundario);
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   4. SECCIONES DEL CONTRATO
+   ========================================================== */
+
+.seccion-contrato,
+.seccion-contrato-detalle {
+    display: block;
+
+    width: 100%;
+    margin: 0 0 32px;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+}
+
+.seccion-contrato h2,
+.seccion-contrato-detalle h2 {
+    margin: 0 0 22px;
+    padding: 0 0 11px;
+
+    color: var(--contrato-texto);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+
+    border-bottom: 2px solid var(--ishume-naranja);
+}
+
+
+/* ==========================================================
+   5. ORGANIZACIÓN DE LAS FILAS
+   ========================================================== */
+
+.contenedor-contrato .fila {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: end;
+    gap: 24px 30px;
+
+    width: 100%;
+    margin: 0 0 23px;
+}
+
+/* Fila de una sola columna, si se necesita */
+.contenedor-contrato .fila-completa {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Fila de tres columnas, si se necesita */
+.contenedor-contrato .fila-tres {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+
+/* ==========================================================
+   6. ETIQUETAS Y CAMPOS
+   Etiqueta a la izquierda y campo a la derecha.
+   ========================================================== */
+
+.contenedor-contrato .campo {
+    display: grid;
+
+    grid-template-columns:
+        minmax(105px, 0.8fr)
+        minmax(0, 1.5fr);
+
+    align-items: end;
+    gap: 12px;
+
+    width: 100%;
+    margin: 0;
+}
+
+.contenedor-contrato .campo label {
+    display: block;
+
+    margin: 0;
+    padding: 0 0 9px;
+
+    color: var(--contrato-texto-secundario);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================
+   7. INPUTS CON UNA SOLA LÍNEA INFERIOR
+   ========================================================== */
+
+.contenedor-contrato input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.contenedor-contrato select,
+.contenedor-contrato textarea {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 9px 2px 8px;
+
+    color: var(--contrato-texto);
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+
+    border: none;
+    border-bottom: 1px solid var(--contrato-linea);
+    border-radius: 0;
+
+    outline: none;
+    box-shadow: none;
+
+    transition: border-color 0.2s ease;
+}
+
+/* Resaltar la línea cuando el campo está seleccionado */
+.contenedor-contrato input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+.contenedor-contrato select:focus,
+.contenedor-contrato textarea:focus {
+    border-bottom: 2px solid var(--ishume-naranja);
+
+    outline: none;
+    box-shadow: none;
+}
+
+/* Texto de ejemplo */
+.contenedor-contrato input::placeholder,
+.contenedor-contrato textarea::placeholder {
+    color: #999999;
+    opacity: 1;
+}
+
+/* Listas desplegables */
+.contenedor-contrato select {
+    cursor: pointer;
+}
+
+/* Áreas de texto */
+.contenedor-contrato textarea {
+    min-height: 38px;
+    resize: vertical;
+}
+
+/* Campos de solo lectura */
+.contenedor-contrato input[readonly] {
+    color: var(--contrato-texto-secundario);
+    background: transparent;
+}
+
+/* Campos deshabilitados */
+.contenedor-contrato input:disabled,
+.contenedor-contrato select:disabled,
+.contenedor-contrato textarea:disabled {
+    color: #777777;
+    background: transparent;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================================
+   8. BUSCADOR DE COLEGIOS
+   ========================================================== */
+
+#buscarColegio {
+    width: 100%;
+}
+
+.resultados-colegios,
+#resultadosColegios {
+    position: relative;
+    z-index: 20;
+
+    width: 100%;
+    margin-top: 5px;
+
+    background: var(--contrato-blanco);
+    border: 1px solid var(--contrato-borde);
+    border-radius: 4px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+
+    overflow: hidden;
+}
+
+.resultados-colegios:empty,
+#resultadosColegios:empty {
+    display: none;
+}
+
+.resultados-colegios > *,
+#resultadosColegios > *,
+.resultado-colegio {
+    display: block;
+
+    width: 100%;
+    padding: 11px 13px;
+
+    color: var(--contrato-texto);
+    background: var(--contrato-blanco);
+
+    border: none;
+    border-bottom: 1px solid #EEEEEE;
+
+    font-family: inherit;
+    font-size: 13px;
+    text-align: left;
+
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.resultados-colegios > *:hover,
+#resultadosColegios > *:hover,
+.resultado-colegio:hover {
+    background: var(--ishume-naranja-claro);
+}
+
+
+/* ==========================================================
+   9. BOTONES SECUNDARIOS
+   ========================================================== */
+
+.boton-secundario,
+#btnAgregarColegio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 38px;
+    max-width: 100%;
+
+    margin-top: 10px;
+    padding: 8px 14px;
+
+    color: var(--ishume-naranja-oscuro);
+    background: var(--contrato-blanco);
+
+    border: 1px solid var(--ishume-naranja);
+    border-radius: 4px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.boton-secundario:hover,
+#btnAgregarColegio:hover {
+    background: var(--ishume-naranja-claro);
+}
+
+
+/* ==========================================================
+   10. BOTONES PRINCIPALES
+   ========================================================== */
+
+.boton-principal,
+#btnRegistrarContrato,
+#btnRegistrarColegio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 42px;
+    max-width: 100%;
+
+    padding: 10px 20px;
+
+    color: var(--contrato-blanco);
+    background: var(--ishume-naranja);
+
+    border: 1px solid var(--ishume-naranja);
+    border-radius: 4px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.boton-principal:hover,
+#btnRegistrarContrato:hover,
+#btnRegistrarColegio:hover {
+    color: var(--contrato-blanco);
+    background: var(--ishume-naranja-oscuro);
+    border-color: var(--ishume-naranja-oscuro);
+}
+
+/* Botón de registrar contrato */
+#btnRegistrarContrato {
+    min-width: 190px;
+}
+
+
+/* ==========================================================
+   11. BOTÓN CANCELAR DEL MODAL
+   ========================================================== */
+
+.boton-cancelar,
+#btnCancelarColegio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+    padding: 9px 17px;
+
+    color: var(--contrato-texto);
+    background: #F0F0F0;
+
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.boton-cancelar:hover,
+#btnCancelarColegio:hover {
+    background: #E3E3E3;
+}
+
+
+/* ==========================================================
+   12. ZONA DE ACCIONES DEL CONTRATO
+   ========================================================== */
+
+.acciones-contrato {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--contrato-borde);
+}
+
+
+/* ==========================================================
+   13. MENSAJES DE VALIDACIÓN
+   ========================================================== */
+
+.error,
+.mensaje-error,
+.texto-error {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #B42318;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.mensaje-exito,
+.texto-exito {
+    display: block;
+
+    margin-top: 7px;
+
+    color: var(--color-exito, #237A43);
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   14. MODAL PARA AGREGAR COLEGIO
+   Los nombres corresponden a tu HTML actual.
+   ========================================================== */
+
+.modal-colegio {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-colegio.mostrar {
+    display: flex;
+}
+
+.contenido-colegio {
+    position: relative;
+
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+
+    margin: auto;
+    padding: 26px;
+
+    background: var(--contrato-blanco);
+    border: 1px solid var(--contrato-borde);
+    border-top: 5px solid var(--ishume-naranja);
+    border-radius: var(--contrato-radio);
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.contenido-colegio h2 {
+    margin: 0 0 22px;
+    padding-bottom: 12px;
+
+    color: var(--contrato-texto);
+    font-size: 18px;
+    font-weight: 700;
+
+    border-bottom: 1px solid var(--contrato-borde);
+}
+
+.contenido-colegio .campo {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.contenido-colegio .campo label {
+    padding-bottom: 0;
+}
+
+.acciones-colegio {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+/* ==========================================================
+   15. TABLAS, SI SE UTILIZAN
+   ========================================================== */
+
+.contenedor-contrato table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contenedor-contrato th,
+.contenedor-contrato td {
+    padding: 10px;
+
+    color: var(--contrato-texto);
+    border-bottom: 1px solid var(--contrato-borde);
+
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.contenedor-contrato th {
+    background: #F7F7F7;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   16. TABLET
+   ========================================================== */
+
+@media (max-width: 900px) {
+    .contenedor-contrato {
+        padding: 22px;
+    }
+
+    .contenedor-contrato .fila {
+        gap: 20px 22px;
+    }
+
+    .contenedor-contrato .campo {
+        grid-template-columns:
+            minmax(90px, 0.8fr)
+            minmax(0, 1.4fr);
+
+        gap: 9px;
+    }
+
+    .banner-contrato {
+        min-height: 105px;
+        margin-bottom: 25px;
+    }
+}
+
+
+/* ==========================================================
+   17. CELULARES
+   ========================================================== */
+
+@media (max-width: 650px) {
+    .contenedor-contrato {
+        width: 100%;
+        padding: 17px 15px;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+    }
+
+    .banner-contrato {
+        min-height: 85px;
+        margin-bottom: 22px;
+        padding: 9px;
+    }
+
+    .banner-contrato img {
+        max-height: 68px;
+    }
+
+    .banner-contrato h1 {
+        font-size: 19px;
+    }
+
+    .seccion-contrato,
+    .seccion-contrato-detalle {
+        margin-bottom: 26px;
+    }
+
+    .seccion-contrato h2,
+    .seccion-contrato-detalle h2 {
+        margin-bottom: 18px;
+        font-size: 16px;
+    }
+
+    .contenedor-contrato .fila,
+    .contenedor-contrato .fila-tres {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+
+        margin-bottom: 20px;
+    }
+
+    /* En móviles, las etiquetas se colocan encima */
+    .contenedor-contrato .campo {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+
+    .contenedor-contrato .campo label {
+        padding-bottom: 0;
+    }
+
+    /* Evita ampliaciones automáticas al enfocar inputs */
+    .contenedor-contrato input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+    .contenedor-contrato select,
+    .contenedor-contrato textarea {
+        font-size: 16px;
+    }
+
+    .acciones-contrato {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #btnRegistrarContrato,
+    .acciones-contrato button {
+        width: 100%;
+    }
+
+    .contenido-colegio {
+        padding: 19px;
+    }
+}
+
+
+/* ==========================================================
+   18. IMPRESIÓN
+   El formulario recupera su altura natural al imprimir.
+   ========================================================== */
+
+@page {
+    size: A4 portrait;
+    margin: 13mm 12mm;
+}
+
+@media print {
+    .contenedor-contrato {
+        width: 100%;
+        max-width: none;
+
+        height: auto;
+        max-height: none;
+        min-height: 0;
+
+        margin: 0;
+        padding: 0;
+
+        background: #FFFFFF;
+        color: #000000;
+
+        border: none;
+        border-top: 3px solid var(--ishume-naranja);
+        border-radius: 0;
+        box-shadow: none;
+
+        overflow: visible;
+    }
+
+    .banner-contrato {
+        min-height: 80px;
+        margin-bottom: 18px;
+        padding: 8px;
+
+        background: #FFFFFF;
+        border-bottom: 2px solid var(--ishume-naranja);
+
+        break-inside: avoid;
+    }
+
+    .banner-contrato img {
+        max-height: 65px;
+    }
+
+    .seccion-contrato,
+    .seccion-contrato-detalle {
+        margin-bottom: 18px;
+        break-inside: avoid;
+    }
+
+    .seccion-contrato h2,
+    .seccion-contrato-detalle h2 {
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+
+        color: #000000;
+        font-size: 11pt;
+
+        border-bottom: 1px solid var(--ishume-naranja);
+    }
+
+    .contenedor-contrato .fila {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 18px;
+        margin-bottom: 12px;
+    }
+
+    .contenedor-contrato .campo {
+        grid-template-columns:
+            minmax(80px, 0.8fr)
+            minmax(0, 1.5fr);
+
+        gap: 8px;
+    }
+
+    .contenedor-contrato .campo label {
+        padding-bottom: 5px;
+        color: #222222;
+        font-size: 9pt;
+    }
+
+    .contenedor-contrato input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+    .contenedor-contrato select,
+    .contenedor-contrato textarea {
+        padding: 5px 2px;
+
+        color: #000000;
+        background: transparent;
+
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+
+        border: none;
+        border-bottom: 1px solid #666666;
+        border-radius: 0;
+
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* Los botones y controles no forman parte de la impresión */
+    .contenedor-contrato button,
+    .contenedor-contrato .acciones-contrato,
+    .acciones-colegio,
+    #resultadosColegios,
+    .modal-colegio,
+    .no-imprimir {
+        display: none !important;
+    }
+
+    .contenedor-contrato table {
+        break-inside: auto;
+    }
+
+    .contenedor-contrato tr,
+    .contenedor-contrato img {
+        break-inside: avoid;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+
+/* ==========================================================
+   19. ACCESIBILIDAD
+   ========================================================== */
+
+
+/* Banner del contrato */
+.contenedor-contrato .banner-contrato {
+    width: 100%;
+    margin: 0 0 24px;
+    overflow: hidden;
+}
+
+.contenedor-contrato .banner-contrato img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Configuración para imprimir en A4 */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 15mm;
+    }
+
+    .contenedor-contrato .banner-contrato {
+        width: 100%;
+        margin-bottom: 8mm;
+        overflow: visible;
+        break-inside: avoid;
+    }
+
+    .contenedor-contrato .banner-contrato img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+    }
+}

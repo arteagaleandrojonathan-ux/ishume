@@ -1,0 +1,93 @@
+﻿idModelo,idCategoria,idTipoMarco,NombreMaterial,Precio,Cantidad,TamanoHorizontal,TamanoVertical,Color,NivelEducativo,Imagen,Estado,Area_cm2,Precio_por_cm2,Gama
+MOD-001,CAT-002,TIP-001,Unicornio,125.0,0.0,60.0,50.0,Rosado,Inicial,img/modelo/extraidas/MOD-001.png,True,3000.0,0.0417,Económico
+MOD-002,CAT-002,TIP-001,Mi Principe,125.0,0.0,60.0,50.0,Azul,Inicial,img/modelo/extraidas/MOD-002.png,True,3000.0,0.0417,Económico
+MOD-003,CAT-002,TIP-001,Mi Dulce Princesa,125.0,0.0,60.0,50.0,Rosado,Inicial,img/modelo/extraidas/MOD-003.png,True,3000.0,0.0417,Económico
+MOD-004,CAT-002,TIP-001,Mi Principe,125.0,0.0,60.0,50.0,Azul,Inicial,img/modelo/extraidas/MOD-004.png,True,3000.0,0.0417,Económico
+MOD-005,CAT-002,TIP-001,Unicornio,125.0,0.0,60.0,50.0,Rosado,Inicial,img/modelo/extraidas/MOD-005.png,True,3000.0,0.0417,Económico
+MOD-006,CAT-002,TIP-001,Principes,125.0,0.0,60.0,50.0,Azul,Inicial,img/modelo/extraidas/MOD-006.png,True,3000.0,0.0417,Económico
+MOD-007,CAT-002,TIP-003,Ultrabrillante,125.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-007.png,True,3315.0,0.0377,Económico
+MOD-008,CAT-002,TIP-003,Ultrabrillante,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-008.png,True,3315.0,0.0392,Económico
+MOD-009,CAT-002,TIP-004,Mi Principe,130.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-009.png,True,3315.0,0.0392,Económico
+MOD-010,CAT-002,TIP-004,Pequeños Guerreros,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-010.png,True,3315.0,0.0392,Económico
+MOD-011,CAT-002,TIP-004,Mi Pequeña Astronauta,130.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-011.png,True,3315.0,0.0392,Económico
+MOD-012,CAT-002,TIP-004,Mundo Labubu,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-012.png,True,3315.0,0.0392,Económico
+MOD-013,CAT-002,TIP-004,Aventureros del Saber,130.0,0.0,65.0,51.0,Marrón,Inicial,img/modelo/extraidas/MOD-013.png,True,3315.0,0.0392,Económico
+MOD-014,CAT-002,TIP-004,Estrellitas del Saber,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-014.png,True,3315.0,0.0392,Económico
+MOD-015,CAT-002,TIP-004,Mundo Labubu,130.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-015.png,True,3315.0,0.0392,Económico
+MOD-016,CAT-002,TIP-004,Ositos Cariñositos,130.0,0.0,65.0,51.0,Verde,Inicial,img/modelo/extraidas/MOD-016.png,True,3315.0,0.0392,Económico
+MOD-017,CAT-002,TIP-004,Sonic Speed,130.0,0.0,45.0,30.0,Multicolor,Inicial,img/modelo/extraidas/MOD-017.png,True,1350.0,0.0963,Económico
+MOD-018,CAT-002,TIP-004,Mundo Arácnido,130.0,0.0,45.0,30.0,Multicolor,Inicial,img/modelo/extraidas/MOD-018.png,True,1350.0,0.0963,Económico
+MOD-019,CAT-002,TIP-004,Encanto Rosa,130.0,0.0,45.0,30.0,Rosado,Inicial,img/modelo/extraidas/MOD-019.png,True,1350.0,0.0963,Económico
+MOD-020,CAT-002,TIP-004,Mundo de Aprendizaje,130.0,0.0,45.0,30.0,Multicolor,Inicial,img/modelo/extraidas/MOD-020.png,True,1350.0,0.0963,Económico
+MOD-021,CAT-002,TIP-004,Vocales,130.0,0.0,45.0,30.0,Rosado,Inicial,img/modelo/extraidas/MOD-021.png,True,1350.0,0.0963,Económico
+MOD-022,CAT-002,TIP-004,Desvanecido,130.0,0.0,45.0,30.0,Morado,Inicial,img/modelo/extraidas/MOD-022.png,True,1350.0,0.0963,Económico
+MOD-023,CAT-002,TIP-004,Guerreros,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-023.png,True,3315.0,0.0392,Económico
+MOD-024,CAT-002,TIP-004,Sticht,130.0,0.0,65.0,51.0,Azul,Inicial,img/modelo/extraidas/MOD-024.png,True,3315.0,0.0392,Económico
+MOD-025,CAT-002,TIP-004,Pequeñas Aventuras,130.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-025.png,True,3315.0,0.0392,Económico
+MOD-026,CAT-002,TIP-004,Mundo de Fantasias,130.0,0.0,65.0,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-026.png,True,3315.0,0.0392,Económico
+MOD-027,CAT-002,TIP-004,Mi Primer Logro,130.0,0.0,45.0,30.0,Azul,Inicial,img/modelo/extraidas/MOD-027.png,True,1350.0,0.0963,Económico
+MOD-028,CAT-002,TIP-005,Cuadro Egresada,135.0,0.0,69.5,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-028.png,True,3544.5,0.0381,Medio
+MOD-029,CAT-002,TIP-005,Cuadro Egresado,135.0,0.0,69.5,51.0,Azul,Inicial,img/modelo/extraidas/MOD-029.png,True,3544.5,0.0381,Medio
+MOD-030,CAT-002,TIP-005,Cuadro Lila,135.0,0.0,69.5,51.0,Lila,Inicial,img/modelo/extraidas/MOD-030.png,True,3544.5,0.0381,Medio
+MOD-031,CAT-002,TIP-005,Cuadro Azul,135.0,0.0,69.5,51.0,Azul,Inicial,img/modelo/extraidas/MOD-031.png,True,3544.5,0.0381,Medio
+MOD-032,CAT-002,TIP-005,Mip Princesa Kpop,135.0,0.0,69.5,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-032.png,True,3544.5,0.0381,Medio
+MOD-033,CAT-002,TIP-005,Mi principe,135.0,0.0,69.5,51.0,Azul,Inicial,img/modelo/extraidas/MOD-033.png,True,3544.5,0.0381,Medio
+MOD-034,CAT-002,TIP-005,Cuadro Box Reflex,135.0,0.0,69.5,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-034.png,True,3544.5,0.0381,Medio
+MOD-035,CAT-002,TIP-005,Cuadro Marmol Blue,140.0,0.0,69.5,50.0,Azul,Inicial,img/modelo/extraidas/MOD-035.png,True,3475.0,0.0403,Medio
+MOD-036,CAT-002,TIP-005,Cuadro Marmol Pink,140.0,0.0,69.5,50.0,Rosado,Inicial,img/modelo/extraidas/MOD-036.png,True,3475.0,0.0403,Medio
+MOD-037,CAT-002,TIP-006,Caballero Roblox,140.0,0.0,67.0,52.0,Azul,Inicial,img/modelo/extraidas/MOD-037.png,True,3484.0,0.0402,Medio
+MOD-038,CAT-002,TIP-006,Princesitas,140.0,0.0,67.0,52.0,Rosado,Inicial,img/modelo/extraidas/MOD-038.png,True,3484.0,0.0402,Medio
+MOD-039,CAT-002,TIP-006,Guerreras K-pop,140.0,0.0,67.0,52.0,Rosado,Inicial,img/modelo/extraidas/MOD-039.png,True,3484.0,0.0402,Medio
+MOD-040,CAT-002,TIP-006,Super Kids,140.0,0.0,67.0,52.0,Azul,Inicial,img/modelo/extraidas/MOD-040.png,True,3484.0,0.0402,Medio
+MOD-041,CAT-002,TIP-006,Cuadro Diagron,140.0,0.0,69.5,51.0,Rosado,Inicial,img/modelo/extraidas/MOD-041.png,True,3544.5,0.0395,Medio
+MOD-042,CAT-002,TIP-006,Cuadro Diagron,140.0,0.0,69.5,51.0,Azul,Inicial,img/modelo/extraidas/MOD-042.png,True,3544.5,0.0395,Medio
+MOD-043,CAT-002,TIP-006,Dúo Mármol Blue,140.0,0.0,67.0,52.0,Azul,Inicial,img/modelo/extraidas/MOD-043.png,True,3484.0,0.0402,Medio
+MOD-044,CAT-002,TIP-006,Dúo Mármol Pink,140.0,0.0,67.0,52.0,Rosado,Inicial,img/modelo/extraidas/MOD-044.png,True,3484.0,0.0402,Medio
+MOD-045,CAT-001,TIP-007,Cuadro Book,160.0,0.0,29.7,29.7,Rosado,Inicial,img/modelo/extraidas/MOD-045.png,True,882.09,0.1814,Premium
+MOD-046,CAT-001,TIP-007,Cuadro Book,160.0,0.0,29.7,29.7,Azul,Inicial,img/modelo/extraidas/MOD-046.png,True,882.09,0.1814,Premium
+MOD-047,CAT-001,TIP-007,Cuadro Book Giratorio,160.0,0.0,29.7,29.7,Rosado,Inicial,img/modelo/extraidas/MOD-047.png,True,882.09,0.1814,Premium
+MOD-048,CAT-001,TIP-007,Cuadro Book Giratorio,160.0,0.0,29.7,29.7,Azul,Inicial,img/modelo/extraidas/MOD-048.png,True,882.09,0.1814,Premium
+MOD-049,CAT-001,TIP-007,Book Secret Giratorio,175.0,0.0,29.7,29.7,Morado,Inicial,img/modelo/extraidas/MOD-049.png,True,882.09,0.1984,Premium
+MOD-050,CAT-001,TIP-007,Book Secret Giratorio,175.0,0.0,29.7,29.7,Azul,Inicial,img/modelo/extraidas/MOD-050.png,True,882.09,0.1984,Premium
+MOD-051,CAT-001,TIP-008,Book Diagon Premium,155.0,0.0,25.0,25.0,Rosado,Inicial,img/modelo/extraidas/MOD-051.png,True,625.0,0.248,Premium
+MOD-052,CAT-001,TIP-008,Book Diagon Premium,155.0,0.0,25.0,25.0,Azul,Inicial,img/modelo/extraidas/MOD-052.png,True,625.0,0.248,Premium
+MOD-053,CAT-001,TIP-009,Book White,140.0,0.0,30.0,25.0,Rosado,Inicial,img/modelo/extraidas/MOD-053.png,True,750.0,0.1867,Medio
+MOD-054,CAT-001,TIP-009,Book White,140.0,0.0,30.0,25.0,Azul,Inicial,img/modelo/extraidas/MOD-054.png,True,750.0,0.1867,Medio
+MOD-055,CAT-001,TIP-009,Book Premium,160.0,0.0,30.0,20.0,Rosado,Inicial,img/modelo/extraidas/MOD-055.png,True,600.0,0.2667,Premium
+MOD-056,CAT-001,TIP-009,Book Premium,160.0,0.0,30.0,20.0,Azul,Inicial,img/modelo/extraidas/MOD-056.png,True,600.0,0.2667,Premium
+MOD-057,CAT-002,TIP-002,Maravillas Grad,125.0,0.0,65.0,51.0,Marrón,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-057.png,True,3315.0,0.0377,Económico
+MOD-058,CAT-002,TIP-001,Mi Promo,125.0,0.0,60.0,50.0,Multicolor,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-058.png,True,3000.0,0.0417,Económico
+MOD-059,CAT-002,TIP-001,Mi Promo,125.0,0.0,60.0,50.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-059.png,True,3000.0,0.0417,Económico
+MOD-060,CAT-002,TIP-003,Ultrabrillante,130.0,0.0,65.0,51.0,Multicolor,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-060.png,True,3315.0,0.0392,Económico
+MOD-061,CAT-002,TIP-004,Mi Promocion,130.0,0.0,68.0,54.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-061.png,True,3672.0,0.0354,Económico
+MOD-062,CAT-002,TIP-004,Mi Promocion,130.0,0.0,68.0,54.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-062.png,True,3672.0,0.0354,Económico
+MOD-063,CAT-002,TIP-004,Universitario,130.0,0.0,68.0,54.0,Azul,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-063.png,True,3672.0,0.0354,Económico
+MOD-064,CAT-002,TIP-004,Class Off,130.0,0.0,68.0,54.0,Rojo,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-064.png,True,3672.0,0.0354,Económico
+MOD-065,CAT-002,TIP-004,Maravillas del Mundo,130.0,0.0,68.0,54.0,Azul,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-065.png,True,3672.0,0.0354,Económico
+MOD-066,CAT-002,TIP-004,Graduacion,130.0,0.0,68.0,54.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-066.png,True,3672.0,0.0354,Económico
+MOD-067,CAT-002,TIP-004,Class of Black,130.0,0.0,68.0,54.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-067.png,True,3672.0,0.0354,Económico
+MOD-068,CAT-002,TIP-005,Dorado,135.0,0.0,67.0,52.0,Dorado,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-068.png,True,3484.0,0.0387,Medio
+MOD-069,CAT-002,TIP-005,Azul Oscuro,135.0,0.0,67.0,52.0,Azul Oscuro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-069.png,True,3484.0,0.0387,Medio
+MOD-070,CAT-002,TIP-005,Dorado Claro,135.0,0.0,67.0,52.0,Dorado Claro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-070.png,True,3484.0,0.0387,Medio
+MOD-071,CAT-002,TIP-005,Marron Madera,135.0,0.0,67.0,52.0,Marrón,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-071.png,True,3484.0,0.0387,Medio
+MOD-072,CAT-002,TIP-005,White Marmol,135.0,0.0,67.0,52.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-072.png,True,3484.0,0.0387,Medio
+MOD-073,CAT-002,TIP-005,Black Marmol,135.0,0.0,67.0,52.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-073.png,True,3484.0,0.0387,Medio
+MOD-074,CAT-002,TIP-006,Cuadro Box Reflex White y Black,135.0,0.0,67.0,52.0,Blanco y Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-074.png,True,3484.0,0.0387,Medio
+MOD-075,CAT-002,TIP-006,Encajonado Blue,140.0,0.0,67.0,52.0,Azul,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-075.png,True,3484.0,0.0402,Medio
+MOD-076,CAT-002,TIP-006,Encajonado Black,140.0,0.0,67.0,52.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-076.png,True,3484.0,0.0402,Medio
+MOD-077,CAT-002,TIP-006,Encajonado White,140.0,0.0,67.0,52.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-077.png,True,3484.0,0.0402,Medio
+MOD-078,CAT-002,TIP-006,Cuadro Diagon,140.0,0.0,67.0,52.0,Rosado,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-078.png,True,3484.0,0.0402,Medio
+MOD-079,CAT-002,TIP-006,Cuadro Diagon,140.0,0.0,67.0,52.0,Verde,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-079.png,True,3484.0,0.0402,Medio
+MOD-080,CAT-002,TIP-006,Cuadro Diagon,140.0,0.0,67.0,52.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-080.png,True,3484.0,0.0402,Medio
+MOD-081,CAT-002,TIP-006,Black Conmemorativo,140.0,0.0,67.0,52.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-081.png,True,3484.0,0.0402,Medio
+MOD-082,CAT-002,TIP-006,White Conmemorativo,140.0,0.0,67.0,52.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-082.png,True,3484.0,0.0402,Medio
+MOD-083,CAT-002,TIP-006,Duo Marmol White,140.0,0.0,67.0,52.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-083.png,True,3484.0,0.0402,Medio
+MOD-084,CAT-002,TIP-006,Duo Marmol Black,140.0,0.0,67.0,52.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-084.png,True,3484.0,0.0402,Medio
+MOD-085,CAT-002,TIP-006,Me Gradue Encajonado,140.0,0.0,69.5,51.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-085.png,True,3544.5,0.0395,Medio
+MOD-086,CAT-001,TIP-009,Book Premium,150.0,0.0,30.0,20.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-086.png,True,600.0,0.25,Premium
+MOD-087,CAT-001,TIP-008,Book Premium Promo 3D,150.0,0.0,25.0,25.0,Marrón,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-087.png,True,625.0,0.24,Premium
+MOD-088,CAT-001,TIP-009,Book Black,140.0,0.0,30.0,25.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-088.png,True,750.0,0.1867,Medio
+MOD-089,CAT-001,TIP-009,Book White,140.0,0.0,30.0,25.0,Blanco,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-089.png,True,750.0,0.1867,Medio
+MOD-090,CAT-001,TIP-007,Giratorio Book Giratorio,160.0,0.0,33.0,29.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-090.png,True,957.0,0.1672,Premium
+MOD-091,CAT-001,TIP-007,Cuadro Book Secret,160.0,0.0,29.7,29.7,Marrón,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-091.png,True,882.09,0.1814,Premium
+MOD-092,CAT-001,TIP-007,Giratorio Secret,175.0,0.0,30.0,20.0,Negro,Primaria y Secundaria,img/modelo/extraidas_primaria/MOD-PS-092.png,True,600.0,0.2917,Premium

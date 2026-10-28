@@ -12,14 +12,23 @@ class ContratosController {
 
 
     public function contratos(){
-        $Provincias = $this->AccionModelo->obtenerProvincias();
-        $Clientes = $this->AccionModelo->obtenerClientes();
-        $Colegios = $this->AccionModelo->obtenerColegios();
-        
-
         $vista = 'contratos';
         require_once __DIR__ . '/../views/PanelPrincipal.php';
+    }
 
+    public function nuevoContrato(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['token_contrato'] = bin2hex(random_bytes(16));
+        $tokenContrato = $_SESSION['token_contrato'];
+
+        $Provincias = $this->AccionModelo->obtenerProvincias();
+        $Colegios = $this->AccionModelo->obtenerColegios();
+        $MetodosPago = $this->AccionModelo->obtenerMetodosPago();
+
+        $vista = 'nuevoContrato';
+        require_once __DIR__ . '/../views/PanelPrincipal.php';
     }
 
     public function obtenerDistritos(){
@@ -35,5 +44,6 @@ class ContratosController {
         echo  json_encode($Distritos);
 
     }
+
 }
 

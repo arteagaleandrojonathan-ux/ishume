@@ -34,6 +34,13 @@
             $controller = new ContratosController();
             $controller->contratos();
             break;
+            
+        case 'nuevoContrato':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->nuevoContrato();
+            break;  
+             
         case 'obtenerDistritos':
             require_once __DIR__ . '/../app/controllers/contratos.php';
 

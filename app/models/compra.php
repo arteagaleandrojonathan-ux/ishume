@@ -40,10 +40,7 @@ class Compra{
 
         $this->db->beginTransaction();
 
-        // ==========================================
-        // 1. VERIFICAR QUE EL PROVEEDOR EXISTA Y ESTÉ ACTIVO
-        // ==========================================
-
+        // VERIFICAR QUE EL PROVEEDOR EXISTA Y ESTÉ ACTIVO
         $sqlProveedor = "SELECT idProveedor
                          FROM proveedores
                          WHERE idProveedor = :idProveedor
@@ -63,10 +60,7 @@ class Compra{
         }
 
 
-        // ==========================================
-        // 2. GENERAR ID DE LA COMPRA
-        // ==========================================
-
+        // GENERAR ID DE LA COMPRA
         $sqlIdCompra = "SELECT MAX(CAST(SUBSTRING(idCompra, 4) AS UNSIGNED)) AS ultimo
                         FROM Compras";
 
@@ -82,17 +76,11 @@ class Compra{
         $idCompra = 'CO-' . str_pad($numeroCompra, 5, '0', STR_PAD_LEFT);
 
 
-        // ==========================================
-        // 3. FECHA DE LA COMPRA
-        // ==========================================
-
+        //FECHA DE LA COMPRA
         $fechaCompra = date('Y-m-d H:i:s');
 
 
-        // ==========================================
-        // 4. INSERTAR CABECERA DE LA COMPRA
-        // ==========================================
-
+        //INSERTAR CABECERA DE LA COMPRA
         $sqlCompra = "INSERT INTO Compras
                       (idCompra, idProveedor, FechaCompra, TotalCompra, Observacion, Estado)
                       VALUES
@@ -108,10 +96,7 @@ class Compra{
         ]);
 
 
-        // ==========================================
-        // 5. PREPARAR DETALLE
-        // ==========================================
-
+        //PREPARAR DETALLE
         $totalCompra = 0;
 
 
@@ -132,10 +117,8 @@ class Compra{
             }
 
 
-            // ==========================================
-            // 6. OBTENER MODELO Y BLOQUEAR SU REGISTRO
-            // ==========================================
-
+            
+            // OBTENER MODELO Y BLOQUEAR SU REGISTRO
             $sqlModelo = "SELECT idModelo
                           FROM modelos
                           WHERE idModelo = :idModelo
@@ -157,19 +140,13 @@ class Compra{
             }
 
 
-            // ==========================================
-            // 7. CALCULAR SUBTOTAL EN EL SERVIDOR
-            // ==========================================
-
+            // CALCULAR SUBTOTAL EN EL SERVIDOR
             $subtotal = $cantidad * $precioCompra;
 
             $totalCompra += $subtotal;
 
 
-            // ==========================================
-            // 8. GENERAR ID DEL DETALLE
-            // ==========================================
-
+            //GENERAR ID DEL DETALLE
             $sqlIdDetalle = "SELECT MAX(CAST(SUBSTRING(idDetalleCompra, 4) AS UNSIGNED)) AS ultimo
                              FROM DetalleCompra";
 
@@ -190,10 +167,7 @@ class Compra{
             );
 
 
-            // ==========================================
-            // 9. INSERTAR DETALLE
-            // ==========================================
-
+            // INSERTAR DETALLE
             $sqlDetalle = "INSERT INTO DetalleCompra
                            (idDetalleCompra, idCompra, idModelo, Cantidad, PrecioCompra, SubTotal)
                            VALUES
@@ -211,10 +185,7 @@ class Compra{
             ]);
 
 
-            // ==========================================
-            // 10. AUMENTAR STOCK
-            // ==========================================
-
+            //AUMENTAR STOCK
             $sqlStock = "UPDATE modelos
                          SET Cantidad = Cantidad + :Cantidad
                          WHERE idModelo = :idModelo";
@@ -228,10 +199,7 @@ class Compra{
         }
 
 
-        // ==========================================
-        // 11. ACTUALIZAR TOTAL DE LA COMPRA
-        // ==========================================
-
+        // ACTUALIZAR TOTAL DE LA COMPRA
         if ($totalCompra <= 0) {
             throw new Exception('La compra debe tener al menos un producto con un importe válido.');
         }
@@ -248,10 +216,7 @@ class Compra{
         ]);
 
 
-        // ==========================================
-        // 12. CONFIRMAR TODA LA OPERACIÓN
-        // ==========================================
-
+        // CONFIRMAR TODA LA OPERACIÓN
         $this->db->commit();
 
         return $idCompra;

@@ -1,217 +1,121 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<section class="panel-contratos">
 
-    <title>Registrar Contrato</title>
-
-    <link rel="stylesheet" href="css/contratos.css">
-</head>
-
-<body>
-
-    <main class="contenedor-contrato">
-        <!-- ESPACIO RESERVADO PARA EL BANNER OFICIAL DE ISHUME -->
-        <div class="banner-contrato">
-            <img src="img/banner.png" alt="">
+    <!-- ENCABEZADO Y BUSCADOR -->
+    <header class="panel-encabezado">
+        <div>
+            <p class="nota-ejemplo">Datos de ejemplo</p>
+            <h1>Contratos y ventas</h1>
         </div>
 
-        <!-- ==============================
-             DATOS DEL CLIENTE
-        =============================== -->
-        <section class="seccion-contrato">
-            <h2>Datos del cliente</h2>
+        <div class="panel-buscador">
+            <label for="buscarContrato">Buscar contrato</label>
+            <input type="text" id="buscarContrato" placeholder="ID, cliente o colegio..." autocomplete="off">
+        </div>
+    </header>
 
-            <div class="fila">
 
-                <div class="campo">
-                    <label for="Nombre">Nombre</label>
-                    <input type="text" id="Nombre" name="Nombre" maxlength="100" required>
-                </div>
+    <!-- TARJETAS: CONTRATOS Y VENTAS -->
+    <div class="panel-tarjetas">
 
-                <div class="campo">
-                    <label for="Apellidos">Apellidos</label>
-                    <input type="text" id="Apellidos" name="Apellidos" maxlength="100" required>
-                </div>
+        <section class="tarjeta">
+            <h2>Contratos</h2>
 
+            <div class="contadores">
+                <div class="contador"><strong>12</strong><span>En proceso</span></div>
+                <a href="#" class="contador contador-destacado"><strong>4</strong><span>Sin productos aún · ver lista</span></a>
+                <div class="contador"><strong>30</strong><span>Finalizados</span></div>
+                <div class="contador"><strong>1</strong><span>Cancelados</span></div>
             </div>
 
-            <div class="fila">
-
-                <div class="campo">
-                    <label for="Representante">Testigo</label>
-                    <input type="text" id="Representante" name="Representante" maxlength="100">
-                </div>
-
-                <div class="campo">
-                    <label for="TipoDOI">Tipo de DOI</label>
-
-                    <select id="TipoDOI" name="TipoDOI">
-                        <option value=""> Seleccione un tipo </option>
-                        <option value="DNI"> DNI </option>
-                        <option value="RUC"> RUC </option>
-                        <option value="CE"> Carné de Extranjería </option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="fila">
-                <div class="campo">
-                    <label for="NumDOI">Número de DOI</label>
-                    <input type="text" id="NumDOI" name="NumDOI" maxlength="20">
-                </div>
-
-                <div class="campo">
-                    <label for="Telefono">Teléfono</label>
-                    <input type="text" id="Telefono" name="Telefono" maxlength="20">
-                </div>
-
-                <div class="campo">
-                    <label for="Correo">Email</label>
-                    <input type="email" id="Correo" name="Correo" maxlength="100">
-                </div>
-
-                <div class="campo">
-                    <label for="Direccion-cliente">Direccion</label>
-                    <input type="text" id="Direccion-cliente" name ="Direccion-cliente", maxLength="100">
-                </div>
-
+            <div class="acciones-tarjeta">
+                <a href="index.php?opcion=nuevoContrato" class="boton-principal">Registrar contrato</a>
+                <a href="#" class="boton-secundario">Ver contratos</a>
             </div>
         </section>
 
+        <section class="tarjeta">
+            <h2>Ventas</h2>
 
-        <!-- ==============================
-             DATOS DEL COLEGIO
-        =============================== -->
-        <section class="seccion-contrato">
-            <h2>Datos del colegio</h2>
-
-            <div class="campo">
-
-                <label for="buscarColegio"> Buscar colegio </label>
-                <input type="text" id="buscarColegio" name="buscarColegio" placeholder="Escriba el nombre del colegio..." autocomplete="off">
-
+            <div class="contadores">
+                <div class="contador"><strong>5</strong><span>Pendientes</span></div>
+                <div class="contador"><strong>20</strong><span>Finalizadas</span></div>
+                <div class="contador"><strong>1</strong><span>Canceladas</span></div>
+                <div class="contador"><strong>S/ 8,450</strong><span>Por cobrar en total</span></div>
             </div>
 
-            <div id="resultadosColegios" class="resultados-colegios">
-                <!-- Los resultados aparecerán aquí -->
+            <div class="acciones-tarjeta">
+                <a href="#" class="boton-principal">Ver ventas</a>
             </div>
-
-            <input type="hidden" id="idColegio" name="idColegio">
-
-            <button type="button" id="btnAgregarColegio" class="boton-secundario">
-                + Agregar nuevo colegio
-            </button>
-
         </section>
-
-
-        <!-- ==============================
-             DATOS DEL CONTRATO
-        =============================== -->
-        <section class="seccion-contrato-detalle">
-            <h2>Detalles del contrato </h2>
-
-            <div class="campo">
-                <label for="Evento">Evento</label>
-                <input type="text" id="Evento" name="Evento" maxlength="150" required>
-            </div>
-
-            <div class="campo">
-                <label for="Servicio"> Servicio </label>
-                <input type="text" id="Servicio" name="Servicio" maxlength="150" required>
-            </div>
-
-            <div class="fila">
-                <div class="campo">
-                    <label for="Proforma"> Proforma </label>
-                    <input type="number" id="Proforma" name="Proforma"min="0"step="0.01">
-                </div>
-
-                <div class="campo">
-                    <label for="FechaEvento"> Fecha del evento </label>
-                    <input type="date" id="FechaEvento" name="FechaEvento" required>
-                </div>
-            </div>
-
-            <div class="campo">
-                <label for="Direccion"> Dirección </label>
-                <input type="text" id="Direccion" name="Direccion" maxlength="200" required>
-            </div>
-
-            <div class="fila">
-                <div class="campo">
-                    <label for="idProvincia"> Provincia</label>
-
-                    <select id="idProvincia" name="idProvincia">
-
-                        <option value=""> Seleccione una provincia </option>
-
-                        <?php foreach($Provincias as $provincia): ?>
-                            <option value="<?= htmlspecialchars($provincia['idProvincia']) ?>">
-                                <?= htmlspecialchars($provincia['NomProvincia']) ?>
-                            </option>
-                        <?php endforeach; ?>
-
-                    </select>
-                </div>
-
-
-                <div class="campo">
-                    <label for="idDistrito"> Distrito</label>
-                        <select id="idDistrito" name="idDistrito">
-                            <option> Seleccione un distrito </option>
-                        </select>
-                </div>
-            </div>
-
-        </section>
-
-
-        <!-- ==============================
-             ACCIONES
-        =============================== -->
-        <div class="acciones-contrato">
-            <button type="button" id="btnRegistrarContrato" class="boton-principal">
-                Registrar contrato
-            </button>
-        </div>
-
-    </main>
-
-
-    <!-- ==============================
-         MODAL NUEVO COLEGIO
-    =============================== -->
-
-    <div id="modalColegio" class="modal-colegio">
-
-        <div class="contenido-colegio">
-
-            <h2>Agregar nuevo colegio</h2>
-            <div class="campo">
-                <label for="NombreColegio">Nombre del colegio</label>
-                <input type="text" id="NombreColegio" name="NombreColegio" maxlength="150">
-            </div>
-
-
-            <div class="acciones-colegio">
-                <button type="button" id="btnCancelarColegio" class="boton-cancelar">
-                    Cancelar
-                </button>
-                <button type="button" id="btnRegistrarColegio" class="boton-principal">
-                    Registrar colegio
-                </button>
-            </div>
-
-        </div>
 
     </div>
 
 
-    <script src="js/contratos.js"></script>
+    <!-- RESUMEN DEL MES -->
+    <section class="panel-resumen">
+        <div><span>Contratado este mes</span><strong>S/ 10,680</strong></div>
+        <div><span>Cobrado</span><strong>S/ 4,235</strong></div>
+        <div><span>Por cobrar</span><strong>S/ 6,445</strong></div>
+    </section>
 
-</body>
-</html>
+
+    <!-- PRÓXIMOS EVENTOS -->
+    <section class="tarjeta">
+        <h2>Próximos eventos <small>· próximos 30 días</small></h2>
+
+        <table class="tabla-panel">
+            <thead>
+                <tr>
+                    <th>Contrato</th>
+                    <th>Colegio</th>
+                    <th>Evento</th>
+                    <th>Provincia</th>
+                    <th>Fecha</th>
+                    <th>Faltan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>CT-00007</td><td>Colegio de ejemplo A</td><td>Promoción</td><td>Pisco</td><td>02/11/2026</td><td>17 días</td></tr>
+                <tr><td>CT-00006</td><td>Colegio de ejemplo B</td><td>Graduación</td><td>Ica</td><td>14/11/2026</td><td>29 días</td></tr>
+                <tr><td>CT-00005</td><td>Luder Inicial</td><td>Promoción</td><td>Chincha</td><td>28/11/2026</td><td>43 días</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- PAGOS POR VENCER Y ÚLTIMOS PAGOS -->
+    <div class="panel-doble">
+
+        <section class="tarjeta">
+            <h2>Pagos por vencer</h2>
+
+            <table class="tabla-panel">
+                <thead>
+                    <tr><th>Contrato</th><th>Saldo</th><th>Fecha límite</th><th>Estado</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>CT-00002</td><td>S/ 800.00</td><td>12/10/2026</td><td><span class="estado estado-vencido">Vencido hace 4 días</span></td></tr>
+                    <tr><td>CT-00003</td><td>S/ 1,335.00</td><td>20/10/2026</td><td><span class="estado estado-alerta">Vence en 4 días</span></td></tr>
+                    <tr><td>CT-00004</td><td>S/ 650.00</td><td>28/10/2026</td><td><span class="estado estado-ok">Vence en 12 días</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Últimos pagos registrados</h2>
+
+            <table class="tabla-panel">
+                <thead>
+                    <tr><th>Fecha</th><th>Contrato</th><th>Forma</th><th>Monto</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>15/10/2026</td><td>CT-00005</td><td>Yape</td><td>S/ 1,335.00</td></tr>
+                    <tr><td>14/10/2026</td><td>CT-00003</td><td>Otros</td><td>S/ 500.00</td></tr>
+                    <tr><td>12/10/2026</td><td>CT-00001</td><td>Yape</td><td>S/ 900.00</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+</section>
