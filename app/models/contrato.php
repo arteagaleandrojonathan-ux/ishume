@@ -75,6 +75,8 @@ class Contrato {
 
         try{
 
+            $this->db->beginTransaction();
+
             //Verificar que el colegio exita 
             $sqlColegio = 'SELECT idColegio
             FROM Colegios
@@ -133,21 +135,23 @@ class Contrato {
             $idCliente = 'CL-' . str_pad($numeroCliente, 5, '0', STR_PAD_LEFT);
 
             //INSERTAR CLIENTE 
-            $sqlCliente = 'INSERT INTO Cliente VALUES(:idCliente, :Nombre, :Apellidos, 
+            $sqlCliente = 'INSERT INTO Cliente 
+            (idCliente, Nombre, Apellidos, Testigo, Direccion, TipoDOI, NumDOI, Telefono, Correo)
+            VALUES(:idCliente, :Nombre, :Apellidos, 
             :Testigo, :Direccion, :TipoDOI, :NumDOI, :Telefono, :Correo)';
 
             $consultaCliente = $this->db->prepare($sqlCliente);
 
             $consultaCliente->execute([
                 ':idCliente' => $idCliente,
-                ':Nombre' => $Cliente ['Nombre'],
-                ':Apellidos' => $Cliente ['Apellidos'],
-                ':Testigo' => $Cliente ['Testigo'] !== '' ? $Cliente['Testigo'] : null,
-                ':Direccion' => $Cliente ['Direccion'],
-                ':TipoDOI' => $Cliente ['TipoDOI'] !== '' ? $Cliente['TipoDOI'] : null,
-                ':NumDOI' => $Cliente ['NumDOI'] !== '' ? $Cliente['NumDOI'] : null,
-                ':Telefono' => $Cliente ['Telefono'],
-                ':Correo' => $Cliente ['Correo'] !== '' ? $Cliente['Correo'] : null,
+                ':Nombre' => $cliente ['Nombre'],
+                ':Apellidos' => $cliente ['Apellidos'],
+                ':Testigo' => $cliente ['Testigo'] !== '' ? $cliente['Testigo'] : null,
+                ':Direccion' => $cliente ['Direccion'],
+                ':TipoDOI' => $cliente ['TipoDOI'] !== '' ? $cliente['TipoDOI'] : null,
+                ':NumDOI' => $cliente ['NumDOI'] !== '' ? $cliente['NumDOI'] : null,
+                ':Telefono' => $cliente ['Telefono'],
+                ':Correo' => $cliente ['Correo'] !== '' ? $cliente['Correo'] : null,
             ]);
 
         

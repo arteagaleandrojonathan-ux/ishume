@@ -3,11 +3,18 @@
     $pagina = $_GET['opcion'] ?? 'dashboard';
 
     switch ($pagina) {
+
+
+        //TODAS RUTAS A CONFIGURACION
         case 'configuracion':
             require_once __DIR__ . '/../app/controllers/configuracion.php';
             $controller = new ConfiguracionController();
             $controller->Configuracion();
             break;
+
+        
+
+        //TODAS LAS RUTAS A INVENTARIO
         case 'inventario':
             require_once __DIR__ . '/../app/controllers/inventario.php';
             $controller = new InventarioController();
@@ -29,8 +36,10 @@
             $controller->VerPapelera();
             break;
 
+
+        //TODAS LAS RUTAS DE CONTRATO
         case 'contratos':
-            require_once __DIR__ . '/../app/Controllers/contratos.php';
+            require_once __DIR__ . '/../app/controllers/contratos.php';
             $controller = new ContratosController();
             $controller->contratos();
             break;
@@ -47,6 +56,19 @@
             $controller = new ContratosController();
             $controller->obtenerDistritos();
             break;
+
+        case 'registrarContrato':
+            require_once __DIR__. '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->registrarContrato();
+            break;
+
+
+
+
+
+
+        //TODAS LAS RUTAS A COMPRA
         case 'compra':
             require_once __DIR__ . '/../app/controllers/compra.php';
             $controller = new CompraController();
@@ -71,6 +93,8 @@
             $controller->RegistrarCompra();
             break;
             
+
+        //EL DASHBOARD POR DEFECTO
         default:
             require_once __DIR__ . '/../app/controllers/dashboard.php';
             $controller = new DashboardController();
