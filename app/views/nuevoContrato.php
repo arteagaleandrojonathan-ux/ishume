@@ -14,7 +14,7 @@
     <main class="contenedor-contrato">
         <!-- ESPACIO RESERVADO PARA EL BANNER OFICIAL DE ISHUME -->
         <div class="banner-contrato">
-            <img src="img/banner.png" alt="">
+                <img src="img/banner_ishume.png" alt="Banner de ISHUME" width="1923" height="456">>
         </div>
 
         <!--  DATOS DEL CLIENTE-->
@@ -25,12 +25,18 @@
 
                 <div class="campo">
                     <label for="Nombre">Nombre</label>
-                    <input type="text" id="Nombre" name="Nombre" maxlength="100" required>
+                    <div class="input-con-estado">                        
+                        <input type="text" class="estadoDatos" id="Nombre" name="Nombre" maxlength="100" required>
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
                 <div class="campo">
                     <label for="Apellidos">Apellidos</label>
-                    <input type="text" id="Apellidos" name="Apellidos" maxlength="100" required>
+                    <div class="input-con-estado">        
+                        <input type="text" class="estadoDatos" id="Apellidos" name="Apellidos" maxlength="100" required>
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
             </div>
@@ -39,14 +45,17 @@
 
                 <div class="campo">
                     <label for="Testigo">Testigo</label>
-                    <input type="text" id="Testigo" name="Testigo" maxlength="100">
+                    <div class="input-con-estado">                        
+                        <input type="text" class="estadoDatos" id="Testigo" name="Testigo" maxlength="100">
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
                 <div class="campo">
                     <label for="TipoDOI">Tipo de DOI</label>
 
                     <select id="TipoDOI" name="TipoDOI">
-                        <option value=""> Seleccione un tipo </option>
+                        <option value="seleccione un tipo"> Seleccione un tipo </option>
                         <option value="DNI"> DNI </option>
                         <option value="RUC"> RUC </option>
                         <option value="CE"> Carné de Extranjería </option>
@@ -58,22 +67,34 @@
             <div class="fila">
                 <div class="campo">
                     <label for="NumDOI">Número de DOI</label>
-                    <input type="text" id="NumDOI" name="NumDOI" maxlength="20">
+                    <div class="input-con-estado">                        
+                        <input type="text" class="estadoDatos" id="NumDOI" name="NumDOI">
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
                 <div class="campo">
                     <label for="Telefono">Teléfono</label>
-                    <input type="text" id="Telefono" name="Telefono" maxlength="20">
+                    <div class="input-con-estado">                        
+                        <input type="text" class="estadoDatos" id="Telefono" name="Telefono">
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
                 <div class="campo">
                     <label for="Correo">Email</label>
-                    <input type="email" id="Correo" name="Correo" maxlength="100">
+                    <div class="input-con-estado">                        
+                        <input type="email" class="estadoDatos" id="Correo" name="Correo" maxlength="100">
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
                 <div class="campo">
                     <label for="Direccion-cliente">Direccion</label>
-                    <input type="text" id="Direccion-cliente" name ="Direccion-cliente" maxLength="200">
+                    <div class="input-con-estado">                        
+                        <input type="text" class="estadoDatos" id="Direccion-cliente" name ="Direccion-cliente" maxLength="200">
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
 
             </div>
@@ -98,10 +119,7 @@
             </div>
 
             <input type="hidden" id="idColegio" name="idColegio">
-
-            <button type="button" id="btnAgregarColegio" class="boton-secundario">
-                + Agregar nuevo colegio
-            </button>
+            <p id="estadoColegio" class="estado-colegio"></p>
 
         </section>
 
@@ -114,53 +132,76 @@
 
             <div class="campo">
                 <label for="Evento">Evento</label>
-                <input type="text" id="Evento" name="Evento" maxlength="150" required>
+                <div class="input-con-estado">
+                    <input type="text" class="estadoDatos" id="Evento" name="Evento" maxlength="150" required>
+                    <p id="EstadoGeneral" class="checks" ></p>
+                </div>
             </div>
 
             <div class="campo">
                 <label for="Servicio"> Servicio </label>
-                <input type="text" id="Servicio" name="Servicio" maxlength="150" required>
+                <div class="input-con-estado">
+                    <input type="text" class="estadoDatos" id="Servicio" name="Servicio" maxlength="150" required>
+                    <p id="EstadoGeneral" class="checks" ></p>
+                </div>
             </div>
 
             <div class="fila">
 
                 <div class="campo">
                     <label for="FechaEvento"> Fecha del evento </label>
-                    <input type="date" id="FechaEvento" name="FechaEvento" required>
+                    <div class="input-con-estado">
+                        <input type="date" class="estadoDatos" id="FechaEvento" name="FechaEvento" required>
+                        <p id="EstadoGeneral" class="checks" ></p>
+                    </div>
                 </div>
             </div>
 
             <div class="campo">
                 <label for="Direccion"> Dirección </label>
-                <input type="text" id="Direccion" name="Direccion" maxlength="200" required>
+                <div class="input-con-estado">
+                    <input type="text" class="estadoDatos" id="Direccion" name="Direccion" maxlength="200" required>
+                    <p id="EstadoGeneral" class="checks" ></p>
+                </div>
             </div>
 
             <div class="fila">
                 <div class="campo">
                     <label for="idProvincia"> Provincia</label>
 
-                    <select id="idProvincia" name="idProvincia">
+                    <div class="select-con-estado">
+                        <select id="idProvincia" name="idProvincia" class="provincia-select">
 
-                        <option value=""> Seleccione una provincia </option>
+                            <option value=""> Seleccione una provincia </option>
 
-                        <?php foreach($Provincias as $provincia): ?>
-                            <option value="<?= htmlspecialchars($provincia['idProvincia']) ?>">
-                                <?= htmlspecialchars($provincia['NomProvincia']) ?>
-                            </option>
-                        <?php endforeach; ?>
+                            <?php foreach($Provincias as $provincia): ?>
+                                <option value="<?= htmlspecialchars($provincia['idProvincia']) ?>">
+                                    <?= htmlspecialchars($provincia['NomProvincia']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                             
+                        </select>
+                        <p id="estadoprovincia" class="estado"></p>
+                     </div>
 
-                    </select>
                 </div>
 
 
                 <div class="campo">
+
                     <label for="idDistrito"> Distrito</label>
+
+                    <div class="select-con-estado">
                         <select id="idDistrito" name="idDistrito">
                             <option> Seleccione un distrito </option>
                         </select>
-                </div>
-            </div>
+                        <p id="estadodistrito" class="estado"></p>
+                    </div>
 
+                </div>
+                       
+            </div>
+                            
         </section>
 
 
@@ -190,7 +231,8 @@
                 <input type="text" id="NombreColegio" name="NombreColegio" maxlength="150">
             </div>
 
-
+            <p id="errorColegioNuevo" class="error-modal"></p>                   
+            
             <div class="acciones-colegio">
                 <button type="button" id="btnCancelarColegio" class="boton-cancelar">
                     Cancelar

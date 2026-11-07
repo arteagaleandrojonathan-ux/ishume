@@ -71,6 +71,72 @@ class Contrato {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function buscarColegiosPorNombre($nombreColegio){
+        $sql = "SELECT idColegio, NombreColegio
+        FROM Colegios
+        WHERE NombreColegio LIKE :nombreColegio
+        ORDER BY NombreColegio ASC";
+
+        $consulta = $this->db->prepare($sql);
+        $consulta->execute([
+            ':nombreColegio' => '%' . $nombreColegio . '%'
+        ]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function registrarColegio($nombreColegio){
+
+        $sqlExiste = "SELECT idColegio, NombreColegio 
+        FROM Colegios 
+        WHERE NombreColegio = :nombreColegio
+        LIMIT 1";
+
+        $consultaExiste = $this->db->prepare($sqlExiste);
+        $consultaExiste->execute([
+            ':nombreColegio' => $nombreColegio
+        ]);
+
+        $existente = $consultaExiste->fetch(PDO::FETCH_ASSOC);
+
+        if($existente){
+           $existente['existente'] = true;
+            return $existente;
+        }
+
+        //Generar el ID del colegio
+        $sqlIdColegio = "SELECT MAX(CAST(SUBSTRING(idColegio, 4) AS UNSIGNED)) AS ultimo
+                         FROM Colegios";
+
+        $consultaIdColegio = $this->db->prepare($sqlIdColegio);
+        $consultaIdColegio->execute();
+
+        $ultimoId = $consultaIdColegio->fetchColumn();
+
+        $numeroId = ($ultimoId !== false && $ultimoId !== null)
+            ? ((int) $ultimoId + 1) : 1;
+
+        $idColegio = 'CO-' . str_pad($numeroId, 5, '0', STR_PAD_LEFT);
+
+        //INSERTAR COLEGIO
+        $sqlInsertar = "INSERT INTO Colegios (idColegio, NombreColegio) 
+        VALUES (:idColegio, :nombreColegio)";
+
+        $consultaInsertar = $this->db->prepare($sqlInsertar);
+        $consultaInsertar->execute([
+            ':idColegio' => $idColegio,
+            ':nombreColegio' => $nombreColegio
+        ]);
+
+        return ['idColegio' => $idColegio, 
+        'NombreColegio' => $nombreColegio,
+        'existente' => false
+        ];
+    }
+
+
+
     public function registrarContrato($cliente, $contrato, $adelanto) {
 
         try{

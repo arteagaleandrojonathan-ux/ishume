@@ -105,30 +105,18 @@
    ========================================================== */
 
 .banner-contrato {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    min-height: 120px;
-
-    margin: 0 0 30px;
-    padding: 12px 15px;
-
-    background: var(--contrato-blanco);
-    border-bottom: 3px solid var(--ishume-naranja);
-
-    text-align: center;
+   width: 100%;
+    line-height: 0;          /* quita el espacio extra debajo de la imagen */
+    overflow: hidden;
+ 
 }
 
 .banner-contrato img {
     display: block;
-
-    width: auto;
-    max-width: 100%;
-    max-height: 95px;
-
-    object-fit: contain;
+    width: 100%;
+    max-width: 1923px;       /* nunca la estira más de su resolución real */
+    height: auto;
+    margin: 0 auto;
 }
 
 .banner-contrato h1 {
@@ -211,14 +199,9 @@
 
 .contenedor-contrato .campo {
     display: grid;
-
-    grid-template-columns:
-        minmax(105px, 0.8fr)
-        minmax(0, 1.5fr);
-
+    grid-template-columns: 150px minmax(0, 1fr);
     align-items: end;
     gap: 12px;
-
     width: 100%;
     margin: 0;
 }
@@ -927,4 +910,110 @@
         height: auto;
         max-width: 100%;
     }
+}
+
+/* ---------- Buscador de colegios: estados ---------- */
+
+/* El aviso de "no encontrado" no es una fila clicable */
+#resultadosColegios > .colegio-no-encontrado,
+#resultadosColegios > .colegio-no-encontrado:hover {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    background: #FFFFFF;
+    cursor: default;
+}
+
+.colegio-no-encontrado p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* PROVINCIA MENSAJES BONTIOS*/
+.select-con-estado{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.select-con-estado select {
+    flex: 1;
+}
+
+#estadoprovincia {
+    margin: 0;
+    color: #198754;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#estadodistrito {
+    margin: 0;
+    color: #198754;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* PARA DATOS DEL EVENTO */
+.input-con-estado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.input-con-estado input {
+    flex: 1;
+}
+
+#EstadoGeneral {
+    margin: 0;
+    color: #198754;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+
+
+/* Línea de estado bajo el cuadro: "✓ Colegio seleccionado · Cambiar" */
+.estado-colegio {
+    margin-top: 6px;
+    color: #2E7D32;
+    font-size: 13px;
+}
+
+.estado-colegio:empty {
+    display: none;
+}
+
+.estado-colegio button {
+    padding: 0;
+    background: none;
+    border: 0;
+    color: #7A4A00;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+
+/* Mensaje de error dentro del modal del colegio */
+.error-modal {
+    margin: -8px 0 0;
+    color: #B3261E;
+    font-size: 13px;
+}
+
+.error-modal:empty {
+    display: none;
+}
+
+/* Botón principal bloqueado mientras se guarda */
+.boton-principal:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

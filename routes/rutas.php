@@ -62,8 +62,16 @@
             $controller = new ContratosController();
             $controller->registrarContrato();
             break;
-
-
+         case 'buscarColegios':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->buscarColegios();
+            break;
+        case 'registrarColegio':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->registrarColegio();
+            break;
 
 
 
