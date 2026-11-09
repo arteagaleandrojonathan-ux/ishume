@@ -137,7 +137,7 @@ class Contrato {
 
 
 
-    public function registrarContrato($cliente, $contrato, $adelanto) {
+    public function registrarContrato($cliente, $contrato) {
 
         try{
 
@@ -165,25 +165,6 @@ class Contrato {
 
             if (!$consultaDistrito-> fetch(PDO::FETCH_ASSOC)){
                 throw new Exception ('El distrito no se encuentra');
-            }
-
-            //veridicaar que la forma de pago exita 
-            $sqlMetodo = 'SELECT idMetodoPago
-            FROM MetodoPago
-            where idMetodoPago = :idMetodoPago
-            AND Estado = true';
-
-            $consultaMetodo = $this->db->prepare($sqlMetodo);
-            $consultaMetodo->execute([':idMetodoPago' => $adelanto['idMetodoPago']]);
-
-            if (!$consultaMetodo -> fetch(PDO::FETCH_ASSOC)){
-                throw new Exception('El metodo se encuentra inactivo');
-            }   
-
-            //validar el adelanto
-            $montoAdelanto = round((float) $adelanto['Monto'], 2);
-            if($montoAdelanto <= 0 ){
-                throw new Exception('Adelanto debe ser mayor a cero');
             }
 
             //generar el ID del cliente 
@@ -257,36 +238,6 @@ class Contrato {
 
             ]);
         
-            // GENERAR ID DE PAGO 
-            $sqlIdPago = "SELECT MAX(CAST(SUBSTRING(idPago, 4) AS UNSIGNED)) AS ultimo
-            FROM Pago";
-
-            $consultaPago = $this->db->prepare($sqlIdPago);
-            $consultaPago->execute();
-
-            $ultimoPago = $consultaPago->fetchColumn();
-
-            $numeroPago = ($ultimoPago !== false && $ultimoPago !== null)
-            ? ((int) $ultimoPago + 1) : 1;
-
-            $idPago = 'PA-' . str_pad($numeroPago, 5, '0', STR_PAD_LEFT);
-        
-            $sqlPago = "INSERT INTO Pago 
-            (idPago, idContrato, idMetodoPago, Monto, FechaPago, NumOperacion,
-             Observacion, Estado)
-            VALUES 
-            (:idPago, :idContrato, :idMetodoPago, :Monto, NOW(), :NumOperacion, 
-            'Adelanto al firmar el contrato', true)";
-
-            $consultaPago = $this->db->prepare($sqlPago);
-            
-            $consultaPago->execute([
-                ':idPago' => $idPago,
-                ':idContrato' => $idContrato,
-                ':idMetodoPago' => $adelanto['idMetodoPago'],
-                ':Monto' => $montoAdelanto,
-                ':NumOperacion' => $adelanto['NumOperacion'] !== '' ? $adelanto['NumOperacion'] : null
-            ]);
             
             $this->db->commit();
             return $idContrato;
@@ -300,6 +251,47 @@ class Contrato {
         }
 
     }
+
+    public function obtenerContratosConVentas() {
+
+        $sql = "SELECT
+                c.idContrato,
+                c.Evento,
+                c.Servicio,
+                c.Direccion,
+                c.FechaContrato,
+                c.FechaEvento,
+                c.Estado AS EstadoContrato,
+
+                col.NombreColegio,
+
+                cli.Nombre,
+                cli.Apellidos,
+
+                v.idVenta,
+                v.PrecioTotal,
+                v.CantidadPedidos,
+                v.Estado AS EstadoVenta
+
+            FROM Contratos c
+
+            INNER JOIN Colegios col
+                ON c.idColegio = col.idColegio
+
+            INNER JOIN Cliente cli
+                ON c.idCliente = cli.idCliente
+
+            LEFT JOIN Ventas v
+                ON c.idContrato = v.idContrato
+
+            ORDER BY c.FechaContrato DESC";
+
+        $consulta = $this->db->prepare($sql);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }
 

@@ -2184,3 +2184,59 @@
     font-size: 12px;
     color: #777;
 }
+
+/*CSS DE VER DETALLE COMPRA*/
+.resumen-total-compra {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+}
+
+.resumen-total-compra > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 260px;
+}
+
+.resumen-total-compra span {
+    font-size: 13px;
+    color: #555;
+}
+
+.resumen-total-compra strong {
+    font-size: 15px;
+    color: #333;
+}
+
+/* Importe cancelado */
+.resumen-total-compra .importe-anulado {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+/* Importe que queda vigente */
+.resumen-total-compra .total-vigente {
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.resumen-total-compra .total-vigente span,
+.resumen-total-compra .total-vigente strong {
+    font-weight: 700;
+}
+
+.resumen-total-compra .total-vigente strong {
+    color: #F7931E;
+    font-size: 17px;
+}
+
+
+
+
+
+

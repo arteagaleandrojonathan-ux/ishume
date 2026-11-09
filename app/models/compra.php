@@ -238,6 +238,17 @@ class Compra{
                 C.Observacion,
                 C.Estado,
                 P.RazonSocial,
+
+            COALESCE((
+                SELECT SUM(D.SubTotal)
+                FROM DetalleCompra D
+                WHERE D.idCompra = C.idCompra AND D.Estado = false), 0) AS TotalAnulado,
+
+            COALESCE((
+                SELECT SUM(D.SubTotal)
+                FROM DetalleCompra D
+                WHERE D.idCompra = C.idCompra AND D.Estado = true), 0) AS TotalVigente,
+
                 (SELECT COUNT(*) FROM DetalleCompra D
                  WHERE D.idCompra = C.idCompra AND D.Estado = false) AS Cancelados
             FROM Compras C
@@ -276,20 +287,41 @@ class Compra{
 
 
     public function obtenerDetalleCompra($idCompra){
-        $sql = " SELECT C.idCompra, C.FechaCompra,C.TotalCompra, C.Estado, P.RazonSocial, DC.idDetalleCompra,
-                DC.idModelo, DC.Cantidad, DC.PrecioCompra, DC.SubTotal, DC.Estado AS EstadoDetalle, A.Motivo AS MotivoAnulacion, A.FechaAnulacion,
-                M.NombreMaterial, M.Color, M.NivelEducativo, C.Observacion
-        FROM Compras C
-        INNER JOIN Proveedores P
-        ON C.idProveedor = P.idProveedor
-        INNER JOIN DetalleCompra DC
-        ON C.idCompra = DC.idCompra
-        INNER JOIN modelos M    
-        ON DC.idModelo = M.idModelo
-        LEFT JOIN AnularCompras A
-        ON A.idDetalleCompra = DC.idDetalleCompra
-        WHERE C.idCompra = :idCompra
-        ORDER BY DC.idDetalleCompra ASC ";
+        $sql = " SELECT C.idCompra, 
+                    C.FechaCompra,
+                    C.TotalCompra, 
+                    C.Estado, 
+                    P.RazonSocial, 
+                COALESCE((
+                    SELECT SUM(D2.SubTotal)
+                    FROM DetalleCompra D2
+                    WHERE D2.idCompra = C.idCompra
+                    AND D2.Estado = false
+                ), 0) AS TotalAnulado,
+
+                COALESCE((
+                    SELECT SUM(D2.SubTotal)
+                    FROM DetalleCompra D2
+                    WHERE D2.idCompra = C.idCompra
+                    AND D2.Estado = true
+                ), 0) AS TotalVigente,
+        
+                    DC.idDetalleCompra,
+                    DC.idModelo, DC.Cantidad, DC.PrecioCompra, DC.SubTotal, DC.Estado AS EstadoDetalle, 
+                    A.Motivo AS MotivoAnulacion, A.FechaAnulacion,
+                    M.NombreMaterial, M.Color, M.NivelEducativo, C.Observacion
+
+
+            FROM Compras C
+            INNER JOIN Proveedores P
+                ON C.idProveedor = P.idProveedor
+            INNER JOIN DetalleCompra DC
+                ON C.idCompra = DC.idCompra
+            INNER JOIN modelos M    
+                ON DC.idModelo = M.idModelo
+            LEFT JOIN AnularCompras A
+                ON A.idDetalleCompra = DC.idDetalleCompra
+            WHERE C.idCompra = :idCompra ORDER BY DC.idDetalleCompra ASC ";
 
         $consulta = $this->db->prepare($sql);
         $consulta->execute([
@@ -378,7 +410,7 @@ class Compra{
             }
 
             $consultaLineas = $this->db->prepare(
-                "SELECT idDetalleCompra, idModelo, Cantidad
+                "SELECT idDetalleCompra, idModelo, Cantidad, SubTotal
                  FROM DetalleCompra
                  WHERE idCompra = :idCompra
                  AND Estado = true
@@ -446,17 +478,22 @@ class Compra{
 
             // 4. Actualizar la compra según lo que quede vigente
             $consultaResto = $this->db->prepare(
-                "SELECT COUNT(*) AS restantes, COALESCE(SUM(SubTotal), 0) AS total
+                "SELECT COUNT(*) AS restantes, 
                  FROM DetalleCompra
                  WHERE idCompra = :idCompra AND Estado = true"
             );
+            
             $consultaResto->execute([':idCompra' => $idCompra]);
             $resto = $consultaResto->fetch(PDO::FETCH_ASSOC);
 
             $completa = ((int) $resto['restantes'] === 0);
 
             if ($completa) {
-                $actualizar = $this->db->prepare("UPDATE Compras SET Estado = false WHERE idCompra = :idCompra");
+                $actualizar = $this->db->prepare(
+                    "UPDATE Compras 
+                     SET Estado = false
+                     WHERE idCompra = :idCompra"
+                    );
                 $actualizar->execute([':idCompra' => $idCompra]);
             } else {
                 $actualizar = $this->db->prepare("UPDATE Compras SET TotalCompra = :total WHERE idCompra = :idCompra");

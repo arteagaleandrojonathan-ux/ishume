@@ -29,7 +29,7 @@
 
             <div class="acciones-tarjeta">
                 <a href="index.php?opcion=nuevoContrato" class="boton-principal">Registrar contrato</a>
-                <a href="#" class="boton-secundario">Ver contratos</a>
+                <a href="index.php?opcion=listaContratos" class="boton-secundario">Ver contratos</a>
             </div>
         </section>
 
@@ -44,7 +44,7 @@
             </div>
 
             <div class="acciones-tarjeta">
-                <a href="#" class="boton-principal">Ver ventas</a>
+                <a href="index.php?opcion=ventas" class="boton-principal">Ver ventas</a>
             </div>
         </section>
 

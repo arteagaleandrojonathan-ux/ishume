@@ -1,0 +1,168 @@
+
+.contenedor-ventas {
+    width: 95%;
+    max-width: 1500px;
+    margin: 35px auto;
+    color: #333;
+}
+
+.encabezado-ventas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.encabezado-ventas h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.encabezado-ventas p {
+    margin: 0;
+    color: #777;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 11px 18px;
+    background: #F7931E;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.btn-volver:hover {
+    background: #df8014;
+}
+
+.resumen-listado {
+    margin-bottom: 25px;
+}
+
+.resumen-listado div {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 220px;
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+.resumen-listado span {
+    color: #777;
+    font-size: 14px;
+}
+
+.resumen-listado strong {
+    font-size: 25px;
+}
+
+.tabla-ventas {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-ventas-titulo {
+    padding: 18px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.tabla-ventas-titulo h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.tabla-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1050px;
+}
+
+.tabla-scroll th,
+.tabla-scroll td {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+.tabla-scroll th {
+    background: #f8f8f8;
+    color: #555;
+    font-weight: 600;
+}
+
+.tabla-scroll tbody tr:hover {
+    background: #fffaf4;
+}
+
+.estado-venta {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #fff0d9;
+    color: #b66b0c;
+}
+
+.estado-venta.finalizada {
+    background: #e2f5e9;
+    color: #218344;
+}
+
+.estado-venta.cancelada {
+    background: #fde5e5;
+    color: #c0392b;
+}
+
+.ventas-vacias {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.ventas-vacias h3 {
+    margin-bottom: 8px;
+}
+
+.ventas-vacias p {
+    color: #777;
+}
+
+@media (max-width: 650px) {
+    .encabezado-ventas {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+.btn-volver-contratos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+    border: 1px solid #d8d3cd;
+    border-radius: 6px;
+
+    color: #333;
+    background: white;
+    text-decoration: none;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-volver-contratos:hover {
+    background: #f4f1ed;
+}

@@ -1,0 +1,247 @@
+.detalle-venta {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 18px 22px;
+    box-sizing: border-box;
+    color: #292929;
+}
+
+.encabezado-detalle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.encabezado-detalle h1 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.encabezado-detalle p {
+    margin: 4px 0 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.btn-volver-detalle {
+    text-decoration: none;
+    color: #333;
+    background: #f1f1f1;
+    padding: 9px 13px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.btn-volver-detalle:hover {
+    background: #e5e5e5;
+}
+
+/* Datos del contrato y cliente */
+
+.datos-generales-venta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.dato-venta {
+    min-width: 0;
+    padding: 11px 13px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 7px;
+}
+
+.dato-venta span,
+.resumen-detalle-venta span {
+    display: block;
+    color: #777;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.dato-venta strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+/* Resumen */
+
+.resumen-detalle-venta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.resumen-detalle-venta > div {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 7px;
+    padding: 11px 13px;
+}
+
+.resumen-detalle-venta strong {
+    font-size: 15px;
+}
+
+.estado-venta-detalle {
+    display: inline-block !important;
+    width: fit-content;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 11px !important;
+    background: #fff2d8;
+    color: #946000;
+}
+
+.estado-venta-detalle.finalizada {
+    background: #e1f5e8;
+    color: #207344;
+}
+
+.estado-venta-detalle.cancelada {
+    background: #fde5e5;
+    color: #a52d2d;
+}
+
+/* Tabla de productos */
+
+.seccion-productos-venta {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.titulo-productos-venta {
+    padding: 13px 15px;
+    border-bottom: 1px solid #ededed;
+}
+
+.titulo-productos-venta h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.titulo-productos-venta p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #777;
+}
+
+.tabla-detalle-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-detalle-venta {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+}
+
+.tabla-detalle-venta th,
+.tabla-detalle-venta td {
+    padding: 11px 13px;
+    text-align: left;
+    border-bottom: 1px solid #ededed;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.tabla-detalle-venta th {
+    background: #f7f7f7;
+    color: #555;
+    font-weight: 600;
+}
+
+.tabla-detalle-venta tbody tr:hover {
+    background: #fafafa;
+}
+
+.producto-detalle {
+    max-width: 250px;
+    white-space: normal !important;
+}
+
+.subtotal-detalle {
+    font-weight: 700;
+}
+
+.sin-productos-venta {
+    padding: 25px;
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .datos-generales-venta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .resumen-detalle-venta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .detalle-venta {
+        padding: 13px 10px;
+    }
+
+    .encabezado-detalle {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .encabezado-detalle h1 {
+        font-size: 20px;
+    }
+
+    .datos-generales-venta {
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .dato-venta {
+        padding: 9px;
+    }
+
+    .dato-venta strong {
+        font-size: 12px;
+    }
+
+    .resumen-detalle-venta {
+        gap: 7px;
+    }
+
+    .resumen-detalle-venta > div {
+        padding: 9px;
+    }
+
+    .resumen-detalle-venta strong {
+        font-size: 13px;
+    }
+
+    .btn-volver-detalle {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .datos-generales-venta,
+    .resumen-detalle-venta {
+        grid-template-columns: 1fr;
+    }
+}
+

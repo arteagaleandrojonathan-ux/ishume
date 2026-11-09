@@ -140,7 +140,7 @@ $pintarCancelados = function (array $items) {
                         
                         <th>Fecha</th>
                         <th>Proveedor</th>
-                        <th>Total</th>
+                        <th>Total original</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -250,6 +250,28 @@ $pintarCancelados = function (array $items) {
                                     $vigentesDetalle = array_filter($DetalleCompra, function ($l) { return (int) $l['EstadoDetalle'] === 1; });
                                     $canceladosDetalle = array_filter($DetalleCompra, function ($l) { return (int) $l['EstadoDetalle'] !== 1; });
                                 ?>
+                                <!--  Importe original -->
+                                  <?php
+                                    $totalOriginal = 0;
+
+                                    foreach ($DetalleCompra as $detalle) {
+                                        $totalOriginal += (float) $detalle['SubTotal'];
+                                    }
+
+                                    // Importe anulado
+                                    $totalAnulado = 0;
+
+                                    foreach ($canceladosDetalle as $detalle) {
+                                        $totalAnulado += (float) $detalle['SubTotal'];
+                                    }
+
+                                    // Importe vigente
+                                    $totalVigente = 0;
+
+                                    foreach ($vigentesDetalle as $detalle) {
+                                        $totalVigente += (float) $detalle['SubTotal'];
+                                    }
+                                  ?>
 
                                 <?php if (!(int) $DetalleCompra[0]['Estado']): ?>
                                     <div class="banner-anulada">
@@ -261,11 +283,13 @@ $pintarCancelados = function (array $items) {
 
                                 <div class="productos-detalle-compra">
                                     
-                                    <?php if (!empty($canceladosDetalle) && !empty($vigentesDetalle)): ?>
+                                    <?php if (!empty($vigentesDetalle)): ?>
                                         <h3 class="titulo-bloque">Productos vigentes</h3>
                                     <?php endif; ?>
 
-                                    <?php foreach($DetalleCompra as $detalle): ?>
+                         
+
+                                    <?php foreach($vigentesDetalle as $detalle): ?>
                                         <div class="producto-detalle">
 
                                             <div class="producto-detalle-nombre">
@@ -295,11 +319,26 @@ $pintarCancelados = function (array $items) {
                                 </div>    
                                     
 
-                                <div class="total-detalle-compra">
-                                    <span>Total de compra</span>
-                                    <strong>
-                                        S/ <?= number_format((float)$DetalleCompra[0]['TotalCompra'], 2) ?>
-                                    </strong>
+                                <div class="resumen-total-compra">
+                                    <div>
+                                        <span>Importe Original</span>
+                                        <strong>
+                                            S/ <?= number_format((float)$totalOriginal, 2) ?>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <span>Importe anulados</span>
+                                        <strong class="importe-anulado">
+                                            S/ <?= number_format($totalAnulado, 2) ?>
+                                        </strong>
+                                    </div>
+                                    <div class ="total-vigente">
+                                        <span>Importe vigente</span>
+                                        <strong>
+                                            S/ <?= number_format((float)$totalVigente, 2) ?>
+                                        </strong>
+                                    </div>
+                                    
                                 </div>
 
                                 <!-- BOTÓN -->
@@ -346,7 +385,7 @@ $pintarCancelados = function (array $items) {
                         </div>
                         <div class="dato-compra">
                             <span>Total vigente</span>
-                            <strong>S/ <?= number_format((float) $CancelarCompra[0]['TotalCompra'], 2) ?></strong>
+                            <strong>S/ <?= number_format((float) $CancelarCompra[0]['TotalVigente'], 2) ?></strong>
                         </div>
                     </div>
 

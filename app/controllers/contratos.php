@@ -10,6 +10,15 @@ class ContratosController {
         $this->AccionModelo = new Contrato();
     }
 
+    
+    public function listaContratos() {
+
+        $contratos = $this->AccionModelo->obtenerContratosConVentas();
+
+        $vista = 'listaContratos';
+
+        require_once __DIR__ . '/../views/PanelPrincipal.php';
+    }
 
     public function contratos(){
         $vista = 'contratos';
@@ -25,7 +34,7 @@ class ContratosController {
 
         $Provincias = $this->AccionModelo->obtenerProvincias();
         $Colegios = $this->AccionModelo->obtenerColegios();
-        $MetodosPago = $this->AccionModelo->obtenerMetodosPago();
+
 
         $vista = 'nuevoContrato';
         require_once __DIR__ . '/../views/PanelPrincipal.php';
@@ -89,7 +98,7 @@ class ContratosController {
             $colegio = $this->AccionModelo->registrarColegio($nombreColegio);
             
             $this->responderJson([
-                'ok' => false,
+                'ok' => true,
                 'idColegio' => $colegio['idColegio'],
                 'NombreColegio' => $colegio['NombreColegio'],
                 'existente' => $colegio['existente']
@@ -111,6 +120,12 @@ class ContratosController {
     }
 
     public function registrarContrato(){
+
+        file_put_contents(
+            __DIR__ . '/prueba_registro.txt',
+            print_r($_POST, true)
+        );
+
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST'){
             header('Location: index.php?opcion=nuevoContrato');
@@ -143,6 +158,16 @@ class ContratosController {
             'Correo' => trim($_POST['Correo'] ?? '')
         ];
 
+        $errores = $this->validarDatos($cliente);
+
+        if (!empty($errores)) {
+            $this->responderJson([
+                'ok' => false,
+                'errores' => $errores
+            ]);
+            return;
+        }
+
         $contrato =[
             'idColegio' => trim($_POST['idColegio'] ?? ''),
             'idDistrito' => trim($_POST['idDistrito'] ?? ''),
@@ -153,15 +178,9 @@ class ContratosController {
             'Condiciones' => trim($_POST['Condiciones'] ?? '')
         ];
 
-        $adelanto = [
-            'Monto' => trim($_POST['Adelanto'] ?? ''),
-            'idMetodoPago' => trim($_POST['idMetodoPago'] ?? ''),
-            'NumOperacion' => trim($_POST['NumOperacion'] ?? '')
-        ];
-
         //LLAMAR AL MODELO PARA PODER RELLENAR LAS CAJAS QUE SE HIZO ARRIBA 
         try{    
-            $idContrato = $this->AccionModelo->registrarContrato($cliente ,$contrato ,$adelanto);
+            $idContrato = $this->AccionModelo->registrarContrato($cliente ,$contrato);
 
             unset($_SESSION['token_contrato']);
 
@@ -194,7 +213,7 @@ class ContratosController {
     }
 
     private function validarDatos($cliente){
-        $errorres = [];
+        $errores = [];
 
         $soloLetras = '/^[\p{L} .\'-]+$/u';
 
@@ -227,10 +246,6 @@ class ContratosController {
                 $errores['Testigo'] = 'El nombre del testigo es demasiado largo';
             }
         }
-
-        //VALIDACIONES PARA tipo de documento
-        $tipoDOI = $cliente['TipoDOI'];
-        $numeroDOI = $cliente['NumeroDOI'];
 
         // TIPO Y NÚMERO DE DOCUMENTO (opcionales, pero van juntos)
         $tipo = $cliente['TipoDOI'];

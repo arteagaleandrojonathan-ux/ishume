@@ -303,4 +303,54 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
+    //Registro de contrato
+    const formulario = document.getElementById('formularioContrato');
+    if (formulario) {
+
+        formulario.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const datosFormulario = new FormData(formulario);
+
+            try{
+                const respuesta = await fetch('index.php?opcion=registrarContrato', {
+                    method: 'POST',
+                    body: datosFormulario
+                });
+                
+                const datos = await respuesta.json();
+
+                if( !datos.ok){
+
+                    if(datos.errores){
+                        alert(Object.values(datos.errores).join('\n'));
+                    }else{
+                        alert('Error al registrar el contrato. Contrato ya registrado.' );
+                    }
+                    return;
+                }
+
+                // Guardamos el ID del contrato registrado
+                const idContratoRegistrado = datos.idContrato;
+
+                // Mostramos el modal
+                const modalVenta = document.getElementById('modalContinuarVenta');
+                modalVenta.classList.add('mostrar');
+
+                document.getElementById('btnMasTarde').addEventListener('click', () => {
+                    modalVenta.classList.remove('mostrar');
+                    alert('El contrato quedó registrado. Puedes continuar con la venta más tarde.');
+                });
+
+                document.getElementById('btnContinuarVenta').href =
+                    `index.php?opcion=nuevaVenta&idContrato=${encodeURIComponent(idContratoRegistrado)}`;
+
+
+            } catch (error) {
+                console.error('Error al registrar el contrato:', error);
+                alert('Ocurrió un error al intentar registrar el contrato.');
+            }
+
+        });
+    }
 });

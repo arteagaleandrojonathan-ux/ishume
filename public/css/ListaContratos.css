@@ -1,0 +1,569 @@
+
+/* ==========================================
+   LISTADO DE CONTRATOS - ISHUME
+========================================== */
+
+/* ---------- ESTRUCTURA DEL PANEL ---------- */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.PanelPrincipal {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Menú lateral fijo */
+.menu {
+    position: sticky;
+    top: 0;
+    flex: 0 0 205px;
+    width: 205px;
+    height: 100vh;
+    height: 100dvh;
+    align-self: flex-start;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+/* Área que contiene las vistas */
+.contenido {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/* ---------- DISTRIBUCIÓN GENERAL ---------- */
+
+.lista-contratos {
+    width: 100%;
+    min-height: 100%;
+    padding: 16px 20px;
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(0, 1fr);
+    gap: 14px;
+}
+
+/* ---------- ENCABEZADO ---------- */
+
+.encabezado-lista-contratos {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 0;
+    min-height: 35px;
+}
+
+.encabezado-lista-contratos h1 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 700;
+    color: #171717;
+}
+
+.encabezado-lista-contratos span {
+    display: block;
+    margin-top: 2px;
+    color: #777;
+    font-size: 11px;
+}
+
+.btn-volver-contratos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+    border: 1px solid #d8d3cd;
+    border-radius: 6px;
+
+    color: #333;
+    background: white;
+    text-decoration: none;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-volver-contratos:hover {
+    background: #f4f1ed;
+}
+
+/* ---------- RESUMEN ---------- */
+
+.resumen-contratos {
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+
+    margin: 0;
+}
+
+.resumen-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+
+    min-width: 0;
+    padding: 9px 13px;
+
+    background: #fff;
+    border: 1px solid #e8e2dc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.resumen-item strong {
+    font-size: 21px;
+    line-height: 1.2;
+    color: #171717;
+}
+
+.resumen-item span {
+    font-size: 11px;
+    color: #777;
+}
+
+.resumen-item.con-venta {
+    border-left: 3px solid #269653;
+}
+
+.resumen-item.sin-venta {
+    border-left: 3px solid #F7931E;
+}
+
+/* ---------- PANELES DE CONTRATOS ---------- */
+
+.grupo-contratos {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    max-height: 560px;
+
+    margin: 0;
+    padding: 13px 12px;
+
+    background: #fff;
+    border: 1px solid #e6e0da;
+    border-radius: 9px;
+
+    box-sizing: border-box;
+}
+
+/* ---------- ENCABEZADO DE CADA PANEL ---------- */
+
+.titulo-grupo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    flex-shrink: 0;
+    margin: 0 0 10px;
+}
+
+.titulo-grupo h2 {
+    margin: 0;
+    color: #171717;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.titulo-grupo span:not(.contador-contratos) {
+    display: block;
+    margin-top: 3px;
+    color: #888;
+    font-size: 10px;
+}
+
+.contador-contratos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 25px;
+    height: 25px;
+    padding: 0 5px;
+
+    border-radius: 50%;
+    background: #e2f5e9;
+    color: #218344;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.contador-contratos.pendiente {
+    background: #fff0d9;
+    color: #b66b0c;
+}
+
+/* ---------- TABLAS Y SCROLL INTERNO ---------- */
+
+.tabla-contratos-contenedor {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c8c8c8 transparent;
+}
+
+.tabla-contratos-contenedor::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.tabla-contratos-contenedor::-webkit-scrollbar-thumb {
+    background: #c8c8c8;
+    border-radius: 10px;
+}
+
+.tabla-contratos {
+    width: 100%;
+    min-width: 420px;
+    border-collapse: collapse;
+}
+
+.tabla-contratos th,
+.tabla-contratos td {
+    padding: 9px 7px;
+    border-bottom: 1px solid #eeeeee;
+
+    text-align: left;
+    vertical-align: middle;
+    font-size: 11px;
+}
+
+.tabla-contratos th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    background: #f8f7f5;
+    color: #555;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tabla-contratos td strong {
+    font-size: 11px;
+    color: #171717;
+}
+
+.tabla-contratos tbody tr:hover {
+    background: #fffaf4;
+}
+
+/* Información agrupada en una celda */
+.dato-principal {
+    max-width: 180px;
+    overflow: hidden;
+
+    color: #222;
+    font-size: 11px;
+    font-weight: 500;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dato-secundario {
+    max-width: 180px;
+    margin-top: 3px;
+    overflow: hidden;
+
+    color: #888;
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- ESTADOS ---------- */
+
+.estado-contrato {
+    display: inline-block;
+    padding: 4px 7px;
+
+    border-radius: 12px;
+    background: #fff0d9;
+    color: #b66b0c;
+
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.estado-contrato.finalizado {
+    background: #e2f5e9;
+    color: #218344;
+}
+
+.estado-contrato.cancelado {
+    background: #fde5e5;
+    color: #c0392b;
+}
+
+/* ---------- BOTÓN REGISTRAR ---------- */
+
+.btn-registrar-venta {
+    display: inline-block;
+    padding: 7px 9px;
+
+    border-radius: 5px;
+    background: #F7931E;
+    color: #171717;
+
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-registrar-venta:hover {
+    background: #e9820e;
+}
+
+/* ---------- ESTADO VACÍO ---------- */
+
+.mensaje-sin-contratos {
+    margin: 0;
+    padding: 20px 8px;
+
+    color: #888;
+    text-align: center;
+    font-size: 11px;
+}
+
+/* ==========================================
+   RESPONSIVE: TABLETS
+========================================== */
+
+@media (max-width: 1100px) {
+
+    .lista-contratos {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+    }
+
+    .grupo-contratos {
+        height: 400px;
+        max-height: 400px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE: CELULARES
+========================================== */
+
+@media (max-width: 650px) {
+
+    .lista-contratos {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .encabezado-lista-contratos h1 {
+        font-size: 19px;
+    }
+
+    .resumen-contratos {
+        gap: 6px;
+    }
+
+    .resumen-item {
+        padding: 9px 7px;
+    }
+
+    .resumen-item strong {
+        font-size: 18px;
+    }
+
+    .resumen-item span {
+        font-size: 9px;
+    }
+
+    .grupo-contratos {
+        height: 360px;
+        max-height: 360px;
+        padding: 11px 9px;
+    }
+
+    .titulo-grupo h2 {
+        font-size: 14px;
+    }
+
+    .titulo-grupo span:not(.contador-contratos) {
+        font-size: 9px;
+    }
+
+    .tabla-contratos {
+        min-width: 420px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE: CELULARES PEQUEÑOS
+========================================== */
+
+@media (max-width: 380px) {
+
+    .lista-contratos {
+        padding: 9px 7px;
+    }
+
+    .resumen-item strong {
+        font-size: 16px;
+    }
+
+    .resumen-item span {
+        font-size: 8px;
+    }
+
+    .btn-volver-contratos {
+        padding: 5px 7px;
+        font-size: 10px;
+    }
+}
+
+/* ==========================================
+   SELECTOR: CON VENTAS / SIN VENTAS
+========================================== */
+
+.lista-contratos {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+}
+
+.selector-registros {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    background: #f3f1ee;
+    border: 1px solid #e8e2dc;
+    border-radius: 8px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.btn-selector {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: #666;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-selector:hover {
+    background: #fff;
+    color: #333;
+}
+
+.btn-selector.activo {
+    background: #fff;
+    border-color: #e8d8c6;
+    color: #a95e0b;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-selector span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 12px;
+    background: #f1e9df;
+    color: #80521e;
+    font-size: 10px;
+}
+
+.grupo-contratos {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    max-height: none;
+}
+
+/* Solo se muestra el grupo seleccionado */
+.vista-registros {
+    display: none;
+}
+
+.vista-registros.activa {
+    display: flex;
+}
+/* Scroll para la tabla de contratos sin ventas */
+.contenedor-scroll-sin-ventas {
+    max-height: 290px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* Mantener visible el encabezado */
+.contenedor-scroll-sin-ventas thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 1100px) {
+    .grupo-contratos {
+        height: auto;
+        max-height: none;
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 650px) {
+    .selector-registros {
+        width: 100%;
+    }
+
+    .btn-selector {
+        flex: 1;
+        padding: 9px 8px;
+    }
+}
+
+

@@ -12,11 +12,13 @@
 <body>
 
     <main class="contenedor-contrato">
+    <form id="formularioContrato">
         <!-- ESPACIO RESERVADO PARA EL BANNER OFICIAL DE ISHUME -->
         <div class="banner-contrato">
-                <img src="img/banner_ishume.png" alt="Banner de ISHUME" width="1923" height="456">>
+                <img src="img/banner_ishume.png" alt="Banner de ISHUME" width="1923" height="456">
+                <input type="hidden" id="token" name="token" value="<?= htmlspecialchars($tokenContrato) ?>">
         </div>
-
+    
         <!--  DATOS DEL CLIENTE-->
         <section class="seccion-contrato">
             <h2>Datos del cliente</h2>
@@ -55,7 +57,7 @@
                     <label for="TipoDOI">Tipo de DOI</label>
 
                     <select id="TipoDOI" name="TipoDOI">
-                        <option value="seleccione un tipo"> Seleccione un tipo </option>
+                        <option value=""> Seleccione un tipo </option>
                         <option value="DNI"> DNI </option>
                         <option value="RUC"> RUC </option>
                         <option value="CE"> Carné de Extranjería </option>
@@ -92,7 +94,7 @@
                 <div class="campo">
                     <label for="Direccion-cliente">Direccion</label>
                     <div class="input-con-estado">                        
-                        <input type="text" class="estadoDatos" id="Direccion-cliente" name ="Direccion-cliente" maxLength="200">
+                        <input type="text" class="estadoDatos" id="Direccion-cliente" name ="DireccionCliente" maxLength="200">
                         <p id="EstadoGeneral" class="checks" ></p>
                     </div>
                 </div>
@@ -193,7 +195,7 @@
 
                     <div class="select-con-estado">
                         <select id="idDistrito" name="idDistrito">
-                            <option> Seleccione un distrito </option>
+                            <option value=""> Seleccione un distrito </option>
                         </select>
                         <p id="estadodistrito" class="estado"></p>
                     </div>
@@ -209,13 +211,36 @@
              ACCIONES
         =============================== -->
         <div class="acciones-contrato">
-            <button type="button" id="btnRegistrarContrato" class="boton-principal">
+            <button type="submit" id="btnRegistrarContrato" class="boton-principal">
                 Registrar contrato
             </button>
-        </div>
-
+        
+            <a href="index.php?opcion=contratos" class="btn-volver-contratos">
+                ← Volver
+            </a>
+        </div>                        
+    </form>                   
     </main>
+                           <!--MODAL PARA CONFIRMAR SI QUIERES AVANZAR CON LAS VENTAS O NO  -->
+        <div id="modalContinuarVenta" class="modal-continuar-venta">
+            <div class="contenido-modal-venta">
+                <h2>Contrato Registrado</h2>                       
+                <p>
+                    El contrato se registro correctamente.
+                    Desea continuar agregando una venta para este contrato?
+                </p>
+                <div class="acciones-modal-venta">
+                    <a href="#" id="btnContinuarVenta">
+                        Continuar con la venta
+                    </a>
+                    <button type="button" id="btnMasTarde">
+                        No, quiza mas tarde
+                    </button>
 
+                </div>                   
+            </div>
+
+        </div>                                         
 
     <!-- ==============================
          MODAL NUEVO COLEGIO
@@ -245,7 +270,9 @@
         </div>
 
     </div>
+    
 
+    
 
     <script src="js/contratos.js"></script>
 

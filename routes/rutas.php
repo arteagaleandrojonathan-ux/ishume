@@ -58,7 +58,7 @@
             break;
 
         case 'registrarContrato':
-            require_once __DIR__. '/../app/controllers/contratos.php';
+            require_once __DIR__ . '/../app/controllers/contratos.php';
             $controller = new ContratosController();
             $controller->registrarContrato();
             break;
@@ -72,8 +72,35 @@
             $controller = new ContratosController();
             $controller->registrarColegio();
             break;
+        
+        case 'listaContratos':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->listaContratos();
+            break;
+    
 
-
+        //TODAS LAS RUTAS DE VENTAS
+        case 'nuevaVenta':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->nuevaVenta();
+            break;
+        case 'registrarVenta':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->registrarVenta();
+            break;
+        case 'ventas':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->ventas();
+            break; 
+        case 'detalleVenta':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->detalleVenta();
+            break;
 
 
         //TODAS LAS RUTAS A COMPRA
