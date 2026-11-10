@@ -1,20 +1,20 @@
 Array
 (
-    [token] => c3b2f1c895fba7ac4d5d722cd4aee994
+    [token] => dec0f50ce4f6a029ca2ebee0b7275ab5
     [Nombre] => jonathan
     [Apellidos] => arteagaleandro
     [Testigo] => samir perez
     [TipoDOI] => DNI
-    [NumDOI] => 12323123
-    [Telefono] => 123123123
+    [NumDOI] => 65427235
+    [Telefono] => 939438438
     [Correo] => arteagaleandrojonathan@gmail.com
     [DireccionCliente] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [buscarColegio] => Colegio COPRODELI San Pedro
-    [idColegio] => CG-00014
+    [buscarColegio] => cayeta
+    [idColegio] => CO-00029
     [Evento] => Por la plaza de chincha
     [Servicio] => Promocion
-    [FechaEvento] => 2026-12-12
+    [FechaEvento] => 2026-12-09
     [Direccion] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [idProvincia] => PRO-0003
-    [idDistrito] => DIS-0019
+    [idProvincia] => PRO-0001
+    [idDistrito] => DIS-0003
 )

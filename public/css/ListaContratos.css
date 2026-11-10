@@ -351,6 +351,26 @@ body {
     background: #e9820e;
 }
 
+/* ---------- BOTÓN IR A VENTAS ---------- */
+.btn-ir-venta {
+    display: inline-block;
+    padding: 7px 9px;
+
+    border-radius: 5px;
+    background: #F7931E;
+    color: #171717;
+
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-ir-venta:hover {
+    background: #e9820e;
+}
+
 /* ---------- ESTADO VACÍO ---------- */
 
 .mensaje-sin-contratos {
@@ -541,6 +561,21 @@ body {
 
 /* Mantener visible el encabezado */
 .contenedor-scroll-sin-ventas thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: #f5f5f5;
+}
+
+/* Scroll para la tabla de contratos con ventas */
+.contenedor-scroll-con-ventas {
+    max-height: 290px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* Mantener visible el encabezado */
+.contenedor-scroll-con-ventas thead th {
     position: sticky;
     top: 0;
     z-index: 3;

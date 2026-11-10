@@ -2,15 +2,9 @@
 
     <!-- ENCABEZADO Y BUSCADOR -->
     <header class="panel-encabezado">
-        <div>
-            <p class="nota-ejemplo">Datos de ejemplo</p>
-            <h1>Contratos y ventas</h1>
-        </div>
 
-        <div class="panel-buscador">
-            <label for="buscarContrato">Buscar contrato</label>
-            <input type="text" id="buscarContrato" placeholder="ID, cliente o colegio..." autocomplete="off">
-        </div>
+
+       
     </header>
 
 

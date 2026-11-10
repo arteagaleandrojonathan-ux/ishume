@@ -161,4 +161,69 @@ function escaparDetalle($valor) {
 
     </section>
 
+    <!-- PAGOS DE LA VENTA -->
+    <section class="seccion-pagos-venta">
+
+        <div class="titulo-productos-venta">
+            <div>
+                <h2>Pagos registrados</h2>
+                <p>Detalle de los pagos realizados para esta venta.</p>
+            </div>
+        </div>
+
+        <?php if (empty($pagos)): ?>
+
+            <div class="sin-productos-venta">
+                No hay pagos registrados en esta venta.
+            </div>
+
+        <?php else: ?>
+
+            <div class="tabla-detalle-scroll">
+                <table class="tabla-detalle-venta">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Método de pago</th>
+                            <th>Monto</th>
+                            <th>Número de operación</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php foreach ($pagos as $pago): ?>
+                            <tr>
+                                <td>
+                                    <?= !empty($pago['FechaPago'])
+                                        ? date('d/m/Y H:i', strtotime($pago['FechaPago']))
+                                        : '—' ?>
+                                </td>
+
+                                <td>
+                                    <?= escaparDetalle($pago['NombreMetodo']) ?>
+                                </td>
+
+                                <td class="subtotal-detalle">
+                                    S/ <?= number_format((float)$pago['Monto'], 2) ?>
+                                </td>
+
+                                <td>
+                                    <?= escaparDetalle($pago['NumOperacion'] ?: '—') ?>
+                                </td>
+
+                                <td>
+                                    <?= escaparDetalle($pago['Observacion'] ?: '—') ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+        <?php endif; ?>
+
+    </section>
+
+
 </section>

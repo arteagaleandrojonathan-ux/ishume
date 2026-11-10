@@ -15,7 +15,20 @@ class VentasController {
 
         $ventas = $this->AccionModelo->obtenerVentas();
 
-        require_once __DIR__ . "/../views/ventas.php";
+        //comprobar si llegamos desde un contrato en espeficico
+        $idVenta = trim($_GET['idVenta']?? '');
+
+        // si se recibe el ID de la venta filtramos la lista de esA VENTA gracias a su ID
+        if($idVenta !==''){
+            $ventas = array_filter($ventas, function($venta) use ($idVenta){
+                return $venta['idVenta'] === $idVenta;
+            });
+            
+        }
+
+        $vista = 'ventas';
+
+        require_once __DIR__ . "/../views/PanelPrincipal.php";
     }
 
     // Mostrar pantalla para registrar una venta
@@ -29,6 +42,8 @@ class VentasController {
         }
 
         $productos = $this->AccionModelo->obtenerProductosActivos();
+
+        $metodosPago = $this->AccionModelo->obtenerMetodosPago();
 
         require_once __DIR__ . "/../views/nuevaVenta.php";
     }
@@ -60,6 +75,7 @@ class VentasController {
 
         $idContrato = trim($datos['idContrato'] ?? '');
         $productos = $datos['productos'] ?? [];
+        $pagos = $datos['pagos'] ?? [];
 
         if ($idContrato === '') {
             http_response_code(400);
@@ -79,11 +95,46 @@ class VentasController {
             return;
         }
 
+        if (!is_array($pagos) || empty($pagos)) {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Agrega al menos un pago.'
+            ]);
+            return;
+        }
+
+        foreach ($pagos as $pago) {
+
+            $idMetodoPago = trim($pago['idMetodoPago'] ?? '');
+            $monto = $pago['monto'] ?? 0;
+            $numeroOperacion = trim($pago['numeroOperacion'] ?? '');
+
+            if ($idMetodoPago === '' || !is_numeric($monto) ||!is_finite((float)$monto) || (float)$monto <= 0) {
+                http_response_code(400);
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'Los datos de uno de los pagos no son válidos.'
+                ]);
+                return;
+            }
+
+            if (in_array($idMetodoPago, ['MET-0001', 'MET-0003'], true) && $numeroOperacion === '') {
+                http_response_code(400);
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'El número de operación es obligatorio para Yape o Transferencia.'
+                ]);
+                return;
+            }
+        }
+
         try {
 
             $idVenta = $this->AccionModelo->registrarVenta(
                 $idContrato,
-                $productos
+                $productos,
+                $pagos
             );
 
             echo json_encode([
@@ -102,7 +153,7 @@ class VentasController {
             ]);
         }
     }
-    
+
     // Mostrar el detalle de una venta
     public function detalleVenta() {
 
@@ -121,6 +172,10 @@ class VentasController {
         }
 
         $detalles = $this->AccionModelo->obtenerDetallesVenta($idVenta);
+        $pagos = $this->AccionModelo->obtenerPagosVenta($idVenta);
+
+        // Indicar al panel principal qué vista debe cargar
+        $vista = 'detalleVenta';
 
         require_once __DIR__ . "/../views/detalleVenta.php";
     }

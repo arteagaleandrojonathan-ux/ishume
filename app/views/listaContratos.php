@@ -83,7 +83,7 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                 </p>
 
             <?php else: ?>
-               
+            <div class="contenedor-scroll-con-ventas">    
                 <table class="tabla-contratos">
                     <thead>
                         <tr>
@@ -143,9 +143,9 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="index.php?opcion=detalleVenta&idVenta=<?= urlencode($contrato['idVenta']) ?>" 
-                                    class="btn-registrar-venta">
-                                        Ver detalle
+                                    <a href="index.php?opcion=ventas&idVenta=<?= urlencode($contrato['idVenta']) ?>" 
+                                    class="btn-ir-venta">
+                                        Ir a ventas →
                                     </a>
                                 </td>
                             </tr>
@@ -153,7 +153,7 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                           
+            </div>               
             <?php endif; ?>
 
         </div>

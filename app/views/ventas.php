@@ -6,24 +6,12 @@ function escapar($valor) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de ventas | ISHUME</title>
-
-    <link rel="stylesheet" href="css/ventas.css">
-    <link rel="stylesheet" href="css/nuevaVenta.css">
-</head>
-<body>
-
     <main class="contenedor-ventas">
 
         <header class="encabezado-ventas">
             <div>
                 <h1>Ventas</h1>
-                <p>Consulta las ventas registradas en el sistema.</p>
+                <p>Ventas registradas en el sistema.</p>
             </div>
 
             <a href="index.php?opcion=contratos" class="btn-volver-contratos">
@@ -32,9 +20,9 @@ function escapar($valor) {
         </header>
 
         <section class="resumen-listado">
-            <div>
-                <span>Total de ventas registradas</span>
+            <div class="resumen-ventas">     
                 <strong><?= count($ventas) ?></strong>
+                <span>Total de ventas registradas</span>
             </div>
         </section>
 
@@ -122,7 +110,7 @@ function escapar($valor) {
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        </tbody>
+                        </tbody>    
                     </table>
                 </div>
 
@@ -132,5 +120,3 @@ function escapar($valor) {
 
     </main>
 
-</body>
-</html>

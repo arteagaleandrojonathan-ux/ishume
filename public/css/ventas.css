@@ -1,8 +1,8 @@
 
 .contenedor-ventas {
-    width: 95%;
-    max-width: 1500px;
-    margin: 35px auto;
+     width: 100%;
+    max-width: none;
+    margin: 0;
     color: #333;
 }
 
@@ -38,14 +38,14 @@
 }
 
 .resumen-listado {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .resumen-listado div {
     display: inline-flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 220px;
+    gap: 1px;
+    min-width: 200px;
     padding: 20px;
     border: 1px solid #e5e5e5;
     border-radius: 8px;
@@ -77,10 +77,21 @@
     font-size: 19px;
 }
 
+/* Scroll para la tabla ventas */
 .tabla-scroll {
-    width: 100%;
+    max-height: 290px;
+    overflow-y: auto;
     overflow-x: auto;
 }
+
+/* Mantener visible el encabezado */
+.tabla-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: #f5f5f5;
+}
+
 
 .tabla-scroll table {
     width: 100%;
@@ -165,4 +176,51 @@
 
 .btn-volver-contratos:hover {
     background: #f4f1ed;
+}
+
+
+/*BOTON PARA VER DETALLE VENTA*/
+.btn-ver-detalle {
+    display: inline-block;
+    padding: 7px 9px;
+
+    border-radius: 5px;
+    background: #F7931E;
+    color: #171717;
+
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-ver-detalle:hover {
+    background: #e9820e;
+}
+
+.resumen-ventas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+
+    min-width: 0;
+    padding: 9px 13px;
+
+    background: #fff;
+    border: 1px solid #e8e2dc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.resumen-ventas strong {
+    font-size: 21px;
+    line-height: 1.2;
+    color: #171717;
+}
+
+.resumen-ventas span {
+    font-size: 11px;
+    color: #777;
 }

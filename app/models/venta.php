@@ -60,7 +60,7 @@ class Venta{
     }
 
     // Registrar una venta y sus detalles
-    public function registrarVenta($idContrato, $productos) {
+    public function registrarVenta($idContrato, $productos, $pagos) {
 
         try {
 
@@ -101,7 +101,32 @@ class Venta{
                 throw new Exception("Agrega al menos un producto.");
             }
 
-            $totalVenta = 0;
+            // Validar que existan pagos
+            if (!is_array($pagos) || empty($pagos)) {
+                throw new Exception("Agrega al menos un pago.");
+            }
+
+            $totalPagado = 0;
+
+            foreach ($pagos as $pago) {
+
+                $idMetodoPago = trim($pago['idMetodoPago'] ?? '');
+                $monto = $pago['monto'] ?? null;
+                $numeroOperacion = trim($pago['numeroOperacion'] ?? '');
+
+                if ($idMetodoPago === '' || !is_numeric($monto) || !is_finite((float)$monto) ||(float)$monto <= 0) {
+                    throw new Exception("Los datos de uno de los pagos no son válidos.");
+                }
+
+                if (in_array($idMetodoPago, ['MET-0001', 'MET-0003'], true) &&$numeroOperacion === '') {
+                    throw new Exception("El número de operación es obligatorio para Yape o Transferencia.");
+                }
+
+                $totalPagado += (float)$monto;
+            }
+
+            // Inicializar los totales y detalles de la venta
+                $totalVenta = 0;
             $cantidadPedidos = 0;
             $detalles = [];
 
@@ -161,6 +186,12 @@ class Venta{
                     'subtotal' => $subtotal
                 ];
             }
+
+            // Validar que los pagos no superen el total de la venta
+            if (round($totalPagado, 2) > round($totalVenta, 2)) {
+                throw new Exception("La suma de los pagos no puede superar el total de la venta.");
+            }
+
 
             // 5. Generar el siguiente código de venta
             $sqlUltimaVenta = "SELECT MAX(CAST(SUBSTRING(idVenta, 4) AS UNSIGNED))
@@ -229,6 +260,65 @@ class Venta{
                 ]);
             }
 
+            // 9. Registrar los pagos
+            $sqlMetodo = "SELECT idMetodoPago
+                    FROM MetodoPago
+                    WHERE idMetodoPago = :idMetodoPago
+                    AND Estado = 1
+                    LIMIT 1";
+
+            $consultaMetodo = $this->db->prepare($sqlMetodo);
+
+            // Obtener el último código de pago
+            $sqlUltimoPago = "SELECT MAX(CAST(SUBSTRING(idPago, 5) AS UNSIGNED))
+                  FROM Pago
+                  WHERE idPago LIKE 'PAG-%'";
+
+            $ultimoNumeroPago = (int) $this->db->query($sqlUltimoPago)->fetchColumn();
+
+            // Preparar inserción
+            $sqlPago = "INSERT INTO Pago (idPago,idContrato,idMetodoPago,Monto,FechaPago,
+                NumOperacion,  Observacion, Estado ) 
+            VALUES 
+                (:idPago,:idContrato,:idMetodoPago,:monto,NOW(),:numeroOperacion,:observacion,1)";
+
+            $consultaPago = $this->db->prepare($sqlPago);
+
+            foreach ($pagos as $pago) {
+
+                $idMetodoPago = trim($pago['idMetodoPago']);
+                $monto = round((float)$pago['monto'], 2);
+
+                $numeroOperacion = trim($pago['numeroOperacion'] ?? '');
+                $observacion = trim($pago['observacion'] ?? '');
+
+                // Verificar que el método de pago esté activo
+                $consultaMetodo->execute([
+                    ':idMetodoPago' => $idMetodoPago
+                ]);
+
+                if (!$consultaMetodo->fetch(PDO::FETCH_ASSOC)) {
+                    throw new Exception("Uno de los métodos de pago no existe o está inactivo.");
+                }
+
+                $ultimoNumeroPago++;
+
+                $idPago = 'PAG-' . str_pad(
+                    $ultimoNumeroPago,
+                    4,
+                    '0',
+                    STR_PAD_LEFT
+                );
+
+                $consultaPago->execute([
+                    ':idPago' => $idPago,
+                    ':idContrato' => $idContrato,
+                    ':idMetodoPago' => $idMetodoPago,
+                    ':monto' => $monto,
+                    ':numeroOperacion' => $numeroOperacion !== '' ? $numeroOperacion : null,
+                    ':observacion' => $observacion !== '' ? $observacion : null
+                ]);
+            }
             // 9. Confirmar todos los registros
             $this->db->commit();
 
@@ -327,6 +417,52 @@ class Venta{
         $consulta->execute([
             ':idVenta' => $idVenta
         ]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+     // Obtener los pagos realizados en una venta
+    public function obtenerPagosVenta($idVenta) {
+
+        $sql = "SELECT
+                p.idPago,
+                mp.NombreMetodo,
+                p.Monto,
+                p.FechaPago,
+                p.NumOperacion,
+                p.Observacion
+
+            FROM Pago p
+
+            INNER JOIN MetodoPago mp
+                ON p.idMetodoPago = mp.idMetodoPago
+
+            INNER JOIN Ventas v
+                ON p.idContrato = v.idContrato
+
+            WHERE v.idVenta = :idVenta
+            AND p.Estado = 1
+
+            ORDER BY p.FechaPago ASC";
+
+        $consulta = $this->db->prepare($sql);
+
+        $consulta->execute([
+            ':idVenta' => $idVenta
+        ]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    //OBtener los metodos de pago 
+    public function obtenerMetodosPago(){
+        $sql = "SELECT idMetodoPago, NombreMetodo
+        FROM MetodoPago
+        WHERE Estado = 1
+        ORDER BY NombreMetodo ASC";
+
+        $consulta = $this->db->prepare($sql);
+        $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

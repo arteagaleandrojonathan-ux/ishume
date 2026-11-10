@@ -618,4 +618,116 @@ button {
         padding: 8px 12px;
     }
 }
+/*BOTON PARA VOLER A CONTRATOS*/
+.btn-volver-contratos {
+    display: inline-flex;
+    align-items: center;
 
+    padding: 6px 10px;
+    border: 1px solid #d8d3cd;
+    border-radius: 6px;
+
+    color: #333;
+    background: white;
+    text-decoration: none;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.btn-volver-contratos:hover {
+    background: #f4f1ed;
+}
+
+
+/*BOTON PARA REGISTRAR VENTA*/
+.boton-registrar-venta {
+     display: flex;
+    width: fit-content;
+    margin-left: auto;
+
+
+    padding: 6px 10px;
+    border: 1px solid #d8d3cd;
+    border-radius: 6px;
+
+    color: #333;
+    background: white;
+    text-decoration: none;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.boton-registrar-venta:hover {
+    background: #f4f1ed;
+}
+
+
+/* PANEL DE REGISTRO DE PAGOS */
+.panel-pagos {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.65);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.panel-pagos[hidden] {
+    display: none;
+}
+
+.contenido-panel-pagos {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+.contenido-panel-pagos h2 {
+    margin-top: 0;
+}
+
+.fila-pago {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.fila-pago select,
+.fila-pago input {
+    min-width: 0;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.resumen-pagos {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.acciones-panel-pagos {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.acciones-panel-pagos button,
+#agregarMetodoPago {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
