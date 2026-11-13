@@ -15,7 +15,7 @@ function escaparDetalle($valor) {
             </p>
         </div>
 
-        <a href="index.php?opcion=listaContratos" class="btn-volver-detalle">
+        <a href="index.php?opcion=ventas" class="btn-volver-detalle">
             ← Volver 
         </a>
     </header>
@@ -62,39 +62,132 @@ function escaparDetalle($valor) {
     </section>
 
     <!-- RESUMEN DE LA VENTA -->
-    <section class="resumen-detalle-venta">
+    
+<!-- RESUMEN DE LA VENTA -->
+<section class="resumen-detalle-venta">
 
-        <div>
-            <span>Productos solicitados</span>
-            <strong><?= (int) $venta['CantidadPedidos'] ?></strong>
+    <div>
+        <span>Productos solicitados</span>
+        <strong><?= (int) $venta['CantidadPedidos'] ?></strong>
+    </div>
+
+    <div>
+        <span>Total de la venta</span>
+        <strong>
+            S/ <?= number_format((float) $venta['PrecioTotal'], 2) ?>
+        </strong>
+    </div>
+
+    <div>
+        <span>Fecha de entrega Material</span>
+        <strong>
+            <?= !empty($venta['FechaEntrega'])
+                ? date('d/m/Y', strtotime($venta['FechaEntrega']))
+                : 'Por definir' ?>
+        </strong>
+    </div>
+
+    <div>
+        <span>Fecha límite de pago</span>
+        <strong>
+            <?= !empty($venta['FechaLimitePago'])
+                ? date('d/m/Y', strtotime($venta['FechaLimitePago']))
+                : 'Por definir' ?>
+        </strong>
+    </div>
+
+    <!-- BOTÓN PARA EDITAR FECHAS -->
+    <div class="acciones-fechas-venta">
+        
+        <button type="button" |id="btnEditarFechasVenta"
+            onclick="document.getElementById('modalFechasVenta').classList.add('mostrar')">
+            ✎ Editar fechas
+        </button>
+    </div>
+
+</section>
+
+<!-- MODAL PARA EDITAR FECHAS -->
+<div class="modal-fechas-venta" id="modalFechasVenta">
+
+    <div class="contenido-modal-fechas">
+
+        <div class="encabezado-modal-fechas">
+            <div>
+                <h2>Editar fechas</h2>
+                <p>Actualiza las fechas programadas para esta venta.</p>
+            </div>
+
+            <button type="button"
+                    class="cerrar-modal-fechas"
+                    id="cerrarModalFechas">
+                &times;
+            </button>
         </div>
 
-        <div>
-            <span>Total de la venta</span>
-            <strong>
-                S/ <?= number_format((float) $venta['PrecioTotal'], 2) ?>
-            </strong>
-        </div>
+        <form id="formEditarFechas">
 
-        <div>
-            <span>Fecha de entrega</span>
-            <strong>
-                <?= !empty($venta['FechaEntrega'])
-                    ? date('d/m/Y', strtotime($venta['FechaEntrega']))
-                    : 'Por definir' ?>
-            </strong>
-        </div>
+            <input type="hidden"
+                   name="idVenta"
+                   value="<?= escaparDetalle($venta['idVenta']) ?>">
 
-        <div>
-            <span>Fecha límite de pago</span>
-            <strong>
-                <?= !empty($venta['FechaLimitePago'])
-                    ? date('d/m/Y', strtotime($venta['FechaLimitePago']))
-                    : 'Por definir' ?>
-            </strong>
-        </div>
+            <!-- FECHA DE ENTREGA -->
+            <div class="campo-fecha-venta">
 
-    </section>
+                <label for="fechaEntrega">
+                    Fecha y hora de entrega
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaEntrega"
+                    name="fechaEntrega"
+                >
+
+                <small>Indica cuándo se realizará la entrega.</small>
+
+            </div>
+
+            <!-- FECHA LÍMITE DE PAGO -->
+            <div class="campo-fecha-venta">
+
+                <label for="fechaLimitePago">
+                    Fecha límite de pago
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaLimitePago"
+                    name="fechaLimitePago"
+                    value="<?= !empty($venta['FechaLimitePago'])
+                        ? date('Y-m-d', strtotime($venta['FechaLimitePago']))
+                        : '' ?>"
+                >
+
+                <small>Indica hasta qué fecha se puede completar el pago.</small>
+
+            </div>
+
+            <!-- BOTONES -->
+            <div class="acciones-modal-fechas">
+
+                <button type="button"
+                        id="cancelarModalFechas">
+                    Cancelar
+                </button>
+
+                <button type="submit"
+                        id="guardarFechasVenta">
+                    Guardar cambios
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
     <!-- PRODUCTOS -->
     <section class="seccion-productos-venta">

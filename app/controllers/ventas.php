@@ -177,7 +177,103 @@ class VentasController {
         // Indicar al panel principal qué vista debe cargar
         $vista = 'detalleVenta';
 
-        require_once __DIR__ . "/../views/detalleVenta.php";
+        require_once __DIR__ . "/../views/PanelPrincipal.php";
     }
+
+
+    // Actualizar las fechas de una venta
+    public function actualizarFechasVenta() {
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Método no permitido.'
+            ]);
+            return;
+        }
+
+        $datos = json_decode(file_get_contents('php://input'), true);
+
+        if (!is_array($datos)) {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Los datos enviados no son válidos.'
+            ]);
+            return;
+        }
+
+        $idVenta = trim($datos['idVenta'] ?? '');
+        $fechaEntrega = trim($datos['fechaEntrega'] ?? '');
+        $fechaLimitePago = trim($datos['fechaLimitePago'] ?? '');
+
+        if ($idVenta === '') {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'No se recibió el código de la venta.'
+            ]);
+            return;
+        }
+
+        // Validar fecha y hora de entrega
+        if ($fechaEntrega !== '') {
+            $fecha = DateTime::createFromFormat('!Y-m-d', $fechaEntrega);
+
+            if (!$fecha || $fecha->format('Y-m-d') !== $fechaEntrega) {
+                throw new Exception('La fecha de entrega no es válida.');
+            }
+
+            $fechaEntrega = $fecha->format('Y-m-d');
+        } else {
+            $fechaEntrega = null;
+        }
+
+        // Validar fecha límite de pago
+        if ($fechaLimitePago !== '') {
+            $fecha = DateTime::createFromFormat('!Y-m-d', $fechaLimitePago);
+
+            if (!$fecha || $fecha->format('Y-m-d') !== $fechaLimitePago) {
+                http_response_code(400);
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'La fecha límite de pago no es válida.'
+                ]);
+                return;
+            }
+
+            $fechaLimitePago = $fecha->format('Y-m-d');
+        } else {
+            $fechaLimitePago = null;
+        }
+
+        try {
+            $resultado = $this->AccionModelo->actualizarFechasVenta(
+                $idVenta,
+                $fechaEntrega,
+                $fechaLimitePago
+            );
+
+            if (!$resultado) {
+                throw new Exception('No se pudieron actualizar las fechas.');
+            }
+
+            echo json_encode([
+                'ok' => true,
+                'mensaje' => 'Las fechas se actualizaron correctamente.'
+            ]);
+
+        } catch (Throwable $e) {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => $e->getMessage()
+            ]);
+        }
+    }
+
 }
 ?>

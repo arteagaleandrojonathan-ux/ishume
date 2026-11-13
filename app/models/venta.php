@@ -466,4 +466,27 @@ class Venta{
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    // Actualizar las fechas de una venta
+    public function actualizarFechasVenta($idVenta, $fechaEntrega, $fechaLimitePago) {
+
+        $sql = "UPDATE Ventas
+                SET FechaEntrega = :fechaEntrega,
+                    FechaLimitePago = :fechaLimitePago
+                WHERE idVenta = :idVenta";
+
+        $consulta = $this->db->prepare($sql);
+
+        $consulta->bindValue(':fechaEntrega', $fechaEntrega, 
+            $fechaEntrega === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+
+        $consulta->bindValue(':fechaLimitePago', $fechaLimitePago,
+            $fechaLimitePago === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+
+        $consulta->bindValue(':idVenta', $idVenta, PDO::PARAM_STR);
+
+        return $consulta->execute();
+    }
+
 }

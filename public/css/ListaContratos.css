@@ -602,3 +602,97 @@ body {
 }
 
 
+/* ==========================================
+   ACCIONES DE CONTRATOS
+========================================== */
+
+.acciones-contrato {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.btn-ver-contrato,
+.btn-pdf-contrato {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+
+    transition: 0.2s;
+}
+
+.btn-ver-contrato {
+    background: #e8f1ff;
+    color: #2563a6;
+}
+
+.btn-ver-contrato:hover {
+    background: #d4e5ff;
+}
+
+.btn-pdf-contrato {
+    background: #fde9e7;
+    color: #c0392b;
+}
+
+.btn-pdf-contrato:hover {
+    background: #fbd4d0;
+}
+
+/* BUSCADOR POR COLEGIO */
+.buscador-colegio-contratos {
+    margin: 20px 0;
+}
+
+.buscador-colegio-contratos label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.buscador-colegio-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.buscador-colegio-input i {
+    color: #888;
+}
+
+.buscador-colegio-input input {
+    flex: 1;
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+}
+
+.buscador-colegio-input button {
+    border: none;
+    background: transparent;
+    color: #F7931E;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mensaje-busqueda-vacia {
+    padding: 18px;
+    text-align: center;
+    color: #777;
+}

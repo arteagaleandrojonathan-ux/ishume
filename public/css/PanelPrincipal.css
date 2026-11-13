@@ -3,55 +3,21 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* ================================
-   RESPONSIVE GENERAL
-================================ */
 
-/* Laptops y pantallas medianas */
-@media (max-width: 1200px) {
-
-    .menu {
-        width: 20%;
-    }
-
-    .contenido {
-        width: 80%;
-        padding: 24px;
-    }
-
+html {
+    -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
 }
 
-
-/* Tablets */
-@media (max-width: 900px) {
-
-    .PanelPrincipal {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .menu {
-        width: 220px;
-    }
-
-    .contenido {
-        width: calc(100% - 220px);
-        padding: 20px;
-    }
-
-}
-@media (max-width: 600px) {
-
-    main form {
-        grid-template-columns: 1fr;
-    }
-
-}
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     min-height: 100vh;
     background-color: #F5F3EF;
     color: #1A1A1A;
+}
+
+img {
+    max-width: 100%;
 }
 
 
@@ -63,48 +29,46 @@ body {
     display: flex;
     width: 100%;
     height: 100vh;
+    height: 100dvh;          /* móviles: evita que la barra del navegador tape contenido */
     overflow: hidden;
 }
 
 
-/* =====================================================
+/* Elementos del menú móvil: ocultos en laptop/escritorio */
+
+.menu-toggle,
+.menu-boton,
+.menu-fondo {
+    display: none;
+}
+
+
+/* =========================================
    MENÚ LATERAL
-   ===================================================== */
+========================================= */
 
 .menu {
-    width: 15%;
-    height: 100vh;
+    width: 240px;
+    height: 100%;
     flex-shrink: 0;
-
+    overflow-y: auto;        /* si la pantalla es baja, el menú hace scroll */
     background-color: #171717;
-
     padding: 30px 20px;
-
     box-shadow: 4px 0 18px rgba(0, 0, 0, 0.12);
 }
 
-
-/* =====================================================
-   LOGO
-   ===================================================== */
+/* LOGO */
 
 .logo {
     text-align: center;
-
     font-size: 27px;
     font-weight: 700;
-
     color: #F4E7D0;
-
     margin-bottom: 50px;
-
     letter-spacing: 3px;
 }
 
-
-/* =====================================================
-   MENÚ DE NAVEGACIÓN
-   ===================================================== */
+/* NAVEGACIÓN */
 
 .menu nav {
     display: flex;
@@ -114,95 +78,90 @@ body {
 
 .menu nav a {
     display: block;
-
     padding: 13px 17px;
-
     color: #E8E5DF;
-
+    background-color: transparent;
     text-decoration: none;
-
     border-radius: 8px;
-
     font-size: 15px;
     font-weight: 500;
 
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease;
+    transition: background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
 }
 
+/* AL PASAR EL RATÓN */
 
-/* Evitar que el hover quite el color activo */
-.menu nav a.activo:hover {
+.menu nav a:hover {
+    background-color: #F7931E;
+    color: #171717;
+    transform: translateX(3px);
+}
+
+/* APARTADO ACTUALMENTE SELECCIONADO */
+
+.menu nav a.activo {
     background-color: #F7931E;
     color: #171717;
 }
 
+/* MANTENER EL NARANJA AL PASAR EL RATÓN */
 
-/* =====================================================
-   INVENTARIO - SUBMENÚ PAPELERA
-   ===================================================== */
+.menu nav a.activo:hover {
+    background-color: #F7931E;
+    color: #171717;
+    transform: translateX(3px);
+}
+
+/* SUBMENÚ INVENTARIO */
+
 .menu-inventario {
     display: flex;
     flex-direction: column;
 }
 
+/* PAPELERA */
 
-/* PAPELERA OCULTA */
 .subopcion-inventario {
     display: none !important;
-
-    margin-left:35px;
-
+    margin-left: 35px;
     padding: 7px 17px !important;
-
     color: #A9A49D !important;
-
     font-size: 13px !important;
-
     border-left: 2px solid #F7931E;
-
     border-radius: 0 !important;
-
-    text-decoration: none;
-
-    transition: 0.2s ease;
 }
-
 
 /* MOSTRAR PAPELERA AL PASAR POR INVENTARIO */
 
-.menu-inventario:hover .subopcion-inventario {
+.menu-inventario:hover .subopcion-inventario,
+.menu-inventario:focus-within .subopcion-inventario {
     display: block !important;
 }
 
+/* PAPELERA ACTIVA */
 
-/* EFECTO AL PASAR SOBRE PAPELERA */
-
-.subopcion-inventario:hover {
-    color: #F7931E !important;
-
-    background-color: transparent !important;
-
-    transform: translateX(3px);
+.menu nav a.subopcion-inventario.activo {
+    background-color: #F7931E;
+    color: #171717 !important;
 }
+
 
 /* =====================================================
    CONTENIDO
    ===================================================== */
 
 .contenido {
-    
-    width: 85%;
-    
-    height: 100vh;
+    flex: 1;                 /* ocupa todo el espacio que deja el menú */
+    min-width: 0;            /* evita que tablas/formularios anchos lo ensanchen */
+    height: 100%;
 
     padding: 32px;
 
     background-color: #F5F3EF;
 
-    overflow: hidden;   
+    overflow: auto;          /* antes "hidden": ahora hace scroll si el contenido es largo */
 }
 
 
@@ -234,12 +193,15 @@ body {
     font-weight: 650;
 
     letter-spacing: -0.3px;
+
+    overflow-wrap: anywhere;
 }
 
 
 /* =====================================================
    CONTENIDO PRINCIPAL
    ===================================================== */
+
 .principal {
     width: 100%;
 
@@ -274,3 +236,253 @@ body {
     line-height: 1.6;
 }
 
+
+/* =====================================================
+   RESPONSIVE
+   (por encima de 1024px no cambia nada: se ve igual que en laptop)
+   ===================================================== */
+
+/* ---------- Laptops pequeñas / tablets horizontales ---------- */
+
+@media (max-width: 1024px) {
+
+    .menu {
+        width: 200px;
+        padding: 26px 14px;
+    }
+
+    .logo {
+        font-size: 23px;
+        margin-bottom: 36px;
+        letter-spacing: 2px;
+    }
+
+    .menu nav a {
+        padding: 12px 14px;
+    }
+
+    .contenido {
+        padding: 24px;
+    }
+
+    .encabezado {
+        padding: 18px 20px;
+    }
+
+    .encabezado h1 {
+        font-size: 23px;
+    }
+
+    .principal {
+        padding: 22px;
+    }
+}
+
+
+/* ---------- Tablets verticales y celulares:
+              el menú pasa a ser un panel que se abre con el botón ---------- */
+
+@media (max-width: 768px) {
+
+    /* Barra superior fija con el botón hamburguesa */
+
+    .menu-boton {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1100;
+
+        height: 56px;
+        padding: 0 16px;
+
+        background-color: #171717;
+        color: #F4E7D0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 3px;
+
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Icono de las 3 rayas */
+
+    .menu-icono,
+    .menu-icono::before,
+    .menu-icono::after {
+        display: block;
+        width: 24px;
+        height: 2px;
+        border-radius: 2px;
+        background-color: #F4E7D0;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .menu-icono {
+        position: relative;
+    }
+
+    .menu-icono::before,
+    .menu-icono::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+
+    .menu-icono::before { top: -7px; }
+    .menu-icono::after  { top:  7px; }
+
+    /* Las 3 rayas se convierten en una X cuando el menú está abierto */
+
+    .menu-toggle:checked ~ .menu-boton .menu-icono {
+        background-color: transparent;
+    }
+
+    .menu-toggle:checked ~ .menu-boton .menu-icono::before {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle:checked ~ .menu-boton .menu-icono::after {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Checkbox oculto pero accesible con teclado */
+
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .menu-toggle:focus-visible ~ .menu-boton {
+        outline: 2px solid #F7931E;
+        outline-offset: -4px;
+    }
+
+    /* Fondo oscuro detrás del menú abierto */
+
+    .menu-fondo {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+
+        background-color: rgba(0, 0, 0, 0.5);
+
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .menu-toggle:checked ~ .menu-fondo {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Menú como panel deslizable */
+
+    .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1050;
+
+        width: min(280px, 82vw);
+        height: 100%;
+        padding: 26px 18px;
+
+        transform: translateX(-105%);
+        transition: transform 0.28s ease;
+    }
+
+    .menu-toggle:checked ~ .menu {
+        transform: translateX(0);
+        box-shadow: 8px 0 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .menu nav a {
+        padding: 14px 16px;      /* zona de toque más cómoda */
+    }
+
+    /* En celular no existe "pasar el ratón": Papelera siempre visible */
+
+    .subopcion-inventario {
+        display: block !important;
+    }
+
+    /* El contenido ocupa todo el ancho, debajo de la barra superior */
+
+    .contenido {
+        width: 100%;
+        padding: 72px 16px 24px;     /* 56px de barra + 16px de aire */
+    }
+
+    .encabezado {
+        padding: 16px 18px;
+        margin-bottom: 16px;
+    }
+
+    .encabezado h1 {
+        font-size: 21px;
+    }
+
+    .principal {
+        padding: 18px;
+    }
+
+    .principal h2 {
+        font-size: 19px;
+    }
+}
+
+
+/* ---------- Celulares pequeños ---------- */
+
+@media (max-width: 480px) {
+
+    .contenido {
+        padding: 68px 12px 20px;
+    }
+
+    .encabezado {
+        padding: 14px 16px;
+        border-radius: 8px;
+    }
+
+    .encabezado h1 {
+        font-size: 19px;
+    }
+
+    .principal {
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .principal p {
+        font-size: 14px;
+    }
+}
+
+
+/* ---------- Pantallas táctiles: sin efecto de "desplazarse" al tocar ---------- */
+
+@media (hover: none) {
+
+    .menu nav a:hover,
+    .menu nav a.activo:hover {
+        transform: none;
+    }
+}

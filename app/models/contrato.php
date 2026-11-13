@@ -293,5 +293,83 @@ class Contrato {
     }
 
 
+
+    public function obtenerContratoPorId($idContrato) {
+
+        $sql = "SELECT
+                c.idContrato,c.Evento,c.Servicio,c.Direccion,c.FechaContrato,c.FechaEvento,c.Condiciones,c.Estado,
+
+                cli.Nombre,cli.Apellidos,cli.Testigo,cli.TipoDOI,cli.NumDOI,cli.Telefono,cli.Correo,cli.Direccion AS DireccionCliente,
+
+                col.NombreColegio,
+
+                d.NombreDistrito,p.NomProvincia,
+
+            -- DATOS DE LA VENTA
+                v.PrecioTotal,
+                v.FechaLimitePago,
+
+            -- TOTAL PAGADO (todos los pagos activos)
+                COALESCE((SELECT SUM(pg.Monto)
+                FROM Pago pg
+                WHERE pg.idContrato = c.idContrato
+                  AND pg.Estado = TRUE), 0) AS TotalPagado,
+
+            -- PRIMER PAGO REGISTRADO
+                ( SELECT pg.Monto
+                    FROM Pago pg
+                    WHERE pg.idContrato = c.idContrato
+                        AND pg.Estado = TRUE
+                    ORDER BY pg.FechaPago ASC, pg.idPago ASC
+                    LIMIT 1) AS PrimerPago,
+
+                -- MÉTODO DEL PRIMER PAGO
+                (SELECT mp.NombreMetodo
+                    FROM Pago pg
+                    INNER JOIN MetodoPago mp
+                        ON pg.idMetodoPago = mp.idMetodoPago
+                    WHERE pg.idContrato = c.idContrato
+                        AND pg.Estado = TRUE
+                    ORDER BY pg.FechaPago ASC, pg.idPago ASC
+                    LIMIT 1) AS MetodoPrimerPago,
+
+            -- FECHA DEL PRIMER PAGO
+                (SELECT pg.FechaPago
+                    FROM Pago pg
+                    WHERE pg.idContrato = c.idContrato
+                        AND pg.Estado = TRUE
+                    ORDER BY pg.FechaPago ASC, pg.idPago ASC
+                    LIMIT 1) AS FechaPrimerPago,
+
+            -- SALDO PENDIENTE
+                 GREATEST(v.PrecioTotal - COALESCE((
+                    SELECT SUM(pg.Monto)
+                    FROM Pago pg
+                    WHERE pg.idContrato = c.idContrato
+                      AND pg.Estado = TRUE ), 0), 0) AS SaldoPendiente
+
+        FROM Contratos c
+        INNER JOIN Cliente cli
+        ON c.idCliente = cli.idCliente
+        INNER JOIN Colegios col
+        ON c.idColegio = col.idColegio
+        INNER JOIN Distritos d
+        ON c.idDistrito = d.idDistrito
+        INNER JOIN Provincias p
+        ON d.idProvincia = p.idProvincia
+        LEFT JOIN Ventas v
+        ON c.idContrato = v.idContrato
+        WHERE c.idContrato = :idContrato
+        LIMIT 1";
+
+        $consulta = $this->db->prepare($sql);
+
+        $consulta->execute([
+            ':idContrato' => $idContrato
+        ]);
+
+        return $consulta->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
 

@@ -306,3 +306,147 @@
     background: #EEF3E6;
     color: #2F4A12;
 }
+
+
+/* =====================================================
+   RESPONSIVE
+   (por encima de 900px no cambia nada: se ve igual que en laptop)
+   ===================================================== */
+
+/* ---------- Tablets ---------- */
+
+@media (max-width: 900px) {
+
+    /* El scroll lo hace la página, no el panel (evita scroll dentro de scroll) */
+
+    .panel-contratos {
+        height: auto;
+        overflow: visible;
+        padding-right: 0;
+    }
+
+    .panel-tarjetas {
+        gap: 18px;
+    }
+
+    .panel-doble {
+        gap: 18px;
+    }
+
+    /* Las tablas no parten sus textos en varias líneas: si no caben, la tarjeta hace scroll */
+
+    .tabla-panel th,
+    .tabla-panel td {
+        white-space: nowrap;
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    .panel-contratos {
+        gap: 18px;
+    }
+
+    /* Los mínimos de 380px / 420px eran más anchos que la pantalla del celular */
+
+    .panel-tarjetas {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    }
+
+    .panel-doble {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    }
+
+    .panel-buscador {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .tarjeta {
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .panel-resumen {
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .panel-resumen strong {
+        font-size: 26px;
+    }
+
+    .tabla-panel th,
+    .tabla-panel td {
+        padding: 10px;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 600px) {
+
+    .tarjeta {
+        padding: 16px;
+    }
+
+    .tarjeta h2 {
+        font-size: 17px;
+    }
+
+    .contadores {
+        gap: 10px;
+    }
+
+    .contador {
+        padding: 12px;
+    }
+
+    .contador strong {
+        font-size: 26px;
+    }
+
+    /* Botones de cada tarjeta: comparten la fila y ocupan todo el ancho */
+
+    .acciones-tarjeta > a {
+        flex: 1 1 auto;            /* comparten fila si caben; si no, cada uno ocupa una fila */
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    /* Tablas: cada una hace scroll horizontal por sí sola; el título queda quieto */
+
+    .tabla-panel {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabla-panel th,
+    .tabla-panel td {
+        white-space: nowrap;
+    }
+}
+
+
+/* ---------- Celulares muy pequeños ---------- */
+
+@media (max-width: 380px) {
+
+    .contador {
+        padding: 10px;
+    }
+
+    .contador strong {
+        font-size: 22px;
+        white-space: nowrap;
+    }
+
+    .panel-resumen strong {
+        font-size: 23px;
+    }
+}

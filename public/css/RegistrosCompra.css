@@ -2237,6 +2237,257 @@
 
 
 
+/* =====================================================
+   RESPONSIVE (ajuste final para celular y tablet)
+   Va al final del archivo a propósito: pisa las reglas anteriores
+   solo en pantallas pequeñas. En laptop no cambia nada.
+   ===================================================== */
+
+/* ---------- Hasta 1200px: la tabla (5 columnas) hace scroll horizontal ---------- */
+
+@media (max-width: 1200px) {
+
+    .tabla-registros-compra {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* La columna ACCIONES queda fija a la derecha: Ver detalle / Cancelar siempre a mano */
+
+    .tabla-registros-compra th:last-child,
+    .tabla-registros-compra td:last-child {
+        position: sticky;
+        right: 0;
+    }
+
+    .tabla-registros-compra th:last-child {
+        background-color: #171717;
+    }
+
+    .tabla-registros-compra td:last-child {
+        box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.25);
+    }
+}
 
 
+/* ---------- Hasta 1100px: el panel de detalle se centra en la pantalla ---------- */
 
+@media (max-width: 1100px) {
+
+    /* El desplazamiento de 80px (pensado para el menú lateral de laptop) lo cortaba por la derecha */
+
+    .detalle-compra-panel {
+        transform: none;
+    }
+}
+
+
+/* ---------- Tablets ---------- */
+
+@media (max-width: 900px) {
+
+    /* Tabla alineada con el formulario de filtros (antes quedaba 15px más angosta) */
+
+    .contenedor-registros-compra {
+        padding: 0;
+    }
+
+    .panel-registros-compra {
+        margin-top: 0;
+    }
+
+    /* "Observaciones" ocupa toda la fila */
+
+    .dato-compra:has(> p) {
+        grid-column: 1 / -1;
+    }
+
+    .panel-cancelar-compra {
+        max-height: 90vh;
+        max-height: 90dvh;
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    /* 16px en los campos: el teclado del celular no hace zoom al tocarlos */
+
+    .campo-filtro input[type="date"],
+    .filtroboton,
+    .campo-motivo textarea {
+        font-size: 16px;
+    }
+
+    .tabla-registros-compra th,
+    .tabla-registros-compra td {
+        padding: 11px 12px;
+    }
+
+    .tabla-registros-compra table {
+        font-size: 13px;
+    }
+
+    .boton-detalle-compra,
+    .boton-anular-compra {
+        padding: 9px 12px;
+    }
+
+    .flecha {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Los nombres largos de producto no deben salirse de la lista de cancelación */
+
+    .producto-cancelar-info {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 600px) {
+
+    /* Cabecera: título a la izquierda y botón "Volver" a la derecha (no uno debajo del otro) */
+
+    .cabecera-registros-compra {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        margin-bottom: 18px;
+    }
+
+    .textos-registros-compra h1 {
+        font-size: 22px;
+    }
+
+    .formulario {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    /* Acciones de la tabla: botones apilados para que la columna fija sea angosta */
+
+    .tabla-registros-compra td:last-child > div {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .tabla-registros-compra td:last-child .boton-detalle-compra,
+    .tabla-registros-compra td:last-child .boton-anular-compra {
+        width: 100%;
+    }
+
+    /* Ventana de detalle / cancelar */
+
+    .detalle-overlay {
+        padding: 10px;
+    }
+
+    .detalle-compra-panel {
+        padding: 18px 16px;
+        border-radius: 10px;
+    }
+
+    .detalle-compra-cabecera h2,
+    .detalle-comrpa-cabecera h2 {
+        font-size: 20px;
+    }
+
+    .detalle-compra-cabecera {
+        margin-bottom: 14px;
+    }
+
+    /* Datos de la compra en 2 columnas (antes 1 sola, muy larga) */
+
+    .informacion-compra {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 16px;
+        margin-bottom: 18px;
+    }
+
+    /* Cantidad / Precio / Subtotal juntos en una sola fila */
+
+    .producto-detalle-datos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .producto-detalle-nombre strong {
+        overflow-wrap: anywhere;
+    }
+
+    /* Resumen de importes a todo el ancho */
+
+    .resumen-total-compra {
+        padding: 14px 0;
+    }
+
+    .resumen-total-compra > div {
+        width: 100%;
+    }
+
+    /* Lista de productos a cancelar: checkbox + nombre arriba, cifras debajo */
+
+    .producto-cancelar {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+    }
+
+    .producto-cancelar-info {
+        flex: 1 1 0;
+    }
+
+    .producto-cancelar-cifras {
+        flex-basis: 100%;
+        align-items: flex-start;
+        padding-left: 30px;
+    }
+
+    .bloque-cancelados-cabecera {
+        flex-wrap: wrap;
+    }
+
+    .resumen-cancelar {
+        flex-wrap: wrap;
+        gap: 6px 12px;
+    }
+
+    /* Botones de la ventana: a todo el ancho, el principal arriba */
+
+    .acciones-detalle-compra {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .acciones-detalle-compra .boton-volver-detalle,
+    .acciones-detalle-compra .boton-confirmar-anulacion,
+    .panel-confirmacion .boton-confirmar-anulacion {
+        width: 100%;
+        padding: 12px 16px;
+    }
+
+    .panel-confirmacion {
+        padding: 22px 18px;
+    }
+}
+
+
+/* ---------- Celulares muy pequeños ---------- */
+
+@media (max-width: 380px) {
+
+    .informacion-compra {
+        grid-template-columns: 1fr;
+    }
+
+    .producto-detalle-datos {
+        grid-template-columns: 1fr;
+    }
+}

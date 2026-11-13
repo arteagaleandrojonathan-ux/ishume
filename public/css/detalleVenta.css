@@ -1,139 +1,215 @@
-.detalle-venta {
-    width: 100%;
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 18px 22px;
-    box-sizing: border-box;
-    color: #292929;
+/* ==========================================================
+   ISHUME - DETALLE DE VENTA
+   (mismos colores y formas que el panel de contratos)
+   ========================================================== */
+
+:root {
+    --ishume-naranja: #F7931E;
+    --ishume-naranja-claro: #FFF4E5;
+
+    --detalle-texto-suave: #6B645C;
+    --detalle-borde: #E6E1DA;
+    --detalle-fondo-suave: #FAF8F5;
+    --detalle-radio: 12px;
 }
+
+
+/* ---------- Contenedor general (con su propio scroll) ----------
+   .contenido tiene height:100vh y overflow:hidden, por eso la vista
+   necesita su propio scroll; si no, lo de abajo se corta. */
+
+.detalle-venta {
+    height: 100%;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding-right: 8px;
+    color: #1A1A1A;
+}
+
+/* Sin esto, el contenido se aplasta en vez de hacer scroll */
+.detalle-venta > * {
+    flex-shrink: 0;
+}
+
+
+/* ---------- Encabezado ---------- */
 
 .encabezado-detalle {
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
     justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 16px;
+    gap: 16px;
 }
 
 .encabezado-detalle h1 {
     margin: 0;
-    font-size: 23px;
+    font-size: 32px;
+    line-height: 1.1;
 }
 
 .encabezado-detalle p {
-    margin: 4px 0 0;
-    color: #777;
-    font-size: 13px;
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--detalle-texto-suave);
 }
 
 .btn-volver-detalle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    padding: 0 18px;
+
+    background: #FFFFFF;
+    color: #1A1A1A;
+    border: 1px solid #CFC8BF;
+    border-radius: 10px;
+
+    font-size: 14px;
     text-decoration: none;
-    color: #333;
-    background: #f1f1f1;
-    padding: 9px 13px;
-    border-radius: 6px;
-    font-size: 12px;
     white-space: nowrap;
 }
 
 .btn-volver-detalle:hover {
-    background: #e5e5e5;
+    background: #F5F3EF;
 }
 
-/* Datos del contrato y cliente */
+.btn-volver-detalle:focus-visible {
+    outline: 2px solid var(--ishume-naranja);
+    outline-offset: 2px;
+}
+
+
+/* ---------- Datos del contrato y del cliente ---------- */
 
 .datos-generales-venta {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
 }
 
 .dato-venta {
     min-width: 0;
-    padding: 11px 13px;
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 7px;
+    padding: 14px 16px;
+
+    background: #FFFFFF;
+    border: 1px solid var(--detalle-borde);
+    border-radius: 10px;
 }
 
-.dato-venta span,
-.resumen-detalle-venta span {
+.dato-venta span {
     display: block;
-    color: #777;
-    font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--detalle-texto-suave);
 }
 
 .dato-venta strong {
     display: block;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 700;
     overflow-wrap: anywhere;
 }
 
-/* Resumen */
+
+/* ---------- Etiqueta de estado (pendiente, finalizada, cancelada) ---------- */
+
+.dato-venta .estado-venta-detalle {
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 10px;
+
+    border-radius: 999px;
+    background: #FFF1CC;
+    color: #6B4A00;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dato-venta .estado-venta-detalle.finalizada {
+    background: #EEF3E6;
+    color: #2F4A12;
+}
+
+.dato-venta .estado-venta-detalle.cancelada {
+    background: #FDE8E6;
+    color: #8A1C14;
+}
+
+
+/* ---------- Resumen de la venta (franja oscura, como en el panel) ---------- */
 
 .resumen-detalle-venta {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+
+    padding: 22px 24px;
+    background: #171717;
+    color: #FFFFFF;
+    border-radius: var(--detalle-radio);
 }
 
 .resumen-detalle-venta > div {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 7px;
-    padding: 11px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resumen-detalle-venta span {
+    font-size: 13px;
+    color: #D6CFC6;
 }
 
 .resumen-detalle-venta strong {
-    font-size: 15px;
+    font-size: 22px;
+    line-height: 1.2;
 }
 
-.estado-venta-detalle {
-    display: inline-block !important;
-    width: fit-content;
-    padding: 4px 8px;
-    border-radius: 20px;
-    font-size: 11px !important;
-    background: #fff2d8;
-    color: #946000;
+/* El total de la venta (segunda cifra) va en naranja */
+.resumen-detalle-venta > div:nth-child(2) strong {
+    color: var(--ishume-naranja);
 }
 
-.estado-venta-detalle.finalizada {
-    background: #e1f5e8;
-    color: #207344;
-}
 
-.estado-venta-detalle.cancelada {
-    background: #fde5e5;
-    color: #a52d2d;
-}
+/* ---------- Productos y pagos (tarjetas con tabla) ---------- */
 
-/* Tabla de productos */
-
-.seccion-productos-venta {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
+.seccion-productos-venta,
+.seccion-pagos-venta {
+    background: #FFFFFF;
+    border: 1px solid var(--detalle-borde);
+    border-radius: var(--detalle-radio);
     overflow: hidden;
 }
 
 .titulo-productos-venta {
-    padding: 13px 15px;
-    border-bottom: 1px solid #ededed;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--detalle-borde);
 }
 
 .titulo-productos-venta h2 {
+    display: inline-block;
     margin: 0;
-    font-size: 16px;
+    padding-bottom: 6px;
+
+    border-bottom: 3px solid var(--ishume-naranja);
+    font-size: 18px;
 }
 
 .titulo-productos-venta p {
-    margin: 4px 0 0;
-    font-size: 12px;
-    color: #777;
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--detalle-texto-suave);
 }
 
 .tabla-detalle-scroll {
@@ -143,31 +219,42 @@
 
 .tabla-detalle-venta {
     width: 100%;
+    min-width: 640px;
     border-collapse: collapse;
-    min-width: 680px;
-}
-
-.tabla-detalle-venta th,
-.tabla-detalle-venta td {
-    padding: 11px 13px;
-    text-align: left;
-    border-bottom: 1px solid #ededed;
-    font-size: 12px;
-    white-space: nowrap;
 }
 
 .tabla-detalle-venta th {
-    background: #f7f7f7;
-    color: #555;
-    font-weight: 600;
+    padding: 10px 16px;
+    text-align: left;
+    white-space: nowrap;
+
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--detalle-texto-suave);
+
+    background: var(--detalle-fondo-suave);
+    border-bottom: 1px solid var(--detalle-borde);
+}
+
+.tabla-detalle-venta td {
+    padding: 13px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+    border-bottom: 1px solid #EFEBE5;
+}
+
+.tabla-detalle-venta tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 .tabla-detalle-venta tbody tr:hover {
-    background: #fafafa;
+    background: var(--detalle-fondo-suave);
 }
 
 .producto-detalle {
-    max-width: 250px;
+    max-width: 280px;
     white-space: normal !important;
 }
 
@@ -175,73 +262,240 @@
     font-weight: 700;
 }
 
+/* Cantidades y montos alineados a la derecha */
+.seccion-productos-venta .tabla-detalle-venta th:nth-child(n+3),
+.seccion-productos-venta .tabla-detalle-venta td:nth-child(n+3),
+.seccion-pagos-venta .tabla-detalle-venta th:nth-child(3),
+.seccion-pagos-venta .tabla-detalle-venta td:nth-child(3) {
+    text-align: right;
+}
+
+
+/* ---------- Mensaje cuando no hay productos o pagos ---------- */
+
 .sin-productos-venta {
-    padding: 25px;
+    padding: 28px 20px;
     text-align: center;
-    color: #777;
-    font-size: 13px;
+    font-size: 14px;
+    color: var(--detalle-texto-suave);
+    background: var(--detalle-fondo-suave);
 }
 
-/* Responsive */
 
-@media (max-width: 900px) {
-    .datos-generales-venta {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+/* ---------- Responsive ---------- */
 
-    .resumen-detalle-venta {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
+@media (max-width: 700px) {
 
-@media (max-width: 600px) {
     .detalle-venta {
-        padding: 13px 10px;
+        gap: 14px;
+        padding-right: 4px;
     }
 
     .encabezado-detalle {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .encabezado-detalle h1 {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .datos-generales-venta {
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
     }
 
     .dato-venta {
-        padding: 9px;
+        padding: 10px 12px;
     }
 
     .dato-venta strong {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .resumen-detalle-venta {
-        gap: 7px;
-    }
-
-    .resumen-detalle-venta > div {
-        padding: 9px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        padding: 16px;
     }
 
     .resumen-detalle-venta strong {
-        font-size: 13px;
+        font-size: 18px;
     }
 
-    .btn-volver-detalle {
-        padding: 8px 10px;
+    .titulo-productos-venta {
+        padding: 14px 16px 12px;
     }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
+
     .datos-generales-venta,
     .resumen-detalle-venta {
         grid-template-columns: 1fr;
     }
 }
 
+
+/* =========================================
+   EDICIÓN DE FECHAS DE VENTA
+   ========================================= */
+
+.acciones-fechas-venta {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.acciones-fechas-venta button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 17px;
+    background: var(--ishume-naranja);
+    color: #fff;
+    border: 1px solid var(--ishume-naranja);
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.acciones-fechas-venta button:hover {
+    background: #df8015;
+    border-color: #df8015;
+}
+
+.modal-fechas-venta {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, .55);
+}
+
+.modal-fechas-venta.mostrar {
+    display: flex;
+}
+
+.contenido-modal-fechas {
+    width: 100%;
+    max-width: 480px;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid var(--detalle-borde);
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .18);
+}
+
+.encabezado-modal-fechas {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.encabezado-modal-fechas h2 {
+    margin: 0;
+    font-size: 21px;
+    color: #1a1a1a;
+}
+
+.encabezado-modal-fechas p {
+    margin: 7px 0 0;
+    font-size: 13px;
+    color: var(--detalle-texto-suave);
+}
+
+.cerrar-modal-fechas {
+    border: none;
+    background: transparent;
+    color: #777;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.campo-fecha-venta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo-fecha-venta label {
+    color: #292929;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo-fecha-venta input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d8d2ca;
+    border-radius: 8px;
+    outline: none;
+    color: #292929;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.campo-fecha-venta input:focus {
+    border-color: var(--ishume-naranja);
+    box-shadow: 0 0 0 3px rgba(247, 147, 30, .12);
+}
+
+.campo-fecha-venta small {
+    color: var(--detalle-texto-suave);
+    font-size: 12px;
+}
+
+.acciones-modal-fechas {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.acciones-modal-fechas button {
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#cancelarModalFechas {
+    background: #fff;
+    border: 1px solid #d8d2ca;
+    color: #444;
+}
+
+#guardarFechasVenta {
+    background: var(--ishume-naranja);
+    border: 1px solid var(--ishume-naranja);
+    color: #fff;
+}
+
+#guardarFechasVenta:hover {
+    background: #df8015;
+}
+
+@media (max-width: 420px) {
+    .contenido-modal-fechas {
+        padding: 19px 15px;
+    }
+
+    .acciones-modal-fechas {
+        flex-direction: column-reverse;
+    }
+
+    .acciones-modal-fechas button {
+        width: 100%;
+    }
+}

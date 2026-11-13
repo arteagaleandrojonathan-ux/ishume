@@ -1,7 +1,40 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+
+        // =========================================
+    // MODAL PARA EDITAR FECHAS DE VENTA
+    // =========================================
+
+    const modalFechasVenta = document.getElementById('c');
+    const btnEditarFechasVenta = document.getElementById('btnEditarFechasVenta');
+    const cerrarModalFechas = document.getElementById('cerrarModalFechas');
+    const cancelarModalFechas = document.getElementById('cancelarModalFechas');
+
+    if (modalFechasVenta && btnEditarFechasVenta) {
+
+        btnEditarFechasVenta.addEventListener('click', () => {
+            modalFechasVenta.classList.add('mostrar');
+        });
+
+        cerrarModalFechas.addEventListener('click', () => {
+            modalFechasVenta.classList.remove('mostrar');
+        });
+
+        cancelarModalFechas.addEventListener('click', () => {
+            modalFechasVenta.classList.remove('mostrar');
+        });
+
+        modalFechasVenta.addEventListener('click', (e) => {
+            if (e.target === modalFechasVenta) {
+                modalFechasVenta.classList.remove('mostrar');
+            }
+        });
+    }
+
     const resumenVenta = document.getElementById('resumenVenta');
+    if (!resumenVenta) return;
+
     const totalVenta = document.getElementById('totalVenta');
     const buscarProducto = document.getElementById('buscarProducto');
     const registrarVenta = document.getElementById('registrarVenta');
@@ -368,6 +401,68 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmarVenta.disabled = false;
             confirmarVenta.textContent = 'Confirmar venta';
         }
+    });
+
+    
+
+
+
+});
+
+// ========================================
+// ACTUALIZAR FECHAS DE UNA VENTA
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const formulario = document.getElementById('formEditarFechas');
+
+    if (!formulario) return;
+
+    formulario.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const idVenta = formulario.querySelector('[name="idVenta"]').value;
+        const fechaEntrega = document.getElementById('fechaEntrega').value;
+        const fechaLimitePago = document.getElementById('fechaLimitePago').value;
+
+        const botonGuardar = document.getElementById('guardarFechasVenta');
+
+        try {
+            botonGuardar.disabled = true;
+            botonGuardar.textContent = 'Guardando...';
+
+            const respuesta = await fetch('index.php?opcion=actualizarFechasVenta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idVenta,
+                    fechaEntrega,
+                    fechaLimitePago
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (!respuesta.ok || !resultado.ok) {
+                throw new Error(resultado.mensaje || 'No se pudieron guardar las fechas.');
+            }
+
+            alert(resultado.mensaje);
+
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Error al actualizar fechas:', error);
+            alert(error.message);
+
+        } finally {
+            botonGuardar.disabled = false;
+            botonGuardar.textContent = 'Guardar cambios';
+        }
+
     });
 
 });

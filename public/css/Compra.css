@@ -667,4 +667,199 @@
     background-color: #F7931E;
     color: #FFFFFF;
     box-shadow: 0 4px 12px rgba(247, 147, 30, 0.20);
-}   
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   (por encima de 960px no cambia nada: se ve igual que en laptop)
+   ===================================================== */
+
+/* ---------- Tablets: proveedor y "agregar producto" en 2 columnas ---------- */
+
+@media (max-width: 960px) {
+
+    .formulario-compra {
+        padding: 20px;
+    }
+
+    /* Proveedor arriba (ancho completo), RUC y teléfono debajo */
+
+    .datos-proveedor {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .campo-proveedor {
+        grid-column: 1 / -1;
+    }
+
+    /* Producto arriba, cantidad y precio debajo, botón al final */
+
+    .agregar-producto {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .campo-buscador-producto {
+        grid-column: 1 / -1;
+    }
+
+    .boton-agregar-producto {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    /* La tabla conserva un ancho mínimo y hace scroll horizontal si hace falta */
+
+    .detalle-compra {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabla-detalle-compra {
+        min-width: 520px;
+    }
+
+    /* La columna Acción queda fija a la derecha: "Eliminar" siempre a mano */
+
+    .tabla-detalle-compra th:last-child,
+    .tabla-detalle-compra td:last-child {
+        position: sticky;
+        right: 0;
+    }
+
+    .tabla-detalle-compra th:last-child {
+        background-color: #171717;
+    }
+
+    .tabla-detalle-compra td:last-child {
+        box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.25);
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    /* El scroll lo hace la página, no el formulario (evita scroll dentro de scroll) */
+
+    .formulario-compra {
+        max-height: none;
+        overflow: visible;
+        padding: 16px;
+    }
+
+    .titulo-seccion-compra h2 {
+        font-size: 18px;
+    }
+
+    /* 16px en los campos: el teclado del celular no hace zoom al tocarlos */
+
+    .campo-compra input,
+    .campo-compra select,
+    .campo-compra textarea {
+        font-size: 16px;
+    }
+
+    /* La lista de sugerencias no puede ser más alta que la pantalla */
+
+    .sugerencias-productos {
+        max-height: 40vh;
+        max-height: 40dvh;
+        overflow-y: auto;
+    }
+
+    .sugerencia-producto {
+        padding: 12px;
+    }
+
+    .tabla-detalle-compra th,
+    .tabla-detalle-compra td {
+        padding: 11px 12px;
+    }
+
+    .boton-eliminar-producto {
+        padding: 8px 12px;
+    }
+
+    /* Total */
+
+    .total-compra {
+        justify-content: space-between;
+    }
+
+    .total-compra strong {
+        font-size: 20px;
+    }
+
+    /* Botones de acción: uno debajo del otro, a todo el ancho */
+
+    .acciones-compra {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .acciones-compra .boton-registrar-compra {
+        order: -1;                 /* "Registrar compra" primero */
+    }
+
+    .boton-cancelar-compra,
+    .boton-registrar-compra,
+    .boton-ver-registros {
+        width: 100%;
+        padding: 12px 16px;
+        text-align: center;
+    }
+
+    /* Mensaje de registro exitoso centrado y sin salirse de la pantalla */
+
+    .mensaje-compra-exito {
+        left: 50%;
+        bottom: 20px;
+        width: max-content;
+        max-width: calc(100vw - 32px);
+        padding: 14px 20px;
+        font-size: 14px;
+        text-align: center;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 560px) {
+
+    .formulario-compra {
+        padding: 14px;
+    }
+
+    /* Proveedor, RUC y teléfono: una columna */
+
+    .datos-proveedor {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .agregar-producto {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .seccion-proveedor,
+    .productos-compra,
+    .seccion-observacion {
+        padding-bottom: 20px;
+    }
+}
+
+
+/* ---------- Celulares muy pequeños ---------- */
+
+@media (max-width: 360px) {
+
+    .agregar-producto {
+        grid-template-columns: 1fr;
+    }
+}

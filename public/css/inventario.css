@@ -358,6 +358,7 @@ main form button:hover {
     max-width: 800px;
 
     max-height: 90vh;
+    max-height: 90dvh;
 
     background-color: #FFFFFF;
 
@@ -707,6 +708,9 @@ main form button:hover {
     width: 90%;
 
     max-width: 550px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
 
     background-color: #FFFFFF;
 
@@ -945,12 +949,13 @@ main form button:hover {
     width: 340px;
     max-width: 90vw;
     height: 100vh;
+    height: 100dvh;
 
     background-color: #FFFFFF;
     border-left: 1px solid #E4DED4;
     box-shadow: -8px 0 28px rgba(0, 0, 0, 0.15);
 
-    padding: 22px 24px;
+    padding: 0 24px 22px;
     box-sizing: border-box;
     overflow-y: auto;
 
@@ -969,18 +974,35 @@ main form button:hover {
     justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 16px;
+
+    /* Queda fija arriba: la X siempre se ve aunque el panel haga scroll */
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 -24px 16px;
+    padding: 22px 24px 12px;
+    background-color: #FFFFFF;
 }
 
 .cabecera-detalle h2 {
+    min-width: 0;                  /* un nombre largo no empuja la X fuera del panel */
+    overflow-wrap: anywhere;
     font-size: 17px;
     color: #242220;
     line-height: 1.3;
 }
 
 .cerrar-detalle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-top: -6px;
     background: none;
     border: none;
+    border-radius: 8px;
     font-size: 26px;
     line-height: 1;
     cursor: pointer;
@@ -1027,4 +1049,268 @@ main form button:hover {
 .datos-detalle dd {
     color: #302D29;
     text-align: right;
+}
+
+/* =====================================================
+   RESPONSIVE
+   (por encima de 1024px no cambia nada: se ve igual que en laptop)
+   ===================================================== */
+
+/* ---------- Pantallas de hasta 1200px: la tabla (900px mínimo) hace scroll horizontal ---------- */
+
+@media (max-width: 1200px) {
+
+    .tabla-contenedor {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* La columna ACCIONES queda fija a la derecha: Editar / Dar de baja siempre a mano */
+
+    .tabla-contenedor th:last-child,
+    .tabla-contenedor td:last-child {
+        position: sticky;
+        right: 0;
+    }
+
+    .tabla-contenedor th:last-child {
+        z-index: 3;
+    }
+
+    .tabla-contenedor td:last-child {
+        z-index: 1;
+        background-color: #FFFFFF;
+        box-shadow: -6px 0 8px -6px rgba(32, 27, 20, 0.25);
+    }
+
+    .tabla-contenedor tbody tr:hover td:last-child {
+        background-color: #F5F1EA;
+    }
+
+    .tabla-contenedor tbody tr.fila-seleccionada td:last-child {
+        background-color: #EFE6D6;
+    }
+}
+
+
+/* ---------- Tablets: altura de tabla automática y filtros en 2 x 2 ---------- */
+
+@media (max-width: 1024px) {
+
+    .tabla-contenedor {
+        height: auto;
+        max-height: 68vh;
+        max-height: 68dvh;
+    }
+}
+
+
+/* ---------- Tablets verticales: filtros en 2 x 2 ---------- */
+
+@media (max-width: 900px) {
+
+    main form {
+        padding: 16px;
+        gap: 12px 14px;
+    }
+
+    /* Fila 1: buscador + botón (igual que en laptop) */
+
+    .buscador {
+        grid-column: 1 / 4;
+        grid-row: 1;
+    }
+
+    main form button {
+        grid-column: 4;
+        grid-row: 1;
+        width: 100%;
+        max-width: 114px;
+    }
+
+    /* Filas 2 y 3: los 4 filtros de dos en dos */
+
+    .campo-filtro {
+        grid-column: span 2;
+        grid-row: auto;
+    }
+
+    .tabla-contenedor {
+        margin-top: 18px;
+    }
+
+    .contenido-editar {
+        padding: 24px;
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    /* Paneles y ventanas por encima de la barra superior del menú */
+
+    .panel-detalle {
+        z-index: 1200;
+        width: min(340px, 92vw);
+    }
+
+    .modal-editar {
+        z-index: 1200;
+    }
+
+    .modal-baja {
+        z-index: 1250;
+    }
+
+    /* Tabla: encabezados más compactos */
+
+    .tabla-contenedor th {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* Botones de la tabla más fáciles de tocar */
+
+    .lin-editar {
+        display: inline-block;
+        padding: 9px 12px;
+    }
+
+    .boton-baja {
+        padding: 9px 12px;
+    }
+
+    /* Paginación */
+
+    .paginacion .flecha {
+        width: 36px;
+        height: 36px;
+    }
+
+    .paginacion .rango {
+        width: 52px;
+    }
+
+    /* 16px en los campos: el teclado del celular no hace zoom al tocarlos */
+
+    .buscador input,
+    .campo-filtro select,
+    .campo-editar input,
+    .select-editar,
+    #formBajaInventario .campo-baja input,
+    #formBajaInventario .campo-baja textarea {
+        font-size: 16px;
+    }
+
+    .campo-filtro select {
+        padding: 0 12px;
+    }
+
+    /* Ventana de edición */
+
+    .contenido-editar {
+        width: 94%;
+        padding: 20px 18px;
+        border-radius: 12px;
+    }
+
+    .cabecera-editar {
+        margin-bottom: 20px;
+    }
+
+    .cabecera-editar h2 {
+        font-size: 20px;
+    }
+
+    /* Ventana de baja */
+
+    .contenido-baja {
+        width: 94%;
+        padding: 20px 18px;
+        border-radius: 12px;
+    }
+
+    .cabecera-baja {
+        margin-bottom: 18px;
+    }
+
+    .cabecera-baja h2 {
+        font-size: 19px;
+    }
+}
+
+
+/* ---------- Celulares: una sola columna ---------- */
+
+@media (max-width: 560px) {
+
+    main form {
+        grid-template-columns: 1fr;
+        padding: 14px;
+    }
+
+    .buscador,
+    .campo-filtro {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+
+    main form button {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        justify-self: stretch;
+        max-width: none;
+        width: 100%;
+    }
+
+    /* Formulario de edición en una columna */
+
+    .form-editar {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .acciones-editar {
+        grid-column: 1 / -1;
+        flex-direction: column-reverse;
+        gap: 10px;
+        margin-top: 6px;
+        padding-top: 18px;
+    }
+
+    .boton-cancelar,
+    .boton-guardar {
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
+    }
+
+    /* Botón confirmar baja a todo el ancho */
+
+    #formBajaInventario .acciones-baja {
+        justify-content: stretch;
+    }
+
+    .boton-confirmar-baja {
+        width: 100%;
+        padding: 12px 16px;
+    }
+
+    /* Panel de detalle a todo el ancho */
+
+    .panel-detalle {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 16px 18px;
+    }
+
+    .cabecera-detalle {
+        margin: 0 -16px 14px;
+        padding: 16px 16px 10px;
+    }
+
+    .imagen-detalle img {
+        max-height: 240px;
+    }
 }

@@ -78,6 +78,18 @@
             $controller = new ContratosController();
             $controller->listaContratos();
             break;
+
+        case 'verContrato':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->verContrato();
+            break;
+
+        case 'descargarContratoPDF':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->descargarContratoPDF();
+            break;
     
 
         //TODAS LAS RUTAS DE VENTAS
@@ -101,6 +113,11 @@
             $controller = new VentasController();
             $controller->detalleVenta();
             break;
+        case 'actualizarFechasVenta':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+             $controller = new VentasController();
+             $controller->actualizarFechasVenta();
+             break;
 
 
         //TODAS LAS RUTAS A COMPRA

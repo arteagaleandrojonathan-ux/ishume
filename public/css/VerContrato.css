@@ -1,0 +1,553 @@
+
+/* =========================================
+   ISHUME - DETALLE DEL CONTRATO
+========================================= */
+
+.detalle-contrato {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 25px;
+    box-sizing: border-box;
+    color: #020202;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================
+   ENCABEZADO DE LA VISTA
+========================================= */
+
+.encabezado-detalle-contrato {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.encabezado-detalle-contrato h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #292929;
+}
+
+.encabezado-detalle-contrato span {
+    color: #777777;
+    font-size: 14px;
+}
+
+.btn-volver-contratos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    color: #444;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.btn-volver-contratos:hover {
+    background: #fff7ed;
+    border-color: #F7931E;
+    color: #e47e08;
+}
+
+/* =========================================
+   DOCUMENTO PRINCIPAL
+========================================= */
+
+.documento-contrato {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 45px 55px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .07);
+}
+
+/* =========================================
+   ENCABEZADO CORPORATIVO
+========================================= */
+.documento-encabezado {
+    position: relative;
+    text-align: center;
+    padding: 8px 0 10px;
+
+}
+.contrato-barra p {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+ .contrato-barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    margin-top: 10px;
+    padding: 3px 14px;
+    background: #080808;
+    color: #f8f6f6;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    line-height: 1.4;      /* el line-height: 0 de .banner-contrato se hereda y aplasta el texto */
+    text-align: left;
+}
+.contrato-barra strong {
+    margin-right: 4px;
+}
+
+/* =========================================
+   SECCIONES
+========================================= */
+
+.seccion-contrato {
+    margin-bottom: 24px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.seccion-contrato h3 {
+    margin: 0 0 15px;
+    padding: 3px 13px;
+    border: 4px solid #F7931E;
+    border-radius: 3px;
+    background: #F7931E;
+    color: #faf8f8;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* =========================================
+   DISTRIBUCIÓN DE DATOS
+========================================= */
+
+.datos-contrato {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 24px;
+    padding: 0 5px;
+}
+
+.datos-contrato p {
+    margin: 0;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.datos-contrato strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #303030;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================
+   CONDICIONES
+========================================= */
+
+.condiciones-contrato {
+    min-height: 45px;
+    margin: 0;
+    padding: 13px 15px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    background: #fcfcfc;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================
+   PIE DEL DOCUMENTO
+========================================= */
+
+.pie-documento-contrato {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 17px;
+    margin-top: 25px;
+    border-top: 1px solid #ddd;
+}
+
+.pie-documento-contrato p {
+    margin: 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.pie-documento-contrato strong {
+    color: #333;
+}
+
+/* =========================================
+   CONTENEDOR CON SCROLL
+========================================= */
+
+.contenedor-scroll-contrato {
+    width: 100%;
+    height: 100%;
+    max-height: calc(100dvh - 20px);
+    overflow-y: auto;
+    overflow-x: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #c8c8c8 transparent;
+    overscroll-behavior: contain;
+}
+
+.contenedor-scroll-contrato::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.contenedor-scroll-contrato::-webkit-scrollbar-thumb {
+    background: #c8c8c8;
+    border-radius: 10px;
+}
+
+.contenedor-scroll-contrato::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* =========================================
+   RESPONSIVE - TABLETS
+========================================= */
+
+@media (max-width: 768px) {
+
+    .detalle-contrato {
+        padding: 18px;
+    }
+
+    .documento-contrato {
+        padding: 35px 28px;
+    }
+
+    .datos-contrato {
+        gap: 13px 18px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - CELULARES
+========================================= */
+
+@media (max-width: 480px) {
+
+    .detalle-contrato {
+        padding: 12px;
+    }
+
+    .encabezado-detalle-contrato {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .encabezado-detalle-contrato h1 {
+        font-size: 21px;
+    }
+
+    .btn-volver-contratos {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .documento-contrato {
+        padding: 25px 18px;
+        border-radius: 5px;
+    }
+
+    .documento-encabezado h2 {
+        font-size: 27px;
+    }
+
+    .datos-contrato {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .seccion-contrato {
+        margin-bottom: 22px;
+    }
+
+    .pie-documento-contrato {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .contenedor-scroll-contrato {
+        max-height: calc(100dvh - 12px);
+        padding: 6px;
+    }
+}
+
+/* =========================================
+   IMPRESIÓN PROFESIONAL - A4
+========================================= */
+
+@page {
+    size: A4 portrait;
+    margin: 10mm;
+}
+
+@media print {
+
+    html,
+    body {
+        font-family: 'Roboto', sans-serif;
+        width: 100%;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: #fff !important;
+    }
+
+    /* Ocultar elementos del sistema */
+    .menu,
+    .sidebar,
+    .navbar,
+    .encabezado-detalle-contrato,
+    .btn-volver-contratos {
+        display: none !important;
+    }
+
+    /* Liberar los contenedores del sistema */
+    .PanelPrincipal,
+    .contenido,
+    .contenedor-scroll-contrato {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        background: #fff !important;
+    }
+
+    .detalle-contrato {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .documento-contrato {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .documento-encabezado {
+        margin-bottom: 17px !important;
+        padding-bottom: 15px !important;
+    }
+
+    .documento-encabezado h2 {
+        font-size: 25px !important;
+    }
+
+    .documento-encabezado h2::before {
+        width: 29px;
+        height: 29px;
+        font-size: 20px;
+    }
+
+    .documento-encabezado p {
+        font-size: 9px !important;
+    }
+
+    .seccion-contrato {
+        margin-bottom: 13px !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .seccion-contrato h3 {
+        margin-bottom: 9px !important;
+        padding: 7px 10px !important;
+        font-size: 11px !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .datos-contrato {
+        gap: 8px 18px !important;
+    }
+
+    .datos-contrato p {
+        font-size: 10px !important;
+        line-height: 1.35 !important;
+    }
+
+    .datos-contrato strong {
+        font-size: 9px !important;
+    }
+
+    .condiciones-contrato {
+        min-height: 0 !important;
+        padding: 9px !important;
+        font-size: 10px !important;
+        line-height: 1.4 !important;
+    }
+
+    .pie-documento-contrato {
+        margin-top: 15px !important;
+        padding-top: 10px !important;
+    }
+
+    .pie-documento-contrato p {
+        font-size: 10px !important;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+
+/* =========================================
+   DETALLE DE LOS PAGOS
+========================================= */
+
+.detalle-pagos {
+    margin-top: 18px;
+}
+
+.detalle-pagos h4 {
+    margin: 0 0 12px;
+    padding-bottom: 7px;
+    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
+}
+
+.datos-complementarios-pago {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.datos-complementarios-pago p {
+    margin: 0;
+    color: #333;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.datos-complementarios-pago strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #555;
+    font-size: 11px;
+}
+
+/* =========================================
+   IMPRESIÓN A4 - DATOS DEL PAGO
+========================================= */
+
+@media print {
+
+    /* Ocultar el total recibido solamente al imprimir */
+    .solo-pantalla {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .detalle-pagos {
+        margin-top: 14px;
+    }
+
+    .detalle-pagos h4 {
+        font-size: 11px;
+    }
+
+    .datos-complementarios-pago {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .datos-complementarios-pago p {
+        font-size: 10px;
+    }
+
+    .datos-complementarios-pago strong {
+        font-size: 9px;
+    }
+}
+
+/* =========================================
+   ADAPTACIÓN PARA MÓVILES
+========================================= */
+
+@media (max-width: 650px) {
+
+    .datos-complementarios-pago {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* ==========================================================
+   3. BANNER DE ISHUME
+   ========================================================== */
+
+.banner-contrato {
+   width: 100%;
+    line-height: 0;          /* quita el espacio extra debajo de la imagen */
+    overflow: hidden;
+ 
+}
+
+.banner-contrato img {
+    display: block;
+    width: 100%;
+    max-width: 1923px;       /* nunca la estira más de su resolución real */
+    height: auto;
+    margin: 0 auto;
+}
+
+.banner-contrato p {
+    margin: 5px 0 0;
+
+    color: var(--contrato-texto-secundario);
+    font-size: 13px;
+}
+
+
+
+

@@ -172,17 +172,58 @@
 
 /* =====================================================
    RESPONSIVE
+   (por encima de 900px no cambia nada: se ve igual que en laptop)
    ===================================================== */
+
+/* ---------- Tablets y celulares ---------- */
+
 @media (max-width: 900px) {
 
+    /* La caja de 25px de alto fijo hacía que título y botón se encimaran con la tabla */
+
     .cabecera-bajas {
-        flex-direction: column;
-
-        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        height: auto;
+        margin-bottom: 18px;
     }
 
-    .tabla-bajas {
-        overflow-x: auto;
+    .tabla-papelera-inventario {
+        -webkit-overflow-scrolling: touch;
     }
 
+    /* El motivo conserva un ancho cómodo de lectura al hacer scroll */
+
+    .tabla-bajas td:nth-child(6) {
+        min-width: 220px;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 600px) {
+
+    .cabecera-bajas h2 {
+        font-size: 20px;
+    }
+
+    .boton-volver {
+        padding: 10px 16px;
+    }
+
+    .tabla-papelera-inventario th,
+    .tabla-papelera-inventario td {
+        padding: 11px 12px;
+    }
+
+    .tabla-papelera-inventario table {
+        font-size: 13px;
+    }
+
+    .tabla-bajas td[colspan="7"] {
+        padding: 24px 14px;
+        white-space: normal;
+    }
 }
