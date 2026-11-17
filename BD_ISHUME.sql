@@ -337,7 +337,7 @@ CREATE TABLE Ventas (
     PrecioTotal DECIMAL(10,2) NOT NULL,
     Estado VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE',
  
-CONSTRAINT chk_venta_estado CHECK (Estado IN ('PENDIENTE', 'FINALIZADA', 'CANCELADA')),
+CONSTRAINT chk_venta_estado CHECK (Estado IN ('PENDIENTE', 'FINALIZADA', 'ANULADA')),
 CONSTRAINT fk_venta_contrato FOREIGN KEY (idContrato) REFERENCES Contratos(idContrato),
 CONSTRAINT uq_venta_contrato UNIQUE (idContrato),
 CONSTRAINT chk_venta_cantidad CHECK (CantidadPedidos > 0),

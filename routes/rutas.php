@@ -79,6 +79,12 @@
             $controller->listaContratos();
             break;
 
+        case 'cancelarContratoSinVenta':
+            require_once __DIR__ . '/../app/controllers/contratos.php';
+            $controller = new ContratosController();
+            $controller->cancelarContratoSinVenta();
+            break;
+
         case 'verContrato':
             require_once __DIR__ . '/../app/controllers/contratos.php';
             $controller = new ContratosController();

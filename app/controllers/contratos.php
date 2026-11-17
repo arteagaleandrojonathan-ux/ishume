@@ -21,6 +21,31 @@
         }
 
 
+        public function cancelarContratoSinVenta() {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                http_response_code(405);
+                exit('Método no permitido.');
+            }
+
+            $idContrato = $_POST['idContrato'] ?? '';
+            $destino = 'index.php?opcion=listaContratos';
+
+            try {
+                if (is_string($idContrato) && trim($idContrato) !== '' &&
+                    $this->AccionModelo->cancelarContratoSinVenta(trim($idContrato))) {
+                    $destino .= '&cancelado=1';
+                } else {
+                    $destino .= '&errorCancelar=1';
+                }
+            } catch (PDOException $e) {
+                error_log('cancelarContratoSinVenta: ' . $e->getMessage());
+                $destino .= '&errorCancelar=1';
+            }
+
+            header('Location: ' . $destino);
+            exit;
+        }
+
         public function verContrato() {
 
             $idContrato = trim($_GET['idContrato'] ?? '');
@@ -119,9 +144,10 @@
 
             // Resumen económico del mes seleccionado
             $resumenMensual = $this->AccionModelo->obtenerResumenMensual($mes, $anio);
+            $cobrosDelMes = $this->AccionModelo->obtenerCobrosDelMes($mes, $anio);
 
-            // Eventos correspondientes al mes seleccionado
-            $proximosEventos = $this->AccionModelo->obtenerProximosEventos($mes, $anio);
+            // Eventos desde hoy hasta dentro de 30 días
+            $proximosEventos = $this->AccionModelo->obtenerProximosEventos();
 
             // Pagos que vencen durante el mes seleccionado
             $pagosPorVencer = $this->AccionModelo->obtenerPagosPorVencer($mes, $anio);

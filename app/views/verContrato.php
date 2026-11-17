@@ -21,9 +21,15 @@ function mostrarFecha($fecha) {
             <span>Información registrada del contrato</span>
         </div>
 
-        <a href="index.php?opcion=listaContratos" class="btn-volver-contratos">
-            ← Volver
-        </a>
+        <div class="acciones-detalle-contrato">
+            <a href="index.php?opcion=listaContratos" class="btn-volver-contratos">
+                ← Volver
+            </a>
+            <button type="button" class="btn-imprimir-contrato" onclick="window.print()">
+                <i class="fa-solid fa-print" aria-hidden="true"></i>
+                Imprimir
+            </button>
+        </div>
         </header>
 
         <div class="documento-contrato">

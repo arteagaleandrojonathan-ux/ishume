@@ -115,7 +115,7 @@ body {
     grid-column: 1 / -1;
 
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
 
     margin: 0;
@@ -326,7 +326,10 @@ body {
     color: #218344;
 }
 
-.estado-contrato.cancelado {
+.estado-contrato.cancelado,
+.resumen-item.cancelados,
+.resumen-item.cancelados strong,
+.contador-contratos.cancelados {
     background: #fde5e5;
     color: #c0392b;
 }
@@ -486,6 +489,7 @@ body {
 .selector-registros {
     grid-column: 1 / -1;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
     padding: 4px;
@@ -631,12 +635,14 @@ body {
 }
 
 .btn-ver-contrato {
-    background: #e8f1ff;
-    color: #2563a6;
+    border: 1px solid #f4cfaa;
+    background: #fff3e5;
+    color: #804100;
 }
 
-.btn-ver-contrato:hover {
-    background: #d4e5ff;
+.btn-ver-contrato:hover,
+.btn-ver-contrato:focus-visible {
+    background: #ffe2c2;
 }
 
 .btn-pdf-contrato {

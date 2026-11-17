@@ -103,16 +103,18 @@
             </strong>
         </div>
 
-        <div class="dato-resumen">
-            <span>Cobrado</span>
-            <strong>
-                <?php if ((int)$resumenMensual['TotalRegistros'] > 0): ?>
-                    S/ <?= number_format((float)$resumenMensual['TotalCobrado'], 2) ?>
-                <?php else: ?>
-                    <span class="sin-registros">Sin registros</span>
-                <?php endif; ?>
-            </strong>
-        </div>
+        <details class="dato-resumen resumen-cobros">
+            <summary>
+                <span>Cobrado en el mes</span>
+                <strong>S/ <?= number_format((float)$cobrosDelMes['CobradoVigentes'] + (float)$cobrosDelMes['CobradoAnuladas'], 2) ?></strong>
+            </summary>
+            <dl>
+                <dt>Ventas vigentes</dt>
+                <dd>S/ <?= number_format((float)$cobrosDelMes['CobradoVigentes'], 2) ?></dd>
+                <dt>Ventas anuladas</dt>
+                <dd>S/ <?= number_format((float)$cobrosDelMes['CobradoAnuladas'], 2) ?></dd>
+            </dl>
+        </details>
 
         <div class="dato-resumen">
             <span>Por cobrar</span>
@@ -135,33 +137,45 @@
             <table class="tabla-panel">
                 <thead>
                     <tr>
-                        <th>Contrato</th>
                         <th>Colegio</th>
                         <th>Evento</th>
                         <th>Provincia</th>
                         <th>Fecha</th>
-                        <th>Faltan</th>
+                        <th>Cuándo</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (!empty($proximosEventos)): ?>
 
                         <?php foreach ($proximosEventos as $evento): ?>
+                            <?php
+                            $diasRestantes = (int) $evento['DiasRestantes'];
+                            $cuando = 'En ' . $diasRestantes . ' días';
+
+                            if ($diasRestantes === 0) {
+                                $cuando = 'Hoy';
+                            } elseif ($diasRestantes === 1) {
+                                $cuando = 'Mañana';
+                            }
+                            ?>
 
                             <tr>
-                                <td><?= htmlspecialchars($evento['idContrato']) ?></td>
-                                <td><?= htmlspecialchars($evento['NombreColegio']) ?></td>
+                                <td>
+                                    <a class="enlace-colegio-panel" href="index.php?opcion=verContrato&amp;idContrato=<?= urlencode($evento['idContrato']) ?>">
+                                        <?= htmlspecialchars($evento['NombreColegio']) ?>
+                                    </a>
+                                </td>
                                 <td><?= htmlspecialchars($evento['Evento']) ?></td>
                                 <td><?= htmlspecialchars($evento['NomProvincia']) ?></td>
                                 <td><?= date('d/m/Y', strtotime($evento['FechaEvento'])) ?></td>
-                                <td><?= (int)$evento['DiasRestantes'] ?> días</td>
+                                <td><?= $cuando ?></td>
                             </tr>
 
                         <?php endforeach; ?>
 
                     <?php else: ?>
                         <tr>
-                            <td colspan="6">No hay próximos eventos en los siguientes 30 días.</td>
+                            <td colspan="5">No hay próximos eventos en los siguientes 30 días.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -174,11 +188,11 @@
     <div class="panel-doble">
 
         <section class="tarjeta tarjeta-pagos-vencer">
-            <h2>Pagos por vencer</h2>
+            <h2>Vencimientos del mes</h2>
             <div class="contenedor-scroll-vencer">
                 <table class="tabla-panel">
                     <thead>
-                        <tr><th>Contrato</th><th>Saldo</th><th>Fecha límite</th><th>Estado</th></tr>
+                        <tr><th>Colegio</th><th>Saldo pendiente</th><th>Fecha límite</th><th>Estado</th></tr>
                     </thead>
                     <tbody>
                         <?php if (!empty($pagosPorVencer)): ?>
@@ -186,7 +200,12 @@
                             <?php foreach ($pagosPorVencer as $pago): ?>
 
                                 <tr>
-                                    <td><?= htmlspecialchars($pago['idContrato']) ?></td>
+                                    <td>
+                                        <a class="enlace-colegio-panel" href="index.php?opcion=verContrato&amp;idContrato=<?= urlencode($pago['idContrato']) ?>">
+                                            <?= htmlspecialchars($pago['NombreColegio']) ?>
+                                        </a>
+                                        <small class="codigo-contrato-panel"><?= htmlspecialchars($pago['idContrato']) ?></small>
+                                    </td>
                                     <td>S/ <?= number_format((float)$pago['Saldo'], 2) ?></td>
                                     <td><?= date('d/m/Y', strtotime($pago['FechaLimitePago'])) ?></td>
                                     <td>
@@ -218,12 +237,12 @@
 
                         <?php else: ?>
                             <tr>
-                                <td colspan="4">No hay pagos pendientes por vencer.</td>
+                                <td colspan="4">No hay vencimientos con saldo pendiente en el mes seleccionado.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
-                </div>
-            </table>
+                </table>
+            </div>
         </section>
 
         <section class="tarjeta tarjeta-ultimos-pagos">
@@ -231,7 +250,7 @@
             <div class="contenedor-scroll-pagos">            
                 <table class="tabla-panel">
                     <thead>
-                        <tr><th>Fecha</th><th>Contrato</th><th>Forma</th><th>Monto</th></tr>
+                        <tr><th>Colegio</th><th>Fecha de pago</th><th>Método de pago</th><th>Monto pagado</th></tr>
                     </thead>
                     <tbody>
                         <?php if (!empty($ultimosPagos)): ?>
@@ -239,8 +258,13 @@
                             <?php foreach ($ultimosPagos as $pago): ?>
 
                                 <tr>
+                                    <td>
+                                        <a class="enlace-colegio-panel" href="index.php?opcion=verContrato&amp;idContrato=<?= urlencode($pago['idContrato']) ?>">
+                                            <?= htmlspecialchars($pago['NombreColegio']) ?>
+                                        </a>
+                                        <small class="codigo-contrato-panel"><?= htmlspecialchars($pago['idContrato']) ?></small>
+                                    </td>
                                     <td><?= date('d/m/Y', strtotime($pago['FechaPago'])) ?></td>
-                                    <td><?= htmlspecialchars($pago['idContrato']) ?></td>
                                     <td><?= htmlspecialchars($pago['NombreMetodo']) ?></td>
                                     <td>S/ <?= number_format((float)$pago['Monto'], 2) ?></td>
                                 </tr>
@@ -249,7 +273,7 @@
 
                         <?php else: ?>
                             <tr>
-                                <td colspan="4">Todavía no hay pagos registrados.</td>
+                                <td colspan="4">No hay pagos registrados en el mes seleccionado.</td>
                             </tr>
                         <?php endif; ?>                
                     </tbody>

@@ -1,20 +1,20 @@
 Array
 (
-    [token] => 216e32f8ba660e943b335fcf476d8ec5
+    [token] => 1d59cff5cc214386c7c92cdac37bc3e8
     [Nombre] => jonathan
     [Apellidos] => arteagaleandro
     [Testigo] => samir perez
     [TipoDOI] => DNI
-    [NumDOI] => 32324324
-    [Telefono] => 021541015
+    [NumDOI] => 87687676
+    [Telefono] => 939438438
     [Correo] => arteagaleandrojonathan@gmail.com
     [DireccionCliente] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [buscarColegio] => la uni
-    [idColegio] => CO-00030
+    [buscarColegio] => A.A.H.H. Beata Melchorita N° 411
+    [idColegio] => CG-00021
     [Evento] => Por la plaza de chincha
     [Servicio] => Promocion
-    [FechaEvento] => 2026-11-26
+    [FechaEvento] => 2026-12-12
     [Direccion] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [idProvincia] => PRO-0003
-    [idDistrito] => DIS-0018
+    [idProvincia] => PRO-0001
+    [idDistrito] => DIS-0002
 )

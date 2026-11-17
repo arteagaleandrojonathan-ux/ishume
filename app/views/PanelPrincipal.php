@@ -13,6 +13,9 @@
             <link rel="stylesheet" href="css/<?= ucfirst($vista) ?>.css">
         <?php endif; ?>
 
+    <?php if ($vista === 'ventas' || $vista === 'listaContratos'): ?>
+        <link rel="stylesheet" href="css/panelAnulacion.css">
+    <?php endif; ?>
     <title>Document</title>
 </head>
 <body>

@@ -36,7 +36,14 @@
     font-size: 14px;
 }
 
-.btn-volver-contratos {
+.acciones-detalle-contrato {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-volver-contratos,
+.btn-imprimir-contrato {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,6 +62,19 @@
     background: #fff7ed;
     border-color: #F7931E;
     color: #e47e08;
+}
+
+.btn-imprimir-contrato {
+    gap: 8px;
+    border-color: #f7931e;
+    background: #ffd39e;
+    color: #492800;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn-imprimir-contrato:hover {
+    background: #ffc47d;
 }
 
 /* =========================================
@@ -331,6 +351,8 @@
     .menu,
     .sidebar,
     .navbar,
+    .menu-boton,
+    .menu-fondo,
     .encabezado-detalle-contrato,
     .btn-volver-contratos {
         display: none !important;
@@ -593,7 +615,7 @@
 
 @media screen and (max-width: 600px) {
 
-    /* Título a la izquierda y "Volver" a la derecha (como en las demás pantallas) */
+    /* Los botones pasan a la siguiente línea cuando falta espacio. */
 
     .encabezado-detalle-contrato {
         flex-direction: row;
@@ -603,7 +625,8 @@
         margin-bottom: 18px;
     }
 
-    .btn-volver-contratos {
+    .btn-volver-contratos,
+    .btn-imprimir-contrato {
         width: auto;
         padding: 10px 16px;
         font-size: 13px;

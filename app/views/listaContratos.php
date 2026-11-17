@@ -2,12 +2,22 @@
 <?php
 
 $contratosConVenta = array_filter($contratos, function ($contrato) {
-    return !empty($contrato['idVenta']);
+    return $contrato['EstadoContrato'] === 'FINALIZADO';
 });
 
 $contratosSinVenta = array_filter($contratos, function ($contrato) {
-    return empty($contrato['idVenta']);
+    return $contrato['EstadoContrato'] === 'PROCESO';
 });
+
+$contratosCancelados = array_filter($contratos, function ($contrato) {
+    return $contrato['EstadoContrato'] === 'CANCELADO';
+});
+
+$grupos = [
+    'con-ventas' => ['titulo' => 'Con venta', 'registros' => $contratosConVenta],
+    'cancelados' => ['titulo' => 'Cancelados', 'registros' => $contratosCancelados],
+];
+$mostrarCancelados = ($_GET['cancelado'] ?? '') === '1';
 
 ?>
 
@@ -24,6 +34,12 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
             ← Volver
         </a>
     </header>
+
+    <?php if ($mostrarCancelados): ?>
+        <p class="aviso-anulacion" role="status">El contrato se canceló correctamente.</p>
+    <?php elseif (isset($_GET['errorCancelar'])): ?>
+        <p class="aviso-anulacion aviso-anulacion-error" role="alert">No se pudo cancelar el contrato. Comprueba que todavía esté sin venta.</p>
+    <?php endif; ?>
     
     <!-- RESUMEN -->
     <section class="resumen-contratos">
@@ -41,6 +57,11 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
         <div class="resumen-item sin-venta">
             <strong><?= count($contratosSinVenta) ?></strong>
             <span>Sin venta</span>
+        </div>
+
+        <div class="resumen-item cancelados">
+            <strong><?= count($contratosCancelados) ?></strong>
+            <span>Cancelados</span>
         </div>
 
     </section>
@@ -74,19 +95,23 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
     <nav class="selector-registros">
        
 
-        <button type="button" class="btn-selector activo" data-vista="sin-ventas">
-            Sin ventas
+        <button type="button" class="btn-selector<?= $mostrarCancelados ? '' : ' activo' ?>" data-vista="sin-ventas">
+            Sin venta
             <span><?= count($contratosSinVenta) ?></span>
         </button>
         
          <button type="button" class="btn-selector " data-vista="con-ventas">
-            Con ventas
+            Con venta
             <span><?= count($contratosConVenta) ?></span>
+        </button>
+        <button type="button" class="btn-selector<?= $mostrarCancelados ? ' activo' : '' ?>" data-vista="cancelados">
+            Cancelados
+            <span><?= count($contratosCancelados) ?></span>
         </button>
     </nav>
 
     <!-- CONTRATOS SIN VENTA -->
-    <section class="grupo-contratos vista-registros activa" id="sin-ventas">
+    <section class="grupo-contratos vista-registros<?= $mostrarCancelados ? '' : ' activa' ?>" id="sin-ventas">
 
         <header class="titulo-grupo">
             <div>
@@ -104,7 +129,7 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
             <?php if (empty($contratosSinVenta)): ?>
 
                 <p class="mensaje-sin-contratos">
-                    Todos los contratos tienen una venta registrada.
+                    No hay contratos sin venta.
                 </p>
 
             <?php else: ?>
@@ -112,7 +137,6 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                 <table class="tabla-contratos">
                     <thead>
                         <tr>
-                            <th>Contrato</th>
                             <th>Colegio / Cliente</th>
                             <th>Evento</th>
                             <th>Estado</th>
@@ -125,13 +149,6 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
 
                             <tr data-colegio="<?= htmlspecialchars($contrato['NombreColegio'], ENT_QUOTES, 'UTF-8') ?>">
                                 <td>
-                                    <strong>
-                                        <?= htmlspecialchars($contrato['idContrato']) ?>
-                                    </strong>
-                                    
-                                </td>
-
-                                <td>
                                     <div class="dato-principal">
                                         <?= htmlspecialchars($contrato['NombreColegio']) ?>
                                     </div>
@@ -139,6 +156,7 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                                     <div class="dato-secundario">
                                         <?= htmlspecialchars($contrato['Nombre'] . ' ' . $contrato['Apellidos']) ?>
                                     </div>
+                                    <div class="dato-secundario"><?= htmlspecialchars($contrato['idContrato']) ?></div>
                                 </td>
 
                                 <td>
@@ -165,6 +183,10 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                                     >
                                         Registrar
                                     </a>
+                                    <button type="button" class="btn-cancelar-contrato"
+                                        data-anular-registro="<?= htmlspecialchars($contrato['idContrato']) ?>">
+                                        Cancelar
+                                    </button>
                                 </td>
                             </tr>
 
@@ -180,26 +202,28 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
         </div>
     </section>
 
-    <!-- CONTRATOS CON VENTA -->
-    <section class="grupo-contratos vista-registros " id="con-ventas">
+    <?php foreach ($grupos as $idGrupo => $grupo): ?>
+    <section class="grupo-contratos vista-registros<?= $mostrarCancelados && $idGrupo === 'cancelados' ? ' activa' : '' ?>" id="<?= $idGrupo ?>">
 
         <header class="titulo-grupo">
             <div>
-                <h2>Con venta</h2>
-                <span>Contratos con productos registrados</span>
+                <h2><?= $grupo['titulo'] ?></h2>
+                <?php if ($idGrupo === 'con-ventas'): ?>
+                    <span>Contratos con productos registrados</span>
+                <?php endif; ?>
             </div>
 
-            <span class="contador-contratos">
-                <?= count($contratosConVenta) ?>
+            <span class="contador-contratos <?= $idGrupo === 'cancelados' ? 'cancelados' : '' ?>">
+                <?= count($grupo['registros']) ?>
             </span>
         </header>
 
         <div class="tabla-contratos-contenedor">
 
-            <?php if (empty($contratosConVenta)): ?>
+            <?php if (empty($grupo['registros'])): ?>
 
                 <p class="mensaje-sin-contratos">
-                    Todavía no hay contratos con venta.
+                    <?= $idGrupo === 'cancelados' ? 'No hay contratos cancelados.' : 'Todavía no hay contratos con venta.' ?>
                 </p>
 
             <?php else: ?>
@@ -207,7 +231,6 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                 <table class="tabla-contratos">
                     <thead>
                         <tr>
-                            <th>Contrato</th>
                             <th>Colegio / Cliente</th>
                             <th>Evento</th>
                             <th>Venta / Total</th>
@@ -217,15 +240,9 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                     </thead>
 
                     <tbody>
-                        <?php foreach ($contratosConVenta as $contrato): ?>
+                        <?php foreach ($grupo['registros'] as $contrato): ?>
 
                             <tr data-colegio="<?= htmlspecialchars($contrato['NombreColegio'], ENT_QUOTES, 'UTF-8') ?>">
-                                <td>
-                                    <strong>
-                                        <?= htmlspecialchars($contrato['idContrato']) ?>
-                                    </strong>
-                                </td>
-
                                 <td>
                                     <div class="dato-principal">
                                         <?= htmlspecialchars($contrato['NombreColegio']) ?>
@@ -234,6 +251,7 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                                     <div class="dato-secundario">
                                         <?= htmlspecialchars($contrato['Nombre'] . ' ' . $contrato['Apellidos']) ?>
                                     </div>
+                                    <div class="dato-secundario"><?= htmlspecialchars($contrato['idContrato']) ?></div>
                                 </td>
 
                                 <td>
@@ -248,12 +266,14 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
 
                                 <td>
                                     <div class="dato-principal">
-                                        <?= htmlspecialchars($contrato['idVenta']) ?>
+                                        <?= htmlspecialchars($contrato['idVenta'] ?? '—') ?>
                                     </div>
 
+                                    <?php if ($contrato['idVenta'] !== null): ?>
                                     <div class="dato-secundario">
                                         S/ <?= number_format((float)$contrato['PrecioTotal'], 2) ?>
                                     </div>
+                                    <?php endif; ?>
                                 </td>
                                 
 
@@ -267,8 +287,8 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
 
                                             <a href="index.php?opcion=verContrato&idContrato=<?= urlencode($contrato['idContrato']) ?>"
                                                 class="btn-ver-contrato"
-                                                title="Ver contrato">
-                                                <i class="fa-solid fa-eye"></i>
+                                                title="Ver contrato" aria-label="Ver contrato <?= htmlspecialchars($contrato['idContrato']) ?>">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                             </a>
 
                                             <a href="index.php?opcion=descargarContratoPDF&idContrato=<?= urlencode($contrato['idContrato']) ?>"
@@ -277,10 +297,12 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
                                                     <i class="fa-solid fa-file-pdf"></i>
                                             </a>
 
+                                            <?php if ($contrato['idVenta'] !== null): ?>
                                             <a href="index.php?opcion=ventas&idVenta=<?= urlencode($contrato['idVenta']) ?>"
                                                  class="btn-ir-venta">
                                                 Ir a ventas →
                                             </a>
+                                            <?php endif; ?>
 
                                         </div>
                                 </td>
@@ -297,14 +319,17 @@ $contratosSinVenta = array_filter($contratos, function ($contrato) {
 
         </div>
     </section>
+    <?php endforeach; ?>
 
 </section>
+
+<?php require __DIR__ . '/panelAnulacion.php'; ?>
 
 <script>
     
 document.addEventListener('DOMContentLoaded', function () {
 
-    // CAMBIAR ENTRE SIN VENTA Y CON VENTA
+    // Cambiar la sección visible
     const botones = document.querySelectorAll('.btn-selector');
     const vistas = document.querySelectorAll('.vista-registros');
 

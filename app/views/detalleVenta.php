@@ -68,6 +68,13 @@ $saldoPendiente = max(0, $totalPagar - $totalPagado);
             </strong>
         </div>
 
+        <?php if (!empty($venta['MotivoAnulacion'])): ?>
+            <div class="dato-venta">
+                <span>Motivo de anulación</span>
+                <strong style="overflow-wrap: anywhere"><?= escaparDetalle($venta['MotivoAnulacion']) ?></strong>
+            </div>
+        <?php endif; ?>
+
     </section>
 
     

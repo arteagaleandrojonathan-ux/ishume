@@ -1,5 +1,42 @@
 # Registro de cambios
 
+## 2026-11-17 — Desglose mensual de cobros
+
+- El indicador mensual suma los abonos registrados por fecha de pago. Al desplegarlo, muestra por separado los cobros asociados a ventas vigentes y a ventas anuladas.
+
+## 2026-11-17 — Tablas de pagos del panel
+
+- Vencimientos del mes y Últimos pagos registrados muestran el colegio enlazado al contrato, con el código debajo. Los importes se identifican como saldo pendiente o monto pagado según la tabla.
+
+## 2026-11-17 — Contratos antiguos vinculados a ventas
+
+- El listado usa la venta vinculada para ubicar los contratos antiguos cuyo estado todavía figura como `PROCESO`. La migración de estados incluye su sincronización para futuras ejecuciones.
+
+## 2026-11-17 — Paneles de anulación y cancelación
+
+- Ventas solicita y conserva un motivo de anulación. Contratos permite cancelar los registros en proceso que todavía no tienen venta y abre la sección «Cancelados».
+- Ambos paneles se centran en el área de contenido, a la derecha del menú en escritorio y debajo de la barra en móvil.
+
+## 2026-11-17 — Acceso e impresión de contratos
+
+- El enlace del colegio en Próximos eventos y el botón de ver contrato usan estilos naranjas.
+- El detalle incluye un botón para abrir la impresión del navegador.
+
+## 2026-11-17 — Listado de contratos y próximos eventos
+
+- El colegio encabeza el listado de contratos y el código aparece debajo del cliente.
+- Próximos eventos muestra desde hoy hasta dentro de 30 días, incluso al cambiar de mes. Cada colegio enlaza al detalle del contrato.
+
+## 2026-11-17 — Orden del listado de ventas
+
+- Las ventas finalizadas se muestran primero, las pendientes después y las anuladas al final. Dentro de cada grupo se conserva el orden descendente por fecha de contrato.
+
+## 2026-11-17 — Anulación de venta y contrato asociado
+
+- Una venta por contrato. Al anular la venta, el contrato pasa a `CANCELADO` en la misma transacción y se conservan los pagos históricos.
+- El listado agrupa los contratos por estado e incluye la opción «Cancelados».
+- El esquema nuevo admite `ANULADA`. Para una instalación existente de MariaDB, se incluye `migrar_anulacion_ventas.sql`.
+
 ## 2026-11-17 — Revisión estática del repositorio
 
 - PHP 8.2 validó 32 archivos y Node validó la sintaxis de 7 scripts. Las dependencias instaladas cumplen los requisitos de plataforma de Composer.

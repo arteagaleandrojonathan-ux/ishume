@@ -4,8 +4,13 @@
 
     ## Hallazgos del 2026-11-17
 
+    - [ ] Aplicar `agregar_motivo_anulacion_ventas.sql` a la instalación existente y comprobar los paneles de confirmación en el navegador.
+
+    - [ ] Verificar en el panel con datos reales los límites de Próximos eventos, el enlace al contrato y el desplazamiento en móvil.
+
     - [ ] Corregir la consulta de anulación de compras. Tiene una coma antes de `FROM` y le falta el agregado `total` que usa la anulación parcial.
-    - [ ] Unificar el estado de anulación de ventas entre PHP y SQL. Definir cómo quedan los pagos y si se puede crear otra venta para el mismo contrato después de la anulación.
+    - [x] Unificar el estado de anulación en el código y el esquema nuevo. Se conserva una venta por contrato y el historial de pagos.
+    - [ ] Aplicar `migrar_anulacion_ventas.sql` a la instalación existente y verificar una anulación desde el navegador.
     - [ ] Alinear el estado de la venta con el saldo al registrar el pago inicial y determinar en qué operación se descuenta el stock.
     - [ ] Retirar el volcado del formulario de contratos y revisar los datos de depuración ya guardados en el historial de Git.
     - [ ] Verificar control de acceso, protección CSRF y escape de salida en inventario.

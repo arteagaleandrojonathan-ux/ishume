@@ -401,6 +401,8 @@ class VentasController {
         }
 
         $idVenta = trim($_POST['idVenta'] ?? '');
+        $motivo = $_POST['motivo'] ?? '';
+        $motivo = is_string($motivo) ? trim($motivo) : '';
 
         if ($idVenta === '') {
             header('Location: index.php?opcion=ventas&error=' . urlencode('No se recibió el código de la venta.'));
@@ -408,7 +410,11 @@ class VentasController {
         }
 
         try {
-            $this->AccionModelo->anularVenta($idVenta);
+            if ($motivo === '' || mb_strlen($motivo) > 255) {
+                throw new Exception('Escribe un motivo de 1 a 255 caracteres para anular la venta.');
+            }
+
+            $this->AccionModelo->anularVenta($idVenta, $motivo);
 
             header('Location: index.php?opcion=ventas&anulada=1');
             exit;

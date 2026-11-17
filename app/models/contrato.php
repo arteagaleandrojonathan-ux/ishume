@@ -261,7 +261,11 @@ class Contrato {
                 c.Direccion,
                 c.FechaContrato,
                 c.FechaEvento,
-                c.Estado AS EstadoContrato,
+                CASE
+                    WHEN v.Estado IN ('ANULADA', 'CANCELADA') THEN 'CANCELADO'
+                    WHEN c.Estado = 'PROCESO' AND v.idVenta IS NOT NULL THEN 'FINALIZADO'
+                    ELSE c.Estado
+                END AS EstadoContrato,
 
                 col.NombreColegio,
 
@@ -293,6 +297,18 @@ class Contrato {
     }
 
 
+
+    public function cancelarContratoSinVenta($idContrato) {
+        $sql = "UPDATE Contratos c
+                SET c.Estado = 'CANCELADO'
+                WHERE c.idContrato = :idContrato AND c.Estado = 'PROCESO'
+                AND NOT EXISTS (SELECT 1 FROM Ventas v WHERE v.idContrato = c.idContrato)";
+
+        $consulta = $this->db->prepare($sql);
+        $consulta->execute([':idContrato' => $idContrato]);
+
+        return $consulta->rowCount() === 1;
+    }
 
     public function obtenerContratoPorId($idContrato) {
 
@@ -463,10 +479,7 @@ class Contrato {
         return $consulta->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerProximosEventos($mes, $anio) {
-            $fechaInicio = sprintf('%04d-%02d-01', $anio, $mes);
-        $fechaFin = date('Y-m-d', strtotime($fechaInicio . ' +1 month'));
-
+    public function obtenerProximosEventos() {
         $sql = "SELECT c.idContrato,col.NombreColegio,c.Evento,pr.NomProvincia,c.FechaEvento,
                     DATEDIFF(c.FechaEvento, CURDATE()) AS DiasRestantes
 
@@ -486,16 +499,13 @@ class Contrato {
 
                 WHERE c.Estado = 'FINALIZADO'
                 AND v.Estado IN ('PENDIENTE', 'FINALIZADA')
-                AND c.FechaEvento >= :fechaInicio
-                AND c.FechaEvento < :fechaFin
+                AND c.FechaEvento >= CURDATE()
+                AND c.FechaEvento <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 
                 ORDER BY c.FechaEvento ASC";
 
         $consulta = $this->db->prepare($sql);
-        $consulta->execute([
-            ':fechaInicio' => $fechaInicio,
-            ':fechaFin' => $fechaFin
-        ]);
+        $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -504,7 +514,7 @@ class Contrato {
         $fechaInicio = sprintf('%04d-%02d-01', $anio, $mes);
         $fechaFin = date('Y-m-d', strtotime($fechaInicio . ' +1 month'));
 
-        $sql = "SELECT c.idContrato,v.PrecioTotal,v.FechaLimitePago,
+        $sql = "SELECT c.idContrato,col.NombreColegio,v.PrecioTotal,v.FechaLimitePago,
                     COALESCE(p.TotalPagado, 0) AS TotalPagado,
 
                     GREATEST(v.PrecioTotal - COALESCE(p.TotalPagado, 0),0) AS Saldo,
@@ -514,6 +524,8 @@ class Contrato {
                 FROM Ventas v
                 INNER JOIN Contratos c
                 ON v.idContrato = c.idContrato
+                INNER JOIN Colegios col
+                ON c.idColegio = col.idColegio
                 LEFT JOIN (
                     SELECT idContrato, SUM(Monto) AS TotalPagado
                     FROM Pago
@@ -543,9 +555,13 @@ class Contrato {
         $fechaInicio = sprintf('%04d-%02d-01', $anio, $mes);
         $fechaFin = date('Y-m-d', strtotime($fechaInicio . ' +1 month'));
 
-        $sql = "SELECT p.idPago,p.FechaPago,p.idContrato,mp.NombreMetodo,p.Monto
+        $sql = "SELECT p.idPago,p.FechaPago,p.idContrato,col.NombreColegio,mp.NombreMetodo,p.Monto
 
                 FROM Pago p
+                INNER JOIN Contratos c
+                ON p.idContrato = c.idContrato
+                INNER JOIN Colegios col
+                ON c.idColegio = col.idColegio
                 INNER JOIN MetodoPago mp
                 ON p.idMetodoPago = mp.idMetodoPago
 
@@ -566,6 +582,24 @@ class Contrato {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerCobrosDelMes($mes, $anio) {
+        $inicio = sprintf('%04d-%02d-01', $anio, $mes);
+        $fin = date('Y-m-d', strtotime($inicio . ' +1 month'));
+
+        $sql = "SELECT
+                    COALESCE(SUM(CASE WHEN v.Estado IN ('PENDIENTE', 'FINALIZADA')
+                        THEN p.Monto ELSE 0 END), 0) AS CobradoVigentes,
+                    COALESCE(SUM(CASE WHEN v.Estado IN ('ANULADA', 'CANCELADA')
+                        THEN p.Monto ELSE 0 END), 0) AS CobradoAnuladas
+                FROM Pago p
+                INNER JOIN Ventas v ON v.idContrato = p.idContrato
+                WHERE p.Estado = 1 AND p.FechaPago >= :inicio AND p.FechaPago < :fin";
+
+        $consulta = $this->db->prepare($sql);
+        $consulta->execute([':inicio' => $inicio, ':fin' => $fin]);
+        return $consulta->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerResumenMensual($mes, $anio) {
         // Definir el inicio y el final del período seleccionado
         $fechaInicio = sprintf('%04d-%02d-01', $anio, $mes);
@@ -577,9 +611,6 @@ class Contrato {
 
                     -- Total contratado durante el mes
                     COALESCE(SUM(v.PrecioTotal), 0) AS TotalContratado,
-
-                    -- Total pagado por esas ventas
-                    COALESCE(SUM(COALESCE(p.TotalPagado, 0)), 0) AS TotalCobrado,
 
                     -- Saldo pendiente de esas ventas
                     COALESCE(SUM(GREATEST(v.PrecioTotal - COALESCE(p.TotalPagado, 0),0)), 0) AS TotalPorCobrar

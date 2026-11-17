@@ -227,9 +227,41 @@
     line-height: 1.1;
 }
 
-/* La segunda cifra ("Cobrado") va en naranja */
-.panel-resumen div:nth-child(2) strong {
+.resumen-cobros {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #805329;
+    border-radius: 8px;
+    background: #29231d;
+}
+
+.resumen-cobros summary {
+    cursor: pointer;
+}
+
+.resumen-cobros summary::marker,
+.resumen-cobros summary strong {
     color: var(--ishume-naranja);
+}
+
+.resumen-cobros summary strong {
+    display: block;
+    margin-top: 4px;
+}
+
+.resumen-cobros dl {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #66513d;
+    font-size: 13px;
+}
+
+.resumen-cobros dd {
+    margin: 0;
+    font-weight: 600;
 }
 
 /* ---------- Tablas ---------- */
@@ -426,6 +458,13 @@
         -webkit-overflow-scrolling: touch;
     }
 
+    .contenedor-scroll-eventos .tabla-panel,
+    .contenedor-scroll-vencer .tabla-panel,
+    .contenedor-scroll-pagos .tabla-panel {
+        display: table;
+        overflow: visible;
+    }
+
     .tabla-panel th,
     .tabla-panel td {
         white-space: nowrap;
@@ -571,6 +610,33 @@
 /* TÍTULO FIJO */
 .tarjeta-proximos-eventos h2 {
     flex-shrink: 0;
+}
+
+.enlace-colegio-panel {
+    display: inline-block;
+    max-width: 100%;
+    padding: 6px 9px;
+    border: 1px solid #f4cfaa;
+    border-radius: 6px;
+    background: #fff3e5;
+    color: #804100;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.enlace-colegio-panel:hover,
+.enlace-colegio-panel:focus-visible {
+    background: #ffe2c2;
+    text-decoration: underline;
+}
+
+.codigo-contrato-panel {
+    display: block;
+    margin-top: 3px;
+    color: #625b54;
+    font-size: 0.85em;
 }
 
 /* SCROLL SOLO EN LOS EVENTOS */

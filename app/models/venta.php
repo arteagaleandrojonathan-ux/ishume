@@ -51,7 +51,11 @@ class Venta{
                 ON c.idCliente = cli.idCliente
             INNER JOIN Colegios col
                 ON c.idColegio = col.idColegio
-            ORDER BY c.FechaContrato DESC";
+            ORDER BY CASE v.Estado
+                WHEN 'FINALIZADA' THEN 1
+                WHEN 'PENDIENTE' THEN 2
+                ELSE 3
+            END, c.FechaContrato DESC";
 
         $consulta = $this->db->prepare($sql);
         $consulta->execute();
@@ -70,7 +74,7 @@ class Venta{
             $sqlContrato = "SELECT idContrato, Estado
                             FROM Contratos
                             WHERE idContrato = :idContrato
-                            LIMIT 1";
+                            LIMIT 1 FOR UPDATE";
 
             $consultaContrato = $this->db->prepare($sqlContrato);
             $consultaContrato->execute([
@@ -373,6 +377,7 @@ class Venta{
                 v.CantidadPedidos,
                 v.FechaEntrega,
                 v.FechaLimitePago,
+                v.MotivoAnulacion,
                 v.PrecioTotal,
                 v.Estado AS EstadoVenta,
 
@@ -686,7 +691,7 @@ class Venta{
 
 
     // Anular una venta sin eliminar sus detalles ni sus pagos
-    public function anularVenta($idVenta) {
+    public function anularVenta($idVenta, $motivo) {
 
         try {
 
@@ -720,20 +725,21 @@ class Venta{
                 throw new Exception("No se puede anular una venta que ya está finalizada.");
             }
 
-            // 3. Cambiar únicamente el estado
+            // 3. Anular la venta y guardar el motivo
             $sqlAnular = "UPDATE Ventas
-                      SET Estado = 'ANULADA'
+                      SET Estado = 'ANULADA', MotivoAnulacion = :motivo
                       WHERE idVenta = :idVenta";
 
             $consultaAnular = $this->db->prepare($sqlAnular);
 
             $consultaAnular->execute([
-                ':idVenta' => $idVenta
+                ':idVenta' => $idVenta,
+                ':motivo' => $motivo
             ]);
 
-            // 4. Devolver el contrato a PROCESO
+            // 4. Cancelar el contrato asociado
             $sqlContrato = "UPDATE Contratos
-                            SET Estado = 'PROCESO'
+                            SET Estado = 'CANCELADO'
                             WHERE idContrato = :idContrato
                             AND Estado <> 'CANCELADO'";
 

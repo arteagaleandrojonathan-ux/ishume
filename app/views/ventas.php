@@ -158,19 +158,10 @@
 
                                             <?php if (strtoupper(trim($venta['Estado'])) == 'PENDIENTE'): ?>
 
-                                                <form method="POST"
-                                                    action="index.php?opcion=anularVentas"
-                                                    onsubmit="return confirm('¿Estás seguro de anular esta venta? Los pagos recibidos se conservarán en el historial.');">
-
-                                                    <input type="hidden"
-                                                        name="idVenta"
-                                                        value="<?= escapar($venta['idVenta']) ?>">
-
-                                                    <button type="submit" class="btn-anular-venta">
-                                                        Anular
-                                                    </button>
-
-                                                </form>
+                                                <button type="button" class="btn-anular-venta"
+                                                    data-anular-registro="<?= escapar($venta['idVenta']) ?>">
+                                                    Anular
+                                                </button>
                                             <?php endif; ?>
 
                                         </div>
@@ -186,4 +177,6 @@
         </section>
 
     </main>
+
+    <?php require __DIR__ . '/panelAnulacion.php'; ?>
 
