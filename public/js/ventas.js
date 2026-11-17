@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -6,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // MODAL PARA EDITAR FECHAS DE VENTA
     // =========================================
 
-    const modalFechasVenta = document.getElementById('c');
+    const modalFechasVenta = document.getElementById('modalFechasVenta');
     const btnEditarFechasVenta = document.getElementById('btnEditarFechasVenta');
     const cerrarModalFechas = document.getElementById('cerrarModalFechas');
     const cancelarModalFechas = document.getElementById('cancelarModalFechas');
@@ -461,6 +460,145 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             botonGuardar.disabled = false;
             botonGuardar.textContent = 'Guardar cambios';
+        }
+
+    });
+
+});
+
+
+
+// ========================================
+// REGISTRAR PAGOS ADICIONALES DE UNA VENTA
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const modalPago = document.getElementById('modalNuevoPago');
+    const btnAbrirPago = document.getElementById('btnAbrirModalPago');
+    const btnCerrarPago = document.getElementById('cerrarModalPago');
+    const btnCancelarPago = document.getElementById('cancelarModalPago');
+    const formularioPago = document.getElementById('formNuevoPago');
+
+    // Si no estamos en el detalle de una venta, no hacemos nada.
+    if (!modalPago || !formularioPago) return;
+
+    // Abrir modal
+    if (btnAbrirPago) {
+        btnAbrirPago.addEventListener('click', () => {
+            modalPago.classList.add('mostrar');
+        });
+    }
+
+    // Cerrar modal
+    function cerrarModalPago() {
+        modalPago.classList.remove('mostrar');
+    }
+
+    if (btnCerrarPago) {
+        btnCerrarPago.addEventListener('click', cerrarModalPago);
+    }
+
+    if (btnCancelarPago) {
+        btnCancelarPago.addEventListener('click', cerrarModalPago);
+    }
+
+    // Cerrar al pulsar fuera del contenido
+    modalPago.addEventListener('click', (e) => {
+        if (e.target === modalPago) {
+            cerrarModalPago();
+        }
+    });
+
+    // Registrar pago
+    formularioPago.addEventListener('submit', async (e) => {
+
+        e.preventDefault();
+
+        const idVenta = formularioPago.querySelector('[name="idVenta"]').value;
+        const idMetodoPago = document.getElementById('metodoPagoAdicional').value;
+        const montoTexto = document.getElementById('montoPagoAdicional').value;
+        const numeroOperacion = document.getElementById('numeroOperacionAdicional').value.trim();
+        const observacion = document.getElementById('observacionPagoAdicional').value.trim();
+
+        const monto = Number(montoTexto);
+
+        const saldoMaximo = Number(
+            document.getElementById('montoPagoAdicional').max
+        );
+
+        // Validar método de pago
+        if (!idMetodoPago) {
+            alert('Selecciona un método de pago.');
+            return;
+        }
+
+        // Validar monto
+        if (
+            montoTexto.trim() === '' ||
+            !Number.isFinite(monto) ||
+            monto <= 0
+        ) {
+            alert('Ingresa un monto válido.');
+            return;
+        }
+
+        if (monto > saldoMaximo + 0.001) {
+            alert('El monto no puede superar el saldo pendiente.');
+            return;
+        }
+
+        // Validar número de operación
+        if (
+            ['MET-0001', 'MET-0003'].includes(idMetodoPago) &&
+            numeroOperacion === ''
+        ) {
+            alert('Debes ingresar el número de operación para Yape o Transferencia.');
+            return;
+        }
+
+        const botonGuardar = document.getElementById('guardarPagoAdicional');
+
+        botonGuardar.disabled = true;
+        botonGuardar.textContent = 'Registrando...';
+
+        try {
+
+            const respuesta = await fetch('index.php?opcion=registrarPagoAdicional', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idVenta,
+                    idMetodoPago,
+                    monto,
+                    numeroOperacion,
+                    observacion
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (!respuesta.ok || !resultado.ok) {
+                throw new Error(
+                    resultado.mensaje || 'No se pudo registrar el pago.'
+                );
+            }
+
+            alert('¡Pago registrado correctamente!');
+
+            // Actualizar saldo e historial de pagos.
+            window.location.reload();
+
+        } catch (error) {
+
+            console.error('Error al registrar pago:', error);
+            alert(error.message);
+
+            botonGuardar.disabled = false;
+            botonGuardar.textContent = 'Registrar pago';
+
         }
 
     });

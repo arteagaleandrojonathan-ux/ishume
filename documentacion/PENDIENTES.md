@@ -1,6 +1,17 @@
     # Pendientes del proyecto
 
-    > Lista basada en la revisión estática del ZIP del 2026-11-07. Confirmar cada punto en el entorno local antes de modificar código.
+    > Los apartados históricos recogen la revisión del ZIP del 2026-11-07. La revisión del repositorio del 2026-11-17 incorpora estos pendientes prioritarios.
+
+    ## Hallazgos del 2026-11-17
+
+    - [ ] Corregir la consulta de anulación de compras. Tiene una coma antes de `FROM` y le falta el agregado `total` que usa la anulación parcial.
+    - [ ] Unificar el estado de anulación de ventas entre PHP y SQL. Definir cómo quedan los pagos y si se puede crear otra venta para el mismo contrato después de la anulación.
+    - [ ] Alinear el estado de la venta con el saldo al registrar el pago inicial y determinar en qué operación se descuenta el stock.
+    - [ ] Retirar el volcado del formulario de contratos y revisar los datos de depuración ya guardados en el historial de Git.
+    - [ ] Verificar control de acceso, protección CSRF y escape de salida en inventario.
+    - [ ] Verificar en MySQL y navegador los flujos de compras, inventario, contratos, PDF, ventas y pagos.
+
+    El formulario de contratos ya envía `DireccionCliente` y el controlador ya llama a `validarDatos()`. El módulo de ventas ya existe. Las referencias históricas a esas tareas reflejan el estado del ZIP.
 
     ## Prioridad alta — completar y probar procesos existentes
 

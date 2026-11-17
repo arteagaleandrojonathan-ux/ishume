@@ -67,7 +67,7 @@ class Venta{
             $this->db->beginTransaction();
 
             // 1. Verificar que el contrato exista
-            $sqlContrato = "SELECT idContrato
+            $sqlContrato = "SELECT idContrato, Estado
                             FROM Contratos
                             WHERE idContrato = :idContrato
                             LIMIT 1";
@@ -76,9 +76,14 @@ class Venta{
             $consultaContrato->execute([
                 ':idContrato' => $idContrato
             ]);
+            $contrato = $consultaContrato->fetch(PDO::FETCH_ASSOC);
 
-            if (!$consultaContrato->fetch(PDO::FETCH_ASSOC)) {
+
+            if (!$contrato) {
                 throw new Exception("El contrato indicado no existe.");
+            }
+            if ($contrato['Estado'] === 'CANCELADO') {
+                throw new Exception("No se puede registrar una venta para un contrato cancelado.");
             }
 
             // 2. Verificar que el contrato no tenga una venta registrada
@@ -190,6 +195,16 @@ class Venta{
             // Validar que los pagos no superen el total de la venta
             if (round($totalPagado, 2) > round($totalVenta, 2)) {
                 throw new Exception("La suma de los pagos no puede superar el total de la venta.");
+            }
+
+            // Validar que el primer pago sea como mínimo el 50 % del total
+            $montoMinimo = round($totalVenta / 2, 2);
+
+            if (round($totalPagado, 2) < $montoMinimo) {
+                throw new Exception(
+                    "El pago inicial debe ser como mínimo el 50 % del total de la venta. Debes pagar S/ " .
+                    number_format($montoMinimo, 2, '.', '')
+                );
             }
 
 
@@ -319,7 +334,21 @@ class Venta{
                     ':observacion' => $observacion !== '' ? $observacion : null
                 ]);
             }
-            // 9. Confirmar todos los registros
+
+            // 10. Cambiar el estado del contrato a FINALIZADO
+            $sqlContratoEstado = "UPDATE Contratos
+                                SET Estado = 'FINALIZADO'
+                                WHERE idContrato = :idContrato
+                                AND Estado <> 'CANCELADO'";
+
+            $consultaContratoEstado = $this->db->prepare($sqlContratoEstado);
+
+            $consultaContratoEstado->execute([
+                ':idContrato' => $idContrato
+            ]);
+
+            // 11. Confirmar todos los registros
+
             $this->db->commit();
 
             return $idVenta;
@@ -487,6 +516,246 @@ class Venta{
         $consulta->bindValue(':idVenta', $idVenta, PDO::PARAM_STR);
 
         return $consulta->execute();
+    }
+
+    //para los registros de pago
+    
+    // Registrar un pago adicional en una venta existente
+    public function registrarPagoAdicional($idVenta,$idMetodoPago,$monto,$numeroOperacion,$observacion) {
+
+        try {
+
+            // Iniciar una transacción
+            $this->db->beginTransaction();
+
+            // 1. Buscar la venta y bloquear su registro durante la operación
+            $sqlVenta = "SELECT
+                        idVenta,
+                        idContrato,
+                        PrecioTotal,
+                        Estado
+                     FROM Ventas
+                     WHERE idVenta = :idVenta
+                     LIMIT 1
+                     FOR UPDATE";
+
+            $consultaVenta = $this->db->prepare($sqlVenta);
+
+            $consultaVenta->execute([
+                ':idVenta' => $idVenta
+            ]);
+
+            $venta = $consultaVenta->fetch(PDO::FETCH_ASSOC);
+
+            if (!$venta) {
+                throw new Exception("La venta no existe.");
+            }
+
+            // 2. Comprobar que la venta no esté anulada
+            if (strtoupper(trim($venta['Estado'])) === 'ANULADA') {
+                throw new Exception("No se pueden registrar pagos en una venta anulada.");
+            }   
+
+            // 3. Validar el monto recibido
+            if (!is_numeric($monto) || !is_finite((float) $monto) || (float) $monto <= 0) {
+                throw new Exception("El monto del pago no es válido.");
+            }
+
+            $monto = round((float) $monto, 2);
+
+            // 4. Obtener el total pagado anteriormente
+            $sqlPagado = "SELECT COALESCE(SUM(Monto), 0)
+                      FROM Pago
+                      WHERE idContrato = :idContrato
+                      AND Estado = 1";
+
+            $consultaPagado = $this->db->prepare($sqlPagado);
+
+            $consultaPagado->execute([
+                ':idContrato' => $venta['idContrato']
+            ]);
+
+            $totalPagado = round((float) $consultaPagado->fetchColumn(), 2);
+
+            // 5. Calcular cuánto falta pagar
+            $totalVenta = round((float) $venta['PrecioTotal'], 2);
+
+            $saldoPendiente = round($totalVenta - $totalPagado, 2);
+
+            if ($saldoPendiente <= 0) {
+                throw new Exception("Esta venta ya está completamente pagada.");
+            }
+
+            // 6. Comprobar que el nuevo pago no supere el saldo pendiente
+            if ($monto > $saldoPendiente) {
+                throw new Exception( "El pago supera el saldo pendiente. Solo falta pagar S/ " .number_format($saldoPendiente, 2, '.', ''));
+            }
+
+            // 7. Verificar que el método de pago exista y esté activo
+            $sqlMetodo = "SELECT idMetodoPago
+                      FROM MetodoPago
+                      WHERE idMetodoPago = :idMetodoPago
+                      AND Estado = 1
+                      LIMIT 1";
+
+            $consultaMetodo = $this->db->prepare($sqlMetodo);
+
+            $consultaMetodo->execute([
+                ':idMetodoPago' => $idMetodoPago
+            ]);
+
+            if (!$consultaMetodo->fetch(PDO::FETCH_ASSOC)) {
+                throw new Exception("El método de pago no existe o está inactivo.");
+            }
+
+            // 8. Validar el número de operación para Yape y Transferencia
+            $numeroOperacion = trim($numeroOperacion ?? '');
+
+            if (in_array($idMetodoPago, ['MET-0001', 'MET-0003'], true) &&$numeroOperacion === ''){
+
+                throw new Exception("El número de operación es obligatorio para Yape o Transferencia.");
+            }
+
+            // 9. Generar el siguiente código de pago
+            $sqlUltimoPago = "SELECT MAX(CAST(SUBSTRING(idPago, 5) AS UNSIGNED))
+                          FROM Pago
+                          WHERE idPago LIKE 'PAG-%'";
+
+            $ultimoNumeroPago = (int) $this->db->query($sqlUltimoPago)->fetchColumn();
+
+            $idPago = 'PAG-' . str_pad($ultimoNumeroPago + 1,4, '0', STR_PAD_LEFT);
+
+            // 10. Registrar el nuevo pago
+            $sqlPago = "INSERT INTO Pago (idPago, idContrato,idMetodoPago,Monto,FechaPago,
+                                        NumOperacion,Observacion,Estado)
+                    VALUES (:idPago,:idContrato,:idMetodoPago,:monto,NOW(),:numeroOperacion,:observacion,1)";
+
+            $consultaPago = $this->db->prepare($sqlPago);
+
+            $consultaPago->execute([
+                ':idPago' => $idPago,
+                ':idContrato' => $venta['idContrato'],
+                ':idMetodoPago' => $idMetodoPago,
+                ':monto' => $monto,
+                ':numeroOperacion' => $numeroOperacion !== ''
+                    ? $numeroOperacion
+                    : null,
+                ':observacion' => trim($observacion ?? '') !== ''
+                    ? trim($observacion)
+                    : null
+            ]);
+
+            // 11. Actualizar el estado de la venta
+            $nuevoTotalPagado = round($totalPagado + $monto, 2);
+
+            $nuevoEstado = $nuevoTotalPagado >= $totalVenta
+                ? 'FINALIZADA'
+                : 'PENDIENTE';
+
+            $sqlEstado = "UPDATE Ventas
+                      SET Estado = :estado
+                      WHERE idVenta = :idVenta";
+
+            $consultaEstado = $this->db->prepare($sqlEstado);
+
+            $consultaEstado->execute([
+                ':estado' => $nuevoEstado,
+                ':idVenta' => $idVenta
+            ]);
+
+            // 12. Confirmar todos los cambios
+            $this->db->commit();
+
+            return [
+                'idPago' => $idPago,
+                'totalPagado' => $nuevoTotalPagado,
+                'saldoPendiente' => round($totalVenta - $nuevoTotalPagado, 2),
+                'estado' => $nuevoEstado
+            ];
+
+        } catch (Throwable $e) {
+
+            // Si ocurre un error, deshacer los cambios
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+
+            throw new Exception($e->getMessage());
+        }
+    }
+
+
+    // Anular una venta sin eliminar sus detalles ni sus pagos
+    public function anularVenta($idVenta) {
+
+        try {
+
+            $this->db->beginTransaction();
+
+            // 1. Buscar y bloquear la venta
+            $sql = "SELECT idVenta, idContrato, Estado
+                FROM Ventas
+                WHERE idVenta = :idVenta
+                LIMIT 1
+                FOR UPDATE";
+
+            $consulta = $this->db->prepare($sql);
+
+            $consulta->execute([
+                ':idVenta' => $idVenta
+            ]);
+
+            $venta = $consulta->fetch(PDO::FETCH_ASSOC);
+
+            if (!$venta) {
+                throw new Exception("La venta no existe.");
+            }
+
+            // 2. Comprobar si ya está anulada
+            if (strtoupper(trim($venta['Estado'])) === 'ANULADA') {
+                throw new Exception("Esta venta ya se encuentra anulada.");
+            }
+            // 2.1. No permitir anular ventas finalizadas
+            if (strtoupper(trim($venta['Estado'])) === 'FINALIZADA') {
+                throw new Exception("No se puede anular una venta que ya está finalizada.");
+            }
+
+            // 3. Cambiar únicamente el estado
+            $sqlAnular = "UPDATE Ventas
+                      SET Estado = 'ANULADA'
+                      WHERE idVenta = :idVenta";
+
+            $consultaAnular = $this->db->prepare($sqlAnular);
+
+            $consultaAnular->execute([
+                ':idVenta' => $idVenta
+            ]);
+
+            // 4. Devolver el contrato a PROCESO
+            $sqlContrato = "UPDATE Contratos
+                            SET Estado = 'PROCESO'
+                            WHERE idContrato = :idContrato
+                            AND Estado <> 'CANCELADO'";
+
+            $consultaContrato = $this->db->prepare($sqlContrato);
+
+            $consultaContrato->execute([
+                ':idContrato' => $venta['idContrato']
+            ]);
+
+            // 5. Confirmar la operación
+            $this->db->commit();
+
+            return true;
+
+        } catch (Throwable $e) {
+
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

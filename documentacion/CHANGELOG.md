@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 2026-11-17 — Revisión estática del repositorio
+
+- PHP 8.2 validó 32 archivos y Node validó la sintaxis de 7 scripts. Las dependencias instaladas cumplen los requisitos de plataforma de Composer.
+- Se detectaron un error SQL en la anulación de compras, una incompatibilidad de estados en la anulación de ventas y un registro de depuración que guarda datos de contratos.
+- Ventas ya cuenta con rutas, controlador, modelo y vistas. Contratos ya envía el formulario por JavaScript y valida los datos del cliente en el servidor.
+- Se revisaron los flujos por lectura del código. Las operaciones contra MySQL y la interacción en navegador quedan pendientes de verificación. Solo se actualizó la documentación.
+
 ## 2026-11-07 — Revisión inicial del ZIP
 
 **Tipo:** análisis y documentación.  

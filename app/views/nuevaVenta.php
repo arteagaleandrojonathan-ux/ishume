@@ -25,6 +25,7 @@
             </a>
         </header>
 
+        <a href="#seccionResumen" class="ir-al-resumen">Ver resumen ↓</a>
         <div class="contenido-venta">
 
             <!-- SECCIÓN DE PRODUCTOS -->
@@ -140,7 +141,7 @@
             </section>
 
             <!-- RESUMEN DE VENTA -->
-            <aside class="seccion-resumen">
+            <aside class="seccion-resumen" id="seccionResumen">
 
                 <h2>Resumen de venta</h2>
 

@@ -499,3 +499,450 @@
         width: 100%;
     }
 }
+
+
+/* =====================================================
+   RESPONSIVE (ajuste final para celular y tablet)
+   Va al final del archivo a propósito: pisa las reglas anteriores
+   solo en pantallas pequeñas. En laptop no cambia nada.
+   ===================================================== */
+
+/* ---------- Tablets ---------- */
+
+@media (max-width: 900px) {
+
+    /* El scroll lo hace la página, no la vista (evita scroll dentro de scroll) */
+
+    .detalle-venta {
+        height: auto;
+        overflow: visible;
+        padding-right: 0;
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    /* Título a la izquierda y "Volver" a la derecha (antes se apilaban) */
+
+    .encabezado-detalle {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+    }
+
+    .btn-volver-detalle {
+        height: 38px;
+        padding: 0 14px;
+    }
+
+    /* Tablas */
+
+    .tabla-detalle-scroll {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabla-detalle-venta th {
+        padding: 10px 12px;
+    }
+
+    .tabla-detalle-venta td {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    /* En productos, el SUBTOTAL queda fijo a la derecha mientras se desliza la tabla */
+
+    .seccion-productos-venta .tabla-detalle-venta th:last-child,
+    .seccion-productos-venta .tabla-detalle-venta td:last-child {
+        position: sticky;
+        right: 0;
+    }
+
+    .seccion-productos-venta .tabla-detalle-venta td:last-child {
+        background: #FFFFFF;
+        box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.2);
+    }
+
+    .seccion-productos-venta .tabla-detalle-venta tbody tr:hover td:last-child {
+        background: var(--detalle-fondo-suave);
+    }
+
+    /* Botón "Editar fechas" a todo el ancho y fácil de tocar */
+
+    .acciones-fechas-venta button {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 17px;
+    }
+
+    /* Ventana de edición de fechas */
+
+    .contenido-modal-fechas {
+        max-height: 90vh;
+        max-height: 90dvh;
+        overflow-y: auto;
+    }
+
+    .campo-fecha-venta input {
+        font-size: 16px;               /* el teclado del celular no hace zoom */
+    }
+
+    .cerrar-modal-fechas {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        margin: -6px -6px 0 0;
+        line-height: 1;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 560px) {
+
+    .contenido-modal-fechas {
+        padding: 20px 16px;
+    }
+
+    .encabezado-modal-fechas {
+        margin-bottom: 18px;
+    }
+
+    .encabezado-modal-fechas h2 {
+        font-size: 19px;
+    }
+
+    /* Botones de la ventana: a todo el ancho, "Guardar" arriba */
+
+    .acciones-modal-fechas {
+        flex-direction: column-reverse;
+        margin-top: 18px;
+    }
+
+    .acciones-modal-fechas button {
+        width: 100%;
+        padding: 12px 17px;
+    }
+}
+
+
+
+
+/* =====================================================
+   RESUMEN DE PAGOS
+   ===================================================== */
+
+.resumen-pagos-venta {
+    background: #FFFFFF;
+    border: 1px solid var(--detalle-borde);
+    border-radius: var(--detalle-radio);
+    overflow: hidden;
+}
+
+.resumen-pagos-venta > .titulo-productos-venta {
+    border-bottom: 1px solid var(--detalle-borde);
+}
+
+.contenedor-resumen-pagos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.dato-resumen-pago {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 18px;
+    background: var(--detalle-fondo-suave);
+    border: 1px solid var(--detalle-borde);
+    border-radius: 10px;
+}
+
+.dato-resumen-pago span {
+    color: var(--detalle-texto-suave);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dato-resumen-pago strong {
+    font-size: 23px;
+    color: #1A1A1A;
+}
+
+.dato-resumen-pago:nth-child(2) strong {
+    color: #36834B;
+}
+
+.dato-resumen-pago:nth-child(3) strong {
+    color: var(--ishume-naranja);
+}
+
+/* Botón de registrar pago */
+
+.acciones-nuevo-pago {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px 20px;
+}
+
+.acciones-nuevo-pago button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--ishume-naranja);
+    color: #FFFFFF;
+    border: 1px solid var(--ishume-naranja);
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.acciones-nuevo-pago button:hover {
+    background: #DF8015;
+    border-color: #DF8015;
+}
+
+.acciones-nuevo-pago button:focus-visible {
+    outline: 2px solid var(--ishume-naranja);
+    outline-offset: 3px;
+}
+
+
+/* =====================================================
+   MODAL PARA REGISTRAR NUEVO PAGO
+   ===================================================== */
+
+.modal-pago-venta {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, .55);
+}
+
+.modal-pago-venta.mostrar {
+    display: flex;
+}
+
+.contenido-modal-pago {
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 25px;
+    background: #FFFFFF;
+    border: 1px solid var(--detalle-borde);
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .18);
+}
+
+.encabezado-modal-pago {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.encabezado-modal-pago h2 {
+    margin: 0;
+    font-size: 21px;
+    color: #1A1A1A;
+}
+
+.encabezado-modal-pago p {
+    margin: 7px 0 0;
+    font-size: 13px;
+    color: var(--detalle-texto-suave);
+}
+
+.cerrar-modal-pago {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    margin: -6px -6px 0 0;
+    border: none;
+    background: transparent;
+    color: #777777;
+    font-size: 27px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.cerrar-modal-pago:hover {
+    color: #1A1A1A;
+}
+
+
+/* Campos del formulario */
+
+.campo-pago-venta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo-pago-venta label {
+    color: #292929;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo-pago-venta input,
+.campo-pago-venta select,
+.campo-pago-venta textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #D8D2CA;
+    border-radius: 8px;
+    outline: none;
+    color: #292929;
+    background: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    transition: .2s ease;
+}
+
+.campo-pago-venta textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.campo-pago-venta input:focus,
+.campo-pago-venta select:focus,
+.campo-pago-venta textarea:focus {
+    border-color: var(--ishume-naranja);
+    box-shadow: 0 0 0 3px rgba(247, 147, 30, .12);
+}
+
+.campo-pago-venta small {
+    color: var(--detalle-texto-suave);
+    font-size: 12px;
+}
+
+
+/* Botones del modal */
+
+.acciones-modal-pago {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.acciones-modal-pago button {
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#cancelarModalPago {
+    background: #FFFFFF;
+    border: 1px solid #D8D2CA;
+    color: #444444;
+}
+
+#cancelarModalPago:hover {
+    background: #F5F3EF;
+}
+
+#guardarPagoAdicional {
+    background: var(--ishume-naranja);
+    border: 1px solid var(--ishume-naranja);
+    color: #FFFFFF;
+}
+
+#guardarPagoAdicional:hover {
+    background: #DF8015;
+}
+
+#guardarPagoAdicional:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   RESPONSIVE - RESUMEN Y MODAL DE PAGOS
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .contenedor-resumen-pagos {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .dato-resumen-pago {
+        padding: 14px;
+    }
+
+    .dato-resumen-pago strong {
+        font-size: 20px;
+    }
+
+    .acciones-nuevo-pago {
+        padding: 0 15px 15px;
+    }
+
+    .acciones-nuevo-pago button {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 560px) {
+
+    .contenido-modal-pago {
+        padding: 20px 16px;
+    }
+
+    .encabezado-modal-pago {
+        margin-bottom: 18px;
+    }
+
+    .encabezado-modal-pago h2 {
+        font-size: 19px;
+    }
+
+    .campo-pago-venta input,
+    .campo-pago-venta select,
+    .campo-pago-venta textarea {
+        font-size: 16px;
+    }
+
+    .acciones-modal-pago {
+        flex-direction: column-reverse;
+        margin-top: 18px;
+    }
+
+    .acciones-modal-pago button {
+        width: 100%;
+        padding: 12px 17px;
+    }
+
+}
+
+

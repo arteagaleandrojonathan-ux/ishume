@@ -173,6 +173,10 @@ class VentasController {
 
         $detalles = $this->AccionModelo->obtenerDetallesVenta($idVenta);
         $pagos = $this->AccionModelo->obtenerPagosVenta($idVenta);
+        $metodosPago = $this->AccionModelo->obtenerMetodosPago();
+
+        //no puede ser menor a la fehca de hoy 
+        $fechaMinima = (new DateTimeImmutable('today', new DateTimeZone('America/Lima')))->format('Y-m-d');
 
         // Indicar al panel principal qué vista debe cargar
         $vista = 'detalleVenta';
@@ -219,6 +223,8 @@ class VentasController {
             return;
         }
 
+        $hoy = (new DateTimeImmutable( 'today',new DateTimeZone('America/Lima')))->format('Y-m-d');
+
         // Validar fecha y hora de entrega
         if ($fechaEntrega !== '') {
             $fecha = DateTime::createFromFormat('!Y-m-d', $fechaEntrega);
@@ -227,7 +233,16 @@ class VentasController {
                 throw new Exception('La fecha de entrega no es válida.');
             }
 
+
             $fechaEntrega = $fecha->format('Y-m-d');
+
+            if ($fechaEntrega < $hoy) {
+                http_response_code(400); echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'La fecha de entrega no puede ser anterior a hoy.'
+                ]);
+                return;
+            }
         } else {
             $fechaEntrega = null;
         }
@@ -246,6 +261,15 @@ class VentasController {
             }
 
             $fechaLimitePago = $fecha->format('Y-m-d');
+            if ($fechaLimitePago < $hoy) {
+                http_response_code(400);
+                echo json_encode([
+                    'ok' => false,
+                    'mensaje' => 'La fecha límite de pago no puede ser anterior a hoy.'
+                ]);
+
+                return;
+            }
         } else {
             $fechaLimitePago = null;
         }
@@ -275,5 +299,124 @@ class VentasController {
         }
     }
 
+
+    // Registrar un pago adicional en una venta existente
+    public function registrarPagoAdicional() {
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        // Comprobar que la solicitud sea POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Método no permitido.'
+            ]);
+
+            return;
+        }
+
+        // Recibir los datos enviados desde JavaScript
+        $datos = json_decode(file_get_contents('php://input'), true);
+
+        if (!is_array($datos)) {
+            http_response_code(400);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Los datos enviados no son válidos.'
+            ]);
+
+            return;
+        }
+
+        // Obtener los datos del pago
+        $idVenta = trim($datos['idVenta'] ?? '');
+        $idMetodoPago = trim($datos['idMetodoPago'] ?? '');
+        $monto = $datos['monto'] ?? null;
+        $numeroOperacion = trim($datos['numeroOperacion'] ?? '');
+        $observacion = trim($datos['observacion'] ?? '');
+
+        // Validar los datos obligatorios
+        if ($idVenta === '' || $idMetodoPago === '') {
+            http_response_code(400);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Faltan datos obligatorios para registrar el pago.'
+            ]);
+
+            return;
+        }
+
+        if (
+            !is_numeric($monto) ||
+            !is_finite((float) $monto) ||
+            (float) $monto <= 0
+        ) {
+            http_response_code(400);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Ingresa un monto válido mayor que cero.'
+            ]);
+
+            return;
+        }
+
+        // Registrar el pago mediante el modelo
+        try {
+
+            $resultado = $this->AccionModelo->registrarPagoAdicional(
+                $idVenta,
+                $idMetodoPago,
+                $monto,
+                $numeroOperacion,
+                $observacion
+            );
+
+            echo json_encode([
+                'ok' => true,
+                'mensaje' => 'El pago se registró correctamente.',
+                'pago' => $resultado
+            ]);
+
+        } catch (Throwable $e) {
+
+            http_response_code(400);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => $e->getMessage()
+            ]);
+        }
+    }
+
+
+    public function anularVenta() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit('Método no permitido.');
+        }
+
+        $idVenta = trim($_POST['idVenta'] ?? '');
+
+        if ($idVenta === '') {
+            header('Location: index.php?opcion=ventas&error=' . urlencode('No se recibió el código de la venta.'));
+            exit;
+        }
+
+        try {
+            $this->AccionModelo->anularVenta($idVenta);
+
+            header('Location: index.php?opcion=ventas&anulada=1');
+            exit;
+
+        } catch (Throwable $e) {
+            header('Location: index.php?opcion=ventas&error=' . urlencode($e->getMessage()));
+            exit;
+        }
+    }
 }
 ?>

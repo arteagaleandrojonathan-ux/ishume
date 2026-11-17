@@ -118,6 +118,16 @@
              $controller = new VentasController();
              $controller->actualizarFechasVenta();
              break;
+        case 'registrarPagoAdicional':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->registrarPagoAdicional();
+            break;
+        case 'anularVentas':
+            require_once __DIR__ . '/../app/controllers/ventas.php';
+            $controller = new VentasController();
+            $controller->anularVenta();
+            break;
 
 
         //TODAS LAS RUTAS A COMPRA

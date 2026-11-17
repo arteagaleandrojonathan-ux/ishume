@@ -1,20 +1,20 @@
 Array
 (
-    [token] => dec0f50ce4f6a029ca2ebee0b7275ab5
+    [token] => 216e32f8ba660e943b335fcf476d8ec5
     [Nombre] => jonathan
     [Apellidos] => arteagaleandro
     [Testigo] => samir perez
     [TipoDOI] => DNI
-    [NumDOI] => 65427235
-    [Telefono] => 939438438
+    [NumDOI] => 32324324
+    [Telefono] => 021541015
     [Correo] => arteagaleandrojonathan@gmail.com
     [DireccionCliente] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [buscarColegio] => cayeta
-    [idColegio] => CO-00029
+    [buscarColegio] => la uni
+    [idColegio] => CO-00030
     [Evento] => Por la plaza de chincha
     [Servicio] => Promocion
-    [FechaEvento] => 2026-12-09
+    [FechaEvento] => 2026-11-26
     [Direccion] => AA.HH Satelite Primaveral Mz: N ; Lote: 7
-    [idProvincia] => PRO-0001
-    [idDistrito] => DIS-0003
+    [idProvincia] => PRO-0003
+    [idDistrito] => DIS-0018
 )

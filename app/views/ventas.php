@@ -1,9 +1,27 @@
 
 <?php
-function escapar($valor) {
-    return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
-}
+    function escapar($valor) {
+        return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+    }
 
+?>
+<?php
+    $estadoFiltro = $_GET['estado'] ?? 'TODAS';
+
+    $estadosPermitidos = ['TODAS', 'PENDIENTE', 'FINALIZADA', 'ANULADA'];
+
+    if (!in_array($estadoFiltro, $estadosPermitidos, true)) {
+        $estadoFiltro = 'TODAS';
+    }
+
+    $ventasFiltradas = array_filter($ventas, function ($venta) use ($estadoFiltro) {
+
+        if ($estadoFiltro === 'TODAS') {
+            return true;
+        }
+
+        return strtoupper(trim($venta['Estado'])) === $estadoFiltro;
+    });
 ?>
 
     <main class="contenedor-ventas">
@@ -27,12 +45,42 @@ function escapar($valor) {
         </section>
 
         <section class="tabla-ventas">
+            <?php if (isset($_GET['anulada'])): ?>
+                <div class="mensaje-exito">
+                    La venta se anuló correctamente.
+                </div>
+            <?php endif; ?>
 
+            <?php if (isset($_GET['error'])): ?>
+                <div class="mensaje-error">
+                    <?= escapar($_GET['error']) ?>
+                </div>
+            <?php endif; ?>
+            
             <div class="tabla-ventas-titulo">
                 <h2>Registro de ventas</h2>
+                <form method="GET" action="index.php" class="filtro-ventas">
+                    <input type="hidden" name="opcion" value="ventas">
+                    <label for="estado">Filtrar por estado:</label>
+
+                    <select name="estado" id="estado" onchange="this.form.submit()">
+                        <option value="TODAS" <?= $estadoFiltro === 'TODAS' ? 'selected' : '' ?>>
+                            Todas las ventas
+                        </option>
+                        <option value="PENDIENTE" <?= $estadoFiltro === 'PENDIENTE' ? 'selected' : '' ?>>
+                            Pendientes
+                        </option>
+                        <option value="FINALIZADA" <?= $estadoFiltro === 'FINALIZADA' ? 'selected' : '' ?>>
+                            Finalizadas
+                        </option>
+                        <option value="ANULADA" <?= $estadoFiltro === 'ANULADA' ? 'selected' : '' ?>>
+                            Anuladas
+                        </option>
+                    </select>
+                </form>
             </div>
 
-            <?php if (empty($ventas)): ?>
+            <?php if (empty($ventasFiltradas)): ?>
 
                 <div class="ventas-vacias">
                     <h3>No hay ventas registradas</h3>
@@ -58,7 +106,7 @@ function escapar($valor) {
                         </thead>
 
                         <tbody>
-                            <?php foreach ($ventas as $venta): ?>
+                            <?php foreach ($ventasFiltradas as $venta): ?>
                                 <tr>
                                     <td>
                                         <strong><?= escapar($venta['idVenta']) ?></strong>
@@ -101,12 +149,31 @@ function escapar($valor) {
                                         </span>
                                     </td>
                                     <td>
-                                        <a
-                                            href="index.php?opcion=detalleVenta&idVenta=<?= urlencode($venta['idVenta']) ?>"
-                                            class="btn-ver-detalle"
-                                        >
-                                             Ver detalle →
-                                        </a>
+                                        <div class="acciones-venta">
+
+                                            <a href="index.php?opcion=detalleVenta&idVenta=<?= urlencode($venta['idVenta']) ?>"
+                                                class="btn-ver-detalle">
+                                                Ver
+                                            </a>
+
+                                            <?php if (strtoupper(trim($venta['Estado'])) == 'PENDIENTE'): ?>
+
+                                                <form method="POST"
+                                                    action="index.php?opcion=anularVentas"
+                                                    onsubmit="return confirm('¿Estás seguro de anular esta venta? Los pagos recibidos se conservarán en el historial.');">
+
+                                                    <input type="hidden"
+                                                        name="idVenta"
+                                                        value="<?= escapar($venta['idVenta']) ?>">
+
+                                                    <button type="submit" class="btn-anular-venta">
+                                                        Anular
+                                                    </button>
+
+                                                </form>
+                                            <?php endif; ?>
+
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

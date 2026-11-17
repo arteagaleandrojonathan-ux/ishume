@@ -43,66 +43,92 @@
         }
 
 
-public function descargarContratoPDF() {
+        public function descargarContratoPDF() {
 
-    // 1. Obtener el ID del contrato
-    $idContrato = trim($_GET['idContrato'] ?? '');
+            // 1. Obtener el ID del contrato
+            $idContrato = trim($_GET['idContrato'] ?? '');
 
-    if ($idContrato === '') {
-        header('Location: index.php?opcion=listaContratos');
-        exit;
-    }
+            if ($idContrato === '') {
+                header('Location: index.php?opcion=listaContratos');
+                exit;
+            }
 
-    // 2. Buscar los datos del contrato
-    $contrato = $this->AccionModelo->obtenerContratoPorId($idContrato);
+            // 2. Buscar los datos del contrato
+            $contrato = $this->AccionModelo->obtenerContratoPorId($idContrato);
 
-    if (!$contrato) {
-        http_response_code(404);
-        echo "No se encontró el contrato solicitado.";
-        return;
-    }
+            if (!$contrato) {
+                http_response_code(404);
+                echo "No se encontró el contrato solicitado.";
+                return;
+            }
 
-    // 3. Cargar Dompdf
-    $autoload = __DIR__ . '/../../vendor/autoload.php';
+            // 3. Cargar Dompdf
+            $autoload = __DIR__ . '/../../vendor/autoload.php';
 
-    if (!file_exists($autoload)) {
-        http_response_code(500);
-        echo "No se encontró la instalación de Dompdf.";
-        return;
-    }
+            if (!file_exists($autoload)) {
+                http_response_code(500);
+                echo "No se encontró la instalación de Dompdf.";
+                return;
+            }
 
-    require_once $autoload;
+            require_once $autoload;
 
-    // 4. Preparar el documento HTML
-    ob_start();
-    require __DIR__ . '/../views/pdfContrato.php';
-    $html = ob_get_clean();
+            // 4. Preparar el documento HTML
+            ob_start();
+            require __DIR__ . '/../views/pdfContrato.php';
+            $html = ob_get_clean();
 
-    // 5. Configurar y generar el PDF
-    $opciones = new \Dompdf\Options();
-    $opciones->set('defaultFont', 'Arial');
-    $opciones->set('isHtml5ParserEnabled', true);
+            // 5. Configurar y generar el PDF
+            $opciones = new \Dompdf\Options();
+            $opciones->set('defaultFont', 'Arial');
+            $opciones->set('isHtml5ParserEnabled', true);
 
-    $dompdf = new \Dompdf\Dompdf($opciones);
+            $dompdf = new \Dompdf\Dompdf($opciones);
 
-    $dompdf->loadHtml($html, 'UTF-8');
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+            $dompdf->loadHtml($html, 'UTF-8');
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
 
-    // 6. Descargar el archivo
-    $nombreArchivo = 'Contrato-' .
-        preg_replace('/[^A-Za-z0-9_-]/', '', $idContrato) .
-        '.pdf';
+            // 6. Descargar el archivo
+            $nombreArchivo = 'Contrato-' .
+                preg_replace('/[^A-Za-z0-9_-]/', '', $idContrato) .
+                '.pdf';
 
-    $dompdf->stream($nombreArchivo, [
-        'Attachment' => true
-    ]);
+            $dompdf->stream($nombreArchivo, [
+                'Attachment' => true
+            ]);
 
-    exit;
-}
+            exit;
+        }
 
 
         public function contratos(){
+
+            // Obtener el mes y año seleccionados
+            $mes = isset($_GET['mes']) ? (int) $_GET['mes'] : (int) date('m');
+            $anio = isset($_GET['anio']) ? (int) $_GET['anio'] : (int) date('Y');
+
+            // Validar el período seleccionado
+            if ($mes < 1 || $mes > 12 || $anio < 2000 || $anio > 2100) {
+                $mes = (int) date('m');
+                $anio = (int) date('Y');
+            }
+
+            // Obtener los contadores correspondientes al año seleccionado
+            $resumen = $this->AccionModelo->obtenerResumenPanel($anio);
+
+            // Resumen económico del mes seleccionado
+            $resumenMensual = $this->AccionModelo->obtenerResumenMensual($mes, $anio);
+
+            // Eventos correspondientes al mes seleccionado
+            $proximosEventos = $this->AccionModelo->obtenerProximosEventos($mes, $anio);
+
+            // Pagos que vencen durante el mes seleccionado
+            $pagosPorVencer = $this->AccionModelo->obtenerPagosPorVencer($mes, $anio);
+
+            // Pagos registrados durante el mes seleccionado
+            $ultimosPagos = $this->AccionModelo->obtenerUltimosPagos($mes, $anio);
+
             $vista = 'contratos';
             require_once __DIR__ . '/../views/PanelPrincipal.php';
         }

@@ -450,3 +450,141 @@
         font-size: 23px;
     }
 }
+/* ---------- Selector del resumen mensual ---------- */
+
+.panel-resumen .filtro-resumen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.panel-resumen .filtro-resumen form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.panel-resumen .filtro-resumen label {
+    color: #D6CFC6;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.panel-resumen .filtro-resumen input[type="month"] {
+    width: 190px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #514A42;
+    border-radius: 8px;
+    background: #fffefe;
+    color: #080808;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.panel-resumen .filtro-resumen input[type="month"]:focus {
+    border-color: var(--ishume-naranja);
+    box-shadow: 0 0 0 3px rgba(247, 147, 30, 0.15);
+}
+
+/* ---------- Texto sin registros ---------- */
+
+.panel-resumen .sin-registros {
+    color: #A9A9A9;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+/* ==========================================
+   SCROLL VERTICAL - ÚLTIMOS PAGOS
+   ========================================== */
+/* TARJETA DE ÚLTIMOS PAGOS */
+.tarjeta-ultimos-pagos {
+    height: 350px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TÍTULO FIJO */
+.tarjeta-ultimos-pagos h2 {
+    flex-shrink: 0;
+}
+
+/* SOLO SE DESPLAZAN LOS REGISTROS */
+.contenedor-scroll-pagos {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 0;
+}
+
+/* ENCABEZADO DE LA TABLA FIJO */
+.contenedor-scroll-pagos thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+}
+
+/* TARJETA PAGOS POR VENCER */
+.tarjeta-pagos-vencer {
+    height: 350px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TÍTULO FIJO */
+.tarjeta-pagos-vencer h2 {
+    flex-shrink: 0;
+}
+
+/* SCROLL SOLO EN LOS REGISTROS */
+.contenedor-scroll-vencer {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 0;
+}
+
+/* ENCABEZADO FIJO */
+.contenedor-scroll-vencer thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+}
+
+/* TARJETA PRÓXIMOS EVENTOS */
+.tarjeta-proximos-eventos {
+    height: 350px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TÍTULO FIJO */
+.tarjeta-proximos-eventos h2 {
+    flex-shrink: 0;
+}
+
+/* SCROLL SOLO EN LOS EVENTOS */
+.contenedor-scroll-eventos {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 0;
+}
+
+/* ENCABEZADO DE LA TABLA FIJO */
+.contenedor-scroll-eventos thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+}

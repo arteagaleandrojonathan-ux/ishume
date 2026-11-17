@@ -1,4 +1,3 @@
-
 /* ==========================================
    LISTADO DE CONTRATOS - ISHUME
 ========================================== */
@@ -21,17 +20,19 @@ body {
     overflow: hidden;
 }
 
-/* Menú lateral fijo */
-.menu {
-    position: sticky;
-    top: 0;
-    flex: 0 0 205px;
-    width: 205px;
-    height: 100vh;
-    height: 100dvh;
-    align-self: flex-start;
-    overflow-y: auto;
-    z-index: 10;
+/* Menú lateral fijo (solo en pantallas grandes: en celular manda el menú desplegable de PanelPrincipal.css) */
+@media (min-width: 769px) {
+    .menu {
+        position: sticky;
+        top: 0;
+        flex: 0 0 205px;
+        width: 205px;
+        height: 100vh;
+        height: 100dvh;
+        align-self: flex-start;
+        overflow-y: auto;
+        z-index: 10;
+    }
 }
 
 /* Área que contiene las vistas */
@@ -695,4 +696,193 @@ body {
     padding: 18px;
     text-align: center;
     color: #777;
+}
+
+
+/* =====================================================
+   RESPONSIVE (ajuste final para celular y tablet)
+   Va al final del archivo a propósito: pisa las reglas anteriores
+   solo en pantallas pequeñas. En laptop no cambia nada.
+   ===================================================== */
+
+/* ---------- Hasta 1200px: las tablas hacen scroll y la acción queda fija ---------- */
+
+@media (max-width: 1200px) {
+
+    .contenedor-scroll-sin-ventas,
+    .contenedor-scroll-con-ventas {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* La columna ACCIÓN queda fija a la derecha: los botones siempre a mano */
+
+    .tabla-contratos th:last-child,
+    .tabla-contratos td:last-child {
+        position: sticky;
+        right: 0;
+    }
+
+    .tabla-contratos th:last-child {
+        z-index: 4;
+        background-color: #f5f5f5;
+    }
+
+    .tabla-contratos td:last-child {
+        z-index: 1;
+        background: #FFFFFF;
+        box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.2);
+    }
+
+    .tabla-contratos tbody tr:hover td:last-child {
+        background: #fffaf4;
+    }
+
+    /* Ancho mínimo: las columnas no se aplastan, la tabla hace scroll */
+
+    .tabla-contratos {
+        min-width: 700px;
+    }
+
+    /* El código del contrato (CT-00001) no se parte en dos líneas */
+
+    .tabla-contratos td strong {
+        white-space: nowrap;
+    }
+
+    /* Las filas de la página no se estiran para llenar la pantalla (dejaba huecos) */
+
+    .lista-contratos {
+        grid-template-rows: none;
+        grid-auto-rows: auto;
+        align-content: start;
+    }
+
+    .selector-registros {
+        align-self: start;
+    }
+}
+
+
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media (max-width: 768px) {
+
+    /* El panel de contenido ya trae su propio margen: sin relleno doble */
+
+    .lista-contratos {
+        padding: 0;
+        gap: 12px;
+    }
+
+    /* Título a la izquierda y "Volver" a la derecha */
+
+    .encabezado-lista-contratos {
+        flex-wrap: wrap;
+        gap: 10px 16px;
+    }
+
+    .btn-volver-contratos {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+
+    .encabezado-lista-contratos span {
+        font-size: 12px;
+    }
+
+    /* Buscador: 16px para que el teclado del celular no haga zoom */
+
+    .buscador-colegio-contratos {
+        margin: 2px 0;
+    }
+
+    .buscador-colegio-input input {
+        font-size: 16px;
+    }
+
+    .buscador-colegio-input button {
+        padding: 8px 0 8px 6px;
+    }
+
+    .btn-selector {
+        padding: 11px 10px;
+        font-size: 13px;
+    }
+
+    .resumen-item span {
+        font-size: 10px;
+    }
+
+    /* La página es la que desplaza: sin cajas de 290px con scroll propio */
+
+    .grupo-contratos {
+        min-height: 0;
+    }
+
+    .contenedor-scroll-sin-ventas,
+    .contenedor-scroll-con-ventas {
+        max-height: none;
+    }
+
+    .titulo-grupo h2 {
+        font-size: 15px;
+    }
+
+    .titulo-grupo span:not(.contador-contratos) {
+        font-size: 11px;
+    }
+
+    /* Textos de tabla un poco más grandes y botones más fáciles de tocar */
+
+    .tabla-contratos th,
+    .tabla-contratos td {
+        padding: 11px 9px;
+        font-size: 12px;
+    }
+
+    .tabla-contratos td strong,
+    .dato-principal {
+        font-size: 12px;
+    }
+
+    .dato-secundario {
+        font-size: 11px;
+    }
+
+    .btn-registrar-venta,
+    .btn-ir-venta {
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+
+    .btn-ver-contrato,
+    .btn-pdf-contrato {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media (max-width: 600px) {
+
+    /* Acciones de "Con ventas": ojo y PDF arriba, "Ir a ventas" debajo (columna fija angosta) */
+
+    .acciones-contrato {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        min-width: 100px;
+    }
+
+    .acciones-contrato .btn-ver-contrato,
+    .acciones-contrato .btn-pdf-contrato {
+        width: 100%;
+    }
+
+    .acciones-contrato .btn-ir-venta {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
 }

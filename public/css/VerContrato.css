@@ -1,4 +1,3 @@
-
 /* =========================================
    ISHUME - DETALLE DEL CONTRATO
 ========================================= */
@@ -549,5 +548,99 @@
 }
 
 
+/* =====================================================
+   RESPONSIVE (ajuste final para celular y tablet)
+   Va al final del archivo a propósito y solo en pantalla:
+   la impresión A4 del contrato no cambia.
+   ===================================================== */
+
+/* ---------- Tablets y celulares: la página es la que desplaza ---------- */
+
+@media screen and (max-width: 900px) {
+
+    /* Antes el contrato tenía su propio scroll dentro del scroll de la página */
+
+    .contenedor-scroll-contrato {
+        height: auto;
+        max-height: none;
+        padding: 0;
+        overflow: visible;
+    }
+}
 
 
+/* ---------- Celulares y tablet vertical ---------- */
+
+@media screen and (max-width: 768px) {
+
+    /* El panel ya trae su propio margen: sin relleno doble alrededor del documento */
+
+    .detalle-contrato {
+        padding: 0;
+    }
+
+    .documento-contrato {
+        padding: 28px 22px;
+    }
+
+    .seccion-contrato h3 {
+        padding: 5px 12px;
+    }
+}
+
+
+/* ---------- Celulares ---------- */
+
+@media screen and (max-width: 600px) {
+
+    /* Título a la izquierda y "Volver" a la derecha (como en las demás pantallas) */
+
+    .encabezado-detalle-contrato {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        margin-bottom: 18px;
+    }
+
+    .btn-volver-contratos {
+        width: auto;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .encabezado-detalle-contrato span {
+        font-size: 13px;
+    }
+
+    .documento-contrato {
+        padding: 18px 14px;
+        border-radius: 6px;
+    }
+
+    /* Barra negra del contrato: una línea debajo de la otra */
+
+    .contrato-barra {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+    .seccion-contrato {
+        margin-bottom: 20px;
+    }
+
+    .seccion-contrato h3 {
+        font-size: 13px;
+    }
+
+    .datos-contrato {
+        padding: 0 2px;
+    }
+
+    .condiciones-contrato {
+        padding: 12px;
+    }
+}
